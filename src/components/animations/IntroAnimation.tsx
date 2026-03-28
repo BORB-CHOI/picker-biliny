@@ -4,10 +4,10 @@ import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import Image from 'next/image';
+import { Inter } from "next/font/google";
 
-// Figma: 34x34 frame, each leaf 29x29.
-// Leaves at top-left and bottom-right of frame → ~5px gap in between.
-// Display at 2x: frame=68, leaf=58.
+const inter = Inter({ subsets: ["latin"], weight: ["900"] });
+
 const FRAME = 68;
 const LEAF = 58;
 
@@ -21,57 +21,119 @@ export function IntroAnimation() {
       return;
     }
 
-    // Each leaf moves from its position in the frame to the matching screen corner.
-    // Left-top leaf: its top-left corner must reach screen (0,0).
-    // It starts at center, offset by half-frame to the left/top already via CSS,
-    // so it needs to travel: (viewport/2 - half_frame) more.
-    const moveX = window.innerWidth / 2 - LEAF / 2;
-    const moveY = window.innerHeight / 2 - LEAF / 2;
+    const ltEl = containerRef.current!.querySelector(
+      ".intro-leaf-lt",
+    ) as HTMLElement;
+    const rbEl = containerRef.current!.querySelector(
+      ".intro-leaf-rb",
+    ) as HTMLElement;
+    const ltRect = ltEl.getBoundingClientRect();
+    const rbRect = rbEl.getBoundingClientRect();
+
+    // Leaf: outer corner → screen corner
+    const ltMoveX = -ltRect.left;
+    const ltMoveY = -ltRect.top;
+    const rbMoveX = window.innerWidth - rbRect.right;
+    const rbMoveY = window.innerHeight - rbRect.bottom;
+
+    // Text spread — along same diagonal, proportional distance
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const findMoveX = -vw * 0.35;
+    const findMoveY = -vh * 0.38;
+    const spotMoveX = vw * 0.32;
+    const spotMoveY = vh * 0.32;
+
+    const leafElements = [".intro-leaf-lt", ".intro-leaf-rb"];
+    const textElements = [".intro-find", ".intro-blind", ".intro-spot"];
+    const allElements = [...leafElements, ...textElements];
+
+    // Start invisible
+    gsap.set(allElements, { opacity: 0 });
 
     const tl = gsap.timeline({
       onComplete: () => setHidden(true),
     });
 
-    // Initial: leaves form the icon at center
-    tl.to({}, { duration: 0.6 })                                   // L35: 초기 대기
-    // Leaves shoot outward
-    .to('.intro-leaf-lt', {                                         // L37
-      x: -moveX, y: -moveY,
-      duration: 1.2,                                                // L39: 나가는 속도
-      ease: 'power3.out',                                           // L40: 나가는 이징
-    })
-    .to('.intro-leaf-rb', {                                         // L42
-      x: moveX, y: moveY,
-      duration: 1.2,                                                // L44
-      ease: 'power3.out',                                           // L45
-    }, '<')
-    // Hold at corners
-    .to({}, { duration: 0.25 })                                     // L48: 모서리 대기
-    // Leaves rush back
-    .to('.intro-leaf-lt', {                                         // L50
-      x: 0, y: 0,
-      duration: 1.0,                                                // L52: 돌아오는 속도
-      ease: 'power3.out',                                           // L53: 돌아오는 이징
-    })
-    .to('.intro-leaf-rb', {                                         // L55
-      x: 0, y: 0,
-      duration: 1.0,                                                // L57
-      ease: 'power3.out',                                           // L58
-    }, '<')
-    // Logo name dissolves in
-    .fromTo('.intro-logo-name', { opacity: 0 }, {                   // L61
-      opacity: 1,
-      duration: 0.6,                                                // L63: 로고 디졸브 속도
-      ease: 'power2.out',
-    }, '-=0.3')
-    // Hold
-    .to({}, { duration: 0.7 })                                      // L67: 로고 대기
-    // Dissolve to main
-    .to(containerRef.current, {                                     // L69
-      opacity: 0,
-      duration: 0.6,                                                // L71: 최종 디졸브 속도
-      ease: 'power2.inOut',
-    });
+    tl
+      // 1. Leaves fade in at center (texts still hidden)
+      .to(leafElements, {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.in",
+      })
+      .to({}, { duration: 0.3 })
+
+      // 2. Spread outward — leaves move + texts fade in simultaneously
+      .to(".intro-leaf-lt", {
+        x: ltMoveX,
+        y: ltMoveY,
+        duration: 1.2,
+        ease: "slow",
+      })
+      .to(
+        ".intro-leaf-rb",
+        { x: rbMoveX, y: rbMoveY, duration: 1.2, ease: "slow" },
+        "<",
+      )
+      // Texts appear as leaves start moving, spreading along the diagonal
+      .fromTo(
+        ".intro-find",
+        { opacity: 0, x: 0, y: 0 },
+        { opacity: 1, x: findMoveX, y: findMoveY, duration: 1.2, ease: "slow" },
+        "<",
+      )
+      .fromTo(
+        ".intro-blind",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8, ease: "power2.out" },
+        "<",
+      )
+      .fromTo(
+        ".intro-spot",
+        { opacity: 0, x: 0, y: 0 },
+        { opacity: 1, x: spotMoveX, y: spotMoveY, duration: 1.2, ease: "slow" },
+        "<",
+      )
+
+      // Hold at spread
+      .to({}, { duration: 0.25 })
+
+      // 3. Collapse back — leaves return, texts fade out as collapse begins
+      .to(".intro-leaf-lt", { x: 0, y: 0, duration: 0.6, ease: "power2.in" })
+      .to(
+        ".intro-leaf-rb",
+        { x: 0, y: 0, duration: 0.6, ease: "power2.in" },
+        "<",
+      )
+      .to(
+        ".intro-find",
+        { x: 0, y: 0, opacity: 0, duration: 0.6, ease: "power2.in" },
+        "<",
+      )
+      .to(".intro-blind", { opacity: 0, duration: 0.6, ease: "power2.in" }, "<")
+      .to(
+        ".intro-spot",
+        { x: 0, y: 0, opacity: 0, duration: 0.6, ease: "power2.in" },
+        "<",
+      )
+      .to({}, { duration: 0.5 })
+
+      // 4. Logo name dissolves in (leaves still visible at center)
+      .fromTo(
+        ".intro-logo-name",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6, ease: "power2.out" },
+        "-=0.3",
+      )
+      .to({}, { duration: 1.0 })
+
+      // 5. Final dissolve — leaves + logo fade out together
+      .to(containerRef.current, {
+        opacity: 0,
+        duration: 0.6,
+        ease: "power2.inOut",
+      });
   }, { scope: containerRef });
 
   if (hidden) return null;
@@ -81,11 +143,43 @@ export function IntroAnimation() {
       ref={containerRef}
       className="fixed inset-0 z-[100] bg-white flex items-center justify-center overflow-hidden"
     >
+      {/* FIND — starts at center, spreads to upper-left */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <span
+          className={`intro-find text-(--color-primary) text-4xl font-black tracking-tight ${inter.className}`}
+          style={{ opacity: 0 }}
+        >
+          FIND
+        </span>
+      </div>
+
+      {/* BLIND — stays at center */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <span
+          className={`intro-blind text-[#444] text-4xl font-black tracking-tight ${inter.className}`}
+          style={{ opacity: 0 }}
+        >
+          BLIND
+        </span>
+      </div>
+
+      {/* SPOT — starts at center, spreads to lower-right */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <span
+          className={`intro-spot text-[#444] text-4xl font-black tracking-tight ${inter.className}`}
+          style={{ opacity: 0 }}
+        >
+          SPOT
+        </span>
+      </div>
+
+      {/* Leaves + logo */}
       <div className="flex flex-col items-center">
-        {/* 68x68 frame with two 58x58 leaves */}
         <div className="relative" style={{ width: FRAME, height: FRAME }}>
-          {/* Left-top leaf — pinned to top-left of frame */}
-          <div className="intro-leaf-lt absolute top-0 left-0">
+          <div
+            className="intro-leaf-lt absolute top-0 left-0"
+            style={{ opacity: 0 }}
+          >
             <Image
               src="/images/logo-left-top.svg"
               alt=""
@@ -94,8 +188,10 @@ export function IntroAnimation() {
               priority
             />
           </div>
-          {/* Right-bottom leaf — pinned to bottom-right of frame */}
-          <div className="intro-leaf-rb absolute bottom-0 right-0">
+          <div
+            className="intro-leaf-rb absolute bottom-0 right-0"
+            style={{ opacity: 0 }}
+          >
             <Image
               src="/images/logo-right-bottom.svg"
               alt=""
@@ -106,7 +202,6 @@ export function IntroAnimation() {
           </div>
         </div>
 
-        {/* PICKER PROJECT text logo */}
         <div className="intro-logo-name opacity-0 mt-4">
           <Image
             src="/images/logo-name.svg"
