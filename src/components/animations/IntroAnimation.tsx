@@ -3,8 +3,9 @@
 import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import Image from 'next/image';
 import { Inter } from "next/font/google";
+import { LeafTopLeft, LeafBottomRight, LogoName } from "@/components/ui/icons";
+import { emitIntroComplete } from "@/lib/animationState";
 
 const inter = Inter({ subsets: ["latin"], weight: ["900"] });
 
@@ -16,7 +17,8 @@ export function IntroAnimation() {
   const [hidden, setHidden] = useState(false);
 
   useGSAP(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      emitIntroComplete();
       setHidden(true);
       return;
     }
@@ -36,13 +38,15 @@ export function IntroAnimation() {
     const rbMoveX = window.innerWidth - rbRect.right;
     const rbMoveY = window.innerHeight - rbRect.bottom;
 
-    // Text spread — along same diagonal, proportional distance
+    // Text spread — tighter on mobile, moderate on desktop
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const findMoveX = -vw * 0.35;
-    const findMoveY = -vh * 0.38;
-    const spotMoveX = vw * 0.32;
-    const spotMoveY = vh * 0.32;
+    const isMobile = vw < 640;
+    const spread = isMobile ? 0.2 : 0.3;
+    const findMoveX = -vw * spread;
+    const findMoveY = -vh * spread;
+    const spotMoveX = vw * spread;
+    const spotMoveY = vh * spread;
 
     const leafElements = [".intro-leaf-lt", ".intro-leaf-rb"];
     const textElements = [".intro-find", ".intro-blind", ".intro-spot"];
@@ -52,7 +56,10 @@ export function IntroAnimation() {
     gsap.set(allElements, { opacity: 0 });
 
     const tl = gsap.timeline({
-      onComplete: () => setHidden(true),
+      onComplete: () => {
+        emitIntroComplete();
+        setHidden(true);
+      },
     });
 
     tl
@@ -146,7 +153,7 @@ export function IntroAnimation() {
       {/* FIND — starts at center, spreads to upper-left */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <span
-          className={`intro-find text-(--color-primary) text-4xl font-black tracking-tight ${inter.className}`}
+          className={`intro-find text-[#0060EF] text-4xl font-black tracking-tight ${inter.className}`}
           style={{ opacity: 0 }}
         >
           FIND
@@ -180,36 +187,18 @@ export function IntroAnimation() {
             className="intro-leaf-lt absolute top-0 left-0"
             style={{ opacity: 0 }}
           >
-            <Image
-              src="/images/logo-left-top.svg"
-              alt=""
-              width={LEAF}
-              height={LEAF}
-              priority
-            />
+            <LeafTopLeft size={LEAF} />
           </div>
           <div
             className="intro-leaf-rb absolute bottom-0 right-0"
             style={{ opacity: 0 }}
           >
-            <Image
-              src="/images/logo-right-bottom.svg"
-              alt=""
-              width={LEAF}
-              height={LEAF}
-              priority
-            />
+            <LeafBottomRight size={LEAF} />
           </div>
         </div>
 
         <div className="intro-logo-name opacity-0 mt-4">
-          <Image
-            src="/images/logo-name.svg"
-            alt="PICKER PROJECT"
-            width={160}
-            height={16}
-            priority
-          />
+          <LogoName width={160} />
         </div>
       </div>
     </div>
