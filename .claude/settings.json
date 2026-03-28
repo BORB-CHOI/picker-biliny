@@ -1,0 +1,54 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git:*)",
+      "Bash(npx eslint:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)"
+    ]
+  },
+  "env": {
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);const f=j.tool_response?.filePath||j.tool_input?.file_path;if(f)process.stdout.write(f)})\" | { read -r f; if echo \"$f\" | grep -qE '\\.(ts|tsx)$'; then npx eslint --fix \"$f\" 2>/dev/null || true; fi; }",
+            "timeout": 30,
+            "statusMessage": "Running ESLint fix..."
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);const f=j.tool_input?.file_path||'';if(f.includes('node_modules')||f.includes('.next')){console.log(JSON.stringify({decision:'block',reason:'Protected directory: writes to node_modules/ and .next/ are not allowed'}));process.exit(2)}});\"",
+            "timeout": 10,
+            "statusMessage": "Checking protected directories..."
+          }
+        ]
+      }
+    ]
+  }
+}

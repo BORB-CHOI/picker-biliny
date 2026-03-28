@@ -1,0 +1,30 @@
+# Responsive Design Rules
+
+## 브레이크포인트 전략
+
+디자인은 모바일 퍼스트(380px)로 설계되었지만, 데스크톱까지 완전히 대응해야 합니다.
+
+- Mobile: < 640px (기본, Figma 디자인 기준)
+- Tablet: 640px ~ 1024px
+- Desktop: 1024px ~ 1440px
+- Wide: 1440px+
+
+## Tailwind 사용 패턴
+
+```tsx
+// 모바일 퍼스트 — 기본값이 모바일
+<div className="px-5 md:px-12 lg:px-20 xl:max-w-[1200px] xl:mx-auto">
+```
+
+## 이미지 대응
+
+- next/image의 `sizes` 속성 필수 지정
+- 모바일/데스크톱 다른 이미지가 필요하면 `<picture>` 대신 조건부 렌더링
+- 히어로 이미지: priority 속성 사용
+
+## 섹션 레이아웃
+
+- 모바일: 단일 컬럼, 세로 스택
+- 태블릿: 2컬럼 그리드 시작
+- 데스크톱: 디자인에 따라 2~3컬럼, 비대칭 레이아웃 활용
+- 다크 섹션(SocialCost 등): full-bleed 배경 유지
