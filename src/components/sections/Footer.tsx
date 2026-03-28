@@ -4,9 +4,13 @@ export function Footer() {
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
-            <p className="text-xl font-black tracking-tight">PICKER</p>
+            <p className="text-xl font-black tracking-tight">PICKER PROJECT</p>
+            <p className="mt-1 text-xs text-white/40">주식회사 피커프로젝트</p>
             <p className="mt-2 text-sm text-white/50">
               중소도시의 이동권을 다시 설계합니다.
+            </p>
+            <p className="mt-2 text-xs text-white/40">
+              Tel. 010-6287-9917
             </p>
           </div>
           <div className="flex gap-6 text-sm text-white/50">

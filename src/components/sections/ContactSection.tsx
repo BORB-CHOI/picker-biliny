@@ -75,6 +75,9 @@ export function ContactSection() {
           <p className="mt-3 text-[var(--color-text-secondary)]">
             BILINY에 대해 궁금한 점이 있으시면 연락해주세요.
           </p>
+          <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+            주식회사 피커프로젝트 · 010-6287-9917
+          </p>
         </div>
 
         {submitted ? (

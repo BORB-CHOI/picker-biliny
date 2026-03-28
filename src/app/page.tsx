@@ -1,4 +1,5 @@
 import { Header } from '@/components/sections/Header';
+import { IntroAnimation } from '@/components/animations/IntroAnimation';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { StorySection } from '@/components/sections/StorySection';
 import { AlternativesSection } from '@/components/sections/AlternativesSection';
@@ -7,8 +8,7 @@ import { SolutionSection } from '@/components/sections/SolutionSection';
 import { SocialCostSection } from '@/components/sections/SocialCostSection';
 import { BudgetSection } from '@/components/sections/BudgetSection';
 import { RevenueSection } from '@/components/sections/RevenueSection';
-import { ProductSection } from '@/components/sections/ProductSection';
-import { DimensionsSection } from '@/components/sections/DimensionsSection';
+import { BilinyProductSection } from '@/components/sections/BilinyProductSection';
 import { ChargingSection } from '@/components/sections/ChargingSection';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { Footer } from '@/components/sections/Footer';
@@ -16,6 +16,7 @@ import { Footer } from '@/components/sections/Footer';
 export default function Home() {
   return (
     <>
+      <IntroAnimation />
       <Header />
       <main>
         <HeroSection />
@@ -26,8 +27,7 @@ export default function Home() {
         <SocialCostSection />
         <BudgetSection />
         <RevenueSection />
-        <ProductSection />
-        <DimensionsSection />
+        <BilinyProductSection />
         <ChargingSection />
         <ContactSection />
       </main>

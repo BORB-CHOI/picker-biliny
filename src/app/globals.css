@@ -1,17 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #F77F4C;
-  --color-primary-hover: #e86d3a;
+  --color-primary: #0060EF;
+  --color-primary-hover: #0050D0;
   --color-accent: #2675FF;
   --color-accent-dark: #0060EF;
   --color-dark: #2C2C2C;
   --color-text: #202020;
   --color-text-secondary: #656565;
-  --color-text-tertiary: #838383;
+  --color-text-tertiary: #313131;
+  --color-text-light: #414141;
+  --color-text-desc: #8287A2;
+  --color-hero-title: #192746;
+  --color-nav-text: #192746;
   --color-bg: #FFFFFF;
   --color-bg-subtle: #F8F8F8;
   --color-border: #E5E5E5;
+  --color-spec-text: #4e4e4e;
+  --color-feature-text: #647890;
+  --color-label-gray: #9f9f9f;
+  --color-orange: #F77F4C;
+  --color-blue: #0060EF;
 }
 
 @theme inline {
@@ -19,6 +28,16 @@
   --color-foreground: var(--color-text);
   --font-display: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-body: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --color-hero-title: #192746;
+  --color-accent-dark: #0060EF;
+  --color-text-desc: #8287A2;
+  --color-nav-text: #192746;
+  --color-spec-text: #4e4e4e;
+  --color-feature-text: #647890;
+  --color-label-gray: #9f9f9f;
+  --color-orange: #F77F4C;
+  --color-blue: #0060EF;
+  --color-text-light: #414141;
 }
 
 @font-face {
@@ -43,7 +62,7 @@ body {
 }
 
 ::selection {
-  background: var(--color-primary);
+  background: var(--color-accent-dark);
   color: white;
 }
 

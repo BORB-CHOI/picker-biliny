@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,12 +14,13 @@ export function HeroSection() {
   useGSAP(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const tl = gsap.timeline({ delay: 0.5 });
+    const tl = gsap.timeline({ delay: 4.0 });
 
     tl.from('.hero-badge', { y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' })
-      .from('.hero-title', { y: 40, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.3')
+      .from('.hero-title-line', { y: 40, opacity: 0, stagger: 0.15, duration: 0.8, ease: 'power2.out' }, '-=0.3')
       .from('.hero-desc', { y: 30, opacity: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
-      .from('.hero-cta', { y: 20, opacity: 0, stagger: 0.15, duration: 0.6, ease: 'power2.out' }, '-=0.3');
+      .from('.hero-cta', { y: 20, opacity: 0, stagger: 0.15, duration: 0.6, ease: 'power2.out' }, '-=0.3')
+      .from('.hero-find-text', { y: 60, opacity: 0, stagger: 0.2, duration: 0.8, ease: 'power2.out' }, '-=0.2');
 
     gsap.to('.hero-content', {
       scrollTrigger: {
@@ -35,49 +37,87 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
+      id="hero"
+      className="relative min-h-screen flex flex-col overflow-hidden pt-14"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-bg-subtle)] to-white" />
-
-      <div className="hero-content relative z-10 mx-auto max-w-3xl px-5 md:px-10 text-center">
-        <div className="hero-badge inline-flex items-center gap-2 rounded-full bg-[var(--color-primary)]/10 px-4 py-1.5 mb-8">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-primary)]" />
-          <span className="text-sm font-semibold tracking-wide text-[var(--color-primary)]">
-            Picker Project
+      <div className="hero-content relative z-10 mx-auto w-full max-w-3xl px-5 md:px-10 flex-1 flex flex-col justify-center">
+        {/* PICKER PROJECT badge */}
+        <div className="hero-badge flex items-center gap-2 mb-6">
+          <Image
+            src="/images/logo-left-top.svg"
+            alt=""
+            width={12}
+            height={12}
+          />
+          <Image
+            src="/images/logo-right-bottom.svg"
+            alt=""
+            width={12}
+            height={12}
+            className="-ml-[1px]"
+          />
+          <span className="text-xs font-medium tracking-[0.24em] text-[var(--color-nav-text)]">
+            PICKER PROJECT
           </span>
         </div>
 
-        <h1 className="hero-title text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-[var(--color-text)]">
-          중소도시의 이동권을
-          <br />
-          다시 설계합니다.
+        {/* Title */}
+        <h1 className="leading-tight">
+          <span className="hero-title-line block text-[2.5rem] md:text-[3.2rem] lg:text-[3.8rem] font-medium tracking-[0.06em] text-[var(--color-hero-title)]">
+            중소도시의 이동권을
+          </span>
+          <span className="hero-title-line block text-[2.5rem] md:text-[3.2rem] lg:text-[3.8rem] font-medium tracking-[0.06em] text-[var(--color-accent-dark)]">
+            다시 설계합니다.
+          </span>
         </h1>
 
-        <p className="hero-desc mt-6 text-lg md:text-xl leading-relaxed text-[var(--color-text-secondary)] max-w-xl mx-auto">
-          피커 프로젝트 &apos;빌리니(BILINY)&apos;는 일상 속 이동의 비효율 사각지대를 해결하는
-          공유형 자율주행 모빌리티 솔루션입니다.
-        </p>
+        {/* Description */}
+        <div className="hero-desc mt-6 max-w-md">
+          <p className="text-sm md:text-base leading-relaxed text-[var(--color-text-desc)]">
+            피커 프로젝트 &apos;빌리니(BILINY)&apos; 는 일상 속{' '}
+            <strong className="font-bold text-[var(--color-text)]">이동의 비효율 사각지대를 해결</strong>하는{' '}
+            공유형 자율주행 모빌리티 솔루션입니다.
+          </p>
+        </div>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {/* CTA Buttons */}
+        <div className="mt-8 flex flex-wrap gap-3">
           <a
             href="#story"
-            className="hero-cta w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[var(--color-primary)] px-8 py-3.5 text-base font-bold text-white transition-all hover:bg-[var(--color-primary-hover)] hover:shadow-lg hover:shadow-[var(--color-primary)]/25"
+            className="hero-cta inline-flex items-center justify-center rounded-full px-6 py-2.5 text-[10px] md:text-xs font-bold text-white transition-all hover:shadow-lg"
+            style={{
+              background: '#F77F4C',
+              boxShadow: '0px 0.63px 1.64px 0px rgba(255,139,57,0.25)',
+            }}
           >
-            빌리니 스토리
+            빌리니 스토리 →
           </a>
           <a
-            href="#product"
-            className="hero-cta w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[var(--color-accent)] px-8 py-3.5 text-base font-bold text-white transition-all hover:bg-[var(--color-accent-dark)] hover:shadow-lg hover:shadow-[var(--color-accent)]/25"
+            href="#biliny"
+            className="hero-cta inline-flex items-center justify-center rounded-full px-6 py-2.5 text-[10px] md:text-xs font-bold text-white transition-all hover:shadow-lg"
+            style={{
+              background: '#2675FF',
+              boxShadow: '0px 0.631px 1.642px 0px rgba(57,57,255,0.25)',
+            }}
           >
-            빌리니 둘러보기
+            빌리니 둘러보기 →
           </a>
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-[var(--color-text-tertiary)]">
-          <path d="M12 5v14m0 0l-6-6m6 6l6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+      {/* FIND BLIND SPOT large text */}
+      <div className="relative z-10 px-5 md:px-10 pb-8 md:pb-16">
+        <div className="mx-auto max-w-3xl">
+          <p className="hero-find-text text-[4rem] md:text-[6rem] lg:text-[8rem] font-black leading-none tracking-tight text-[var(--color-text)] opacity-10">
+            FIND
+          </p>
+          <p className="hero-find-text text-[4rem] md:text-[6rem] lg:text-[8rem] font-black leading-none tracking-tight text-[var(--color-text)] opacity-10">
+            BLIND
+          </p>
+          <p className="hero-find-text text-[4rem] md:text-[6rem] lg:text-[8rem] font-black leading-none tracking-tight text-[var(--color-text)] opacity-10">
+            SPOT
+          </p>
+        </div>
       </div>
     </section>
   );
