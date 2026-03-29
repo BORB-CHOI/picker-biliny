@@ -154,7 +154,7 @@ export function IntroAnimation() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[100] bg-white flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-100 bg-white flex items-center justify-center overflow-hidden"
     >
       {/* FIND — starts at center, spreads to upper-left */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -189,16 +189,10 @@ export function IntroAnimation() {
       {/* Leaves + logo */}
       <div className="flex flex-col items-center">
         <div className="relative" style={{ width: FRAME, height: FRAME }}>
-          <div
-            className="intro-leaf-lt absolute top-0 left-0"
-            style={{ opacity: 0 }}
-          >
+          <div className="intro-leaf-lt absolute top-0 left-0" style={{ opacity: 0 }}>
             <LeafTopLeft size={LEAF} />
           </div>
-          <div
-            className="intro-leaf-rb absolute bottom-0 right-0"
-            style={{ opacity: 0 }}
-          >
+          <div className="intro-leaf-rb absolute bottom-0 right-0" style={{ opacity: 0 }}>
             <LeafBottomRight size={LEAF} />
           </div>
         </div>
