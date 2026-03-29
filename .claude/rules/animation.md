@@ -107,7 +107,7 @@ gsap.to(tracker, {
 
 ### 자동재생 → 스크롤 전환 패턴
 
-처음 N프레임까지 자동재생 후, 스크롤 시 자동재생 중단 + 스크롤이 이어받는 패턴:
+처음 N프레임까지 자동재생 후, 스크롤 시 자동재생 중단 + 현재 프레임에서 스크롤이 이어받는 패턴:
 
 ```tsx
 const autoplayTween = gsap.to(tracker, {
@@ -117,20 +117,37 @@ const autoplayTween = gsap.to(tracker, {
   onUpdate: () => drawFrame(tracker.frame),
 });
 
-// ScrollTrigger onUpdate에서:
-if (!stopped && self.progress > 0.005) {
-  stopped = true;
-  autoplayTween.kill();
-  tracker.frame = self.progress * (FRAME_COUNT - 1);
-}
+let scrollJumping = false;
+
+ScrollTrigger.create({
+  trigger, start: "top top", end: "+=2000", pin: true,
+  onUpdate: (self) => {
+    if (scrollJumping) return;
+    if (!stopped && self.progress > 0.005) {
+      stopped = true;
+      autoplayTween.kill();
+      // 스크롤 위치를 현재 프레임에 맞춤 (behavior: instant 필수!)
+      scrollJumping = true;
+      const targetPos = self.start + (currentFrame / (FRAME_COUNT - 1)) * (self.end - self.start);
+      window.scrollTo({ top: targetPos, behavior: "instant" });
+      drawFrame(currentFrame);
+      requestAnimationFrame(() => { scrollJumping = false; });
+      return;
+    }
+    if (stopped) drawFrame(self.progress * (FRAME_COUNT - 1));
+  },
+});
 ```
 
-### 주의사항
+### 주의사항 (검증 완료)
 
 - **scrub ScrollTrigger는 entry 애니메이션 완료 후 생성** — 동시 생성 시 scrub이 초기 opacity:0을 강제함
 - **useGSAP scope는 비동기 콜백에서 적용 안 됨** — phase.on(), setTimeout 등의 콜백에서는 DOM ref를 직접 참조
+- **`self.scroll()` 대신 `window.scrollTo({ behavior: "instant" })` 사용** — CSS `scroll-behavior: smooth`가 있으면 `self.scroll()`이 smooth 애니메이션을 발생시켜 중간 프레임이 모두 그려짐
+- **`scrollJumping` 가드 필수** — `window.scrollTo`가 scroll 이벤트를 발생시켜 `onUpdate`가 재귀 호출됨
+- **canvas.width/height는 최초 1회만 설정** — 매번 설정하면 canvas가 클리어되어 깜빡임
+- **canvas에 CSS `object-cover`는 동작 안 함** — drawImage에서 cover 비율 계산을 직접 해야 함
 - `preloadFrames()`는 `useEffect`에서 마운트 시 1회만 호출
-- canvas에 `object-cover` 클래스 적용하면 CSS가 비율 유지 처리
 
 ## 성능 가이드라인
 
