@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { Inter } from "next/font/google";
@@ -19,10 +19,10 @@ export function IntroAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hidden, setHidden] = useState(false);
 
-  // hydration 후 스크롤 잠금 (phase.header emit 시 해제)
-  useEffect(() => { lockScrollUntilHero(); }, []);
-
   useGSAP(() => {
+    // 스크롤 잠금 — 위치 계산 전에 실행해야 스크롤바 제거 후 정확한 viewport 크기 사용
+    lockScrollUntilHero();
+
     if (
       SKIP_INTRO ||
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -41,9 +41,9 @@ export function IntroAnimation() {
     const ltRect = ltEl.getBoundingClientRect();
     const rbRect = rbEl.getBoundingClientRect();
 
-    // Leaf: outer corner → screen corner
-    const ltMoveX = -ltRect.left;
-    const ltMoveY = -ltRect.top;
+    // Leaf: outer corner → screen corner (1px 오버슈트로 서브픽셀 갭 방지)
+    const ltMoveX = -ltRect.left - 1;
+    const ltMoveY = -ltRect.top - 1;
     const rbMoveX = window.innerWidth - rbRect.right;
     const rbMoveY = window.innerHeight - rbRect.bottom;
 
