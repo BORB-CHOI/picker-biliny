@@ -52,6 +52,86 @@ Header → emitHeaderComplete() → HeroSection onHeaderComplete()
 
 - 새 시퀀스 추가 시: `animationState.ts`에 emit/on 쌍 추가, 선행 애니메이션의 `onComplete`에서 emit 호출
 
+## 스크롤 비디오 (이미지 시퀀스 + Canvas)
+
+Apple 스타일 스크롤 연동 영상. 영상을 JPEG 시퀀스로 분해 → canvas에 그려서 스크롤로 프레임 제어.
+
+### 준비: ffmpeg로 프레임 추출
+
+```bash
+ffmpeg -i input.mp4 -vf "scale=1920:-1" -q:v 2 output-frames/frame-%03d.jpg
+```
+
+### 구현 패턴
+
+```tsx
+const FRAME_COUNT = 200;
+const FRAME_PATH = "/videos/section-name/frame-";
+
+// 프리로드
+function preloadFrames(): HTMLImageElement[] {
+  const images: HTMLImageElement[] = [];
+  for (let i = 1; i <= FRAME_COUNT; i++) {
+    const img = new Image();
+    img.src = `${FRAME_PATH}${String(i).padStart(3, "0")}.jpg`;
+    images.push(img);
+  }
+  return images;
+}
+
+// canvas에 그리기
+function drawFrame(index: number) {
+  const img = frames[Math.round(index)];
+  if (!img?.complete) return;
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  ctx.drawImage(img, 0, 0);
+}
+
+// ScrollTrigger scrub 연동
+const tracker = { frame: 0 };
+gsap.to(tracker, {
+  frame: FRAME_COUNT - 1,
+  snap: "frame",
+  ease: "none",
+  scrollTrigger: {
+    trigger: sectionRef.current,
+    start: "top top",
+    end: "+=2000",   // 스크롤 거리 (px)
+    pin: true,
+    scrub: 0.3,      // 부드러운 추적
+  },
+  onUpdate: () => drawFrame(tracker.frame),
+});
+```
+
+### 자동재생 → 스크롤 전환 패턴
+
+처음 N프레임까지 자동재생 후, 스크롤 시 자동재생 중단 + 스크롤이 이어받는 패턴:
+
+```tsx
+const autoplayTween = gsap.to(tracker, {
+  frame: AUTOPLAY_STOP_FRAME,
+  duration: AUTOPLAY_STOP_FRAME / FPS,
+  ease: "none",
+  onUpdate: () => drawFrame(tracker.frame),
+});
+
+// ScrollTrigger onUpdate에서:
+if (!stopped && self.progress > 0.005) {
+  stopped = true;
+  autoplayTween.kill();
+  tracker.frame = self.progress * (FRAME_COUNT - 1);
+}
+```
+
+### 주의사항
+
+- **scrub ScrollTrigger는 entry 애니메이션 완료 후 생성** — 동시 생성 시 scrub이 초기 opacity:0을 강제함
+- **useGSAP scope는 비동기 콜백에서 적용 안 됨** — phase.on(), setTimeout 등의 콜백에서는 DOM ref를 직접 참조
+- `preloadFrames()`는 `useEffect`에서 마운트 시 1회만 호출
+- canvas에 `object-cover` 클래스 적용하면 CSS가 비율 유지 처리
+
 ## 성능 가이드라인
 
 - transform과 opacity만 애니메이션 (layout thrashing 방지)

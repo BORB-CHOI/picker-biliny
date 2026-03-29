@@ -9,9 +9,13 @@ import { phase } from "@/lib/animationState";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** approaching-2 이미지 시퀀스 (67프레임) */
-const FRAME_COUNT = 67;
-const FRAME_PATH = "/videos/biliny/approaching-2-frames/frame-";
+/** APPROACHING BILINY 통합 이미지 시퀀스 (200프레임, 30fps) */
+const FRAME_COUNT = 200;
+const FRAME_PATH = "/videos/biliny/approaching-frames/frame-";
+/** 자동재생 정지 프레임 (~4초 × 30fps = 120프레임) */
+const AUTOPLAY_STOP_FRAME = 120;
+/** 자동재생 fps */
+const AUTOPLAY_FPS = 30;
 
 function preloadFrames(): HTMLImageElement[] {
   const images: HTMLImageElement[] = [];
@@ -24,13 +28,7 @@ function preloadFrames(): HTMLImageElement[] {
 }
 
 /** Vertical bar indicator matching the nav pattern */
-function BarIndicator({
-  count,
-  className,
-}: {
-  count: number;
-  className?: string;
-}) {
+function BarIndicator({ count, className }: { count: number; className?: string }) {
   return (
     <span className={`inline-flex gap-0.5 ${className ?? ""}`}>
       {Array.from({ length: count }, (_, i) => (
@@ -43,7 +41,6 @@ function BarIndicator({
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
-  const video1Ref = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
 
@@ -55,16 +52,21 @@ export function HeroSection() {
   useGSAP(
     () => {
       const inner = innerRef.current;
-      const video1 = video1Ref.current;
       const canvas = canvasRef.current;
-      if (!inner || !video1 || !canvas) return;
+      if (!inner || !canvas) return;
 
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
+      // 현재 프레임 인덱스 (자동재생 + 스크롤 공유)
+      let currentFrame = 0;
+
       /** canvas에 해당 인덱스 프레임 그리기 */
       function drawFrame(index: number) {
-        const img = framesRef.current[index];
+        const clamped = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(index)));
+        if (clamped === currentFrame && canvas!.width > 0) return; // 중복 그리기 방지
+        currentFrame = clamped;
+        const img = framesRef.current[clamped];
         if (!img || !img.complete) return;
         canvas!.width = img.naturalWidth;
         canvas!.height = img.naturalHeight;
@@ -73,22 +75,18 @@ export function HeroSection() {
 
       // ① 마운트 즉시 숨김
       gsap.set(inner, { y: 80, opacity: 0 });
-      gsap.set(video1, { opacity: 0 });
       gsap.set(canvas, { opacity: 0 });
 
-      // ② 헤더 완료 후 콘텐츠 슬라이드업 + 영상 동시 시작
+      // ② 헤더 완료 후 콘텐츠 + 자동재생 시작
       const cleanup = phase.header.on(() => {
-        // ③ 콘텐츠와 동시에 approaching-1 재생
-        gsap.to(video1, { opacity: 1, duration: 0.8, ease: "power2.out" });
-        video1.play();
-
+        // 콘텐츠 슬라이드업
         gsap.to(inner, {
           y: 0,
           opacity: 1,
           duration: 1.4,
           ease: "power4.out",
           onComplete: () => {
-            // ④ 스크롤 시 콘텐츠 fade-out (짧은 구간에 빠르게)
+            // 스크롤 시 콘텐츠 fade-out (entry 완료 후 생성)
             gsap.to(inner, {
               scrollTrigger: {
                 trigger: sectionRef.current,
@@ -102,22 +100,22 @@ export function HeroSection() {
           },
         });
 
-        // ⑤ canvas 이미지 시퀀스 스크롤 scrub — 즉시 설정
-        //    video1 끝나기 전에 스크롤해도 canvas로 전환됨
+        // ③ canvas 자동재생 (0 → AUTOPLAY_STOP_FRAME, ~4초)
         drawFrame(0);
-        let switched = false;
-        const switchToCanvas = () => {
-          if (switched) return;
-          switched = true;
-          video1.pause();
-          gsap.set(canvas, { opacity: 1 });
-          gsap.set(video1, { opacity: 0 });
-        };
+        gsap.to(canvas, { opacity: 1, duration: 0.6, ease: "power2.out" });
 
-        // video1 자연 종료 시에도 전환
-        video1.addEventListener("ended", switchToCanvas, { once: true });
-
+        let autoplayStopped = false;
         const tracker = { frame: 0 };
+
+        const autoplayTween = gsap.to(tracker, {
+          frame: AUTOPLAY_STOP_FRAME,
+          duration: AUTOPLAY_STOP_FRAME / AUTOPLAY_FPS,
+          ease: "none",
+          onUpdate: () => drawFrame(tracker.frame),
+        });
+
+        // ④ 스크롤 scrub — 전체 200프레임을 스크롤로 제어
+        //    자동재생 중 스크롤 시 → 자동재생 중단, 스크롤이 이어받음
         gsap.to(tracker, {
           frame: FRAME_COUNT - 1,
           snap: "frame",
@@ -125,15 +123,22 @@ export function HeroSection() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=1000",
+            end: "+=2000",
             pin: true,
             pinSpacing: true,
             scrub: 0.3,
             onUpdate: (self) => {
-              if (self.progress > 0.01) switchToCanvas();
+              if (!autoplayStopped && self.progress > 0.005) {
+                autoplayStopped = true;
+                autoplayTween.kill();
+                // 스크롤 위치에 맞는 프레임으로 즉시 동기화
+                tracker.frame = self.progress * (FRAME_COUNT - 1);
+              }
             },
           },
-          onUpdate: () => drawFrame(Math.round(tracker.frame)),
+          onUpdate: () => {
+            if (autoplayStopped) drawFrame(tracker.frame);
+          },
         });
       });
 
@@ -148,16 +153,7 @@ export function HeroSection() {
       id="hero"
       className="relative w-full h-screen flex flex-col justify-end bg-background pt-16 md:pt-18"
     >
-      {/* 배경 영상 — 가로 꽉 차게, 컨트롤 없음 */}
-      <video
-        ref={video1Ref}
-        className="absolute inset-0 z-0 w-full h-full object-cover"
-        src="/videos/biliny/approaching-1.mp4"
-        muted
-        playsInline
-        preload="auto"
-        style={{ opacity: 0 }}
-      />
+      {/* 배경 canvas — 이미지 시퀀스 스크롤 scrub */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 z-0 w-full h-full object-cover"
