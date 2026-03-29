@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -8,6 +8,20 @@ import { WordmarkLogoHorizon } from "@/components/ui/icons";
 import { phase } from "@/lib/animationState";
 
 gsap.registerPlugin(ScrollTrigger);
+
+/** approaching-2 이미지 시퀀스 (67프레임) */
+const FRAME_COUNT = 67;
+const FRAME_PATH = "/videos/biliny/approaching-2-frames/frame-";
+
+function preloadFrames(): HTMLImageElement[] {
+  const images: HTMLImageElement[] = [];
+  for (let i = 1; i <= FRAME_COUNT; i++) {
+    const img = new Image();
+    img.src = `${FRAME_PATH}${String(i).padStart(3, "0")}.jpg`;
+    images.push(img);
+  }
+  return images;
+}
 
 /** Vertical bar indicator matching the nav pattern */
 function BarIndicator({
@@ -30,77 +44,96 @@ export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const video1Ref = useRef<HTMLVideoElement>(null);
-  const video2Ref = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const framesRef = useRef<HTMLImageElement[]>([]);
+
+  // 이미지 시퀀스 프리로드 (마운트 시 1회)
+  useEffect(() => {
+    framesRef.current = preloadFrames();
+  }, []);
 
   useGSAP(
     () => {
       const inner = innerRef.current;
       const video1 = video1Ref.current;
-      const video2 = video2Ref.current;
-      if (!inner || !video1 || !video2) return;
+      const canvas = canvasRef.current;
+      if (!inner || !video1 || !canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      /** canvas에 해당 인덱스 프레임 그리기 */
+      function drawFrame(index: number) {
+        const img = framesRef.current[index];
+        if (!img || !img.complete) return;
+        canvas!.width = img.naturalWidth;
+        canvas!.height = img.naturalHeight;
+        ctx!.drawImage(img, 0, 0);
+      }
 
       // ① 마운트 즉시 숨김
       gsap.set(inner, { y: 80, opacity: 0 });
       gsap.set(video1, { opacity: 0 });
-      gsap.set(video2, { opacity: 0 });
+      gsap.set(canvas, { opacity: 0 });
 
-      // ② 헤더 완료 후 콘텐츠 슬라이드업
+      // ② 헤더 완료 후 콘텐츠 슬라이드업 + 영상 동시 시작
       const cleanup = phase.header.on(() => {
+        // ③ 콘텐츠와 동시에 approaching-1 재생
+        gsap.to(video1, { opacity: 1, duration: 0.8, ease: "power2.out" });
+        video1.play();
+
         gsap.to(inner, {
           y: 0,
           opacity: 1,
           duration: 1.4,
           ease: "power4.out",
           onComplete: () => {
-            // ③ 콘텐츠 등장 완료 → approaching-1 페이드인 + 재생
-            gsap.to(video1, { opacity: 1, duration: 0.8, ease: "power2.out" });
-            video1.play();
-
-            // ④ approaching-2: 끝나기 0.2초 전에 영원히 정지
-            const onTimeUpdate = () => {
-              if (video2.duration - video2.currentTime <= 0.1) {
-                video2.pause();
-                video2.removeEventListener("timeupdate", onTimeUpdate);
-              }
-            };
-            video2.addEventListener("timeupdate", onTimeUpdate);
-
-            // ⑤ approaching-1 종료 후 스크롤 트리거로 approaching-2 재생
-            video1.addEventListener(
-              "ended",
-              () => {
-                ScrollTrigger.create({
-                  trigger: sectionRef.current,
-                  start: "top top",
-                  onUpdate: (self) => {
-                    if (
-                      self.progress > 0.05 &&
-                      video2.paused &&
-                      video2.currentTime === 0
-                    ) {
-                      // video2를 먼저 보이게 → video1 제거 (반투명 겹침 방지)
-                      gsap.set(video2, { opacity: 1 });
-                      video2.play();
-                      gsap.set(video1, { opacity: 0 });
-                    }
-                  },
-                });
-              },
-              { once: true },
-            );
-
-            // ⑤ 스크롤 시 콘텐츠 fade-out
+            // ④ 스크롤 시 콘텐츠 fade-out (짧은 구간에 빠르게)
             gsap.to(inner, {
               scrollTrigger: {
                 trigger: sectionRef.current,
                 start: "top top",
-                end: "bottom top",
-                scrub: 1,
+                end: "15% top",
+                scrub: 0.5,
               },
-              y: -120,
+              y: -80,
               opacity: 0,
             });
           },
+        });
+
+        // ⑤ canvas 이미지 시퀀스 스크롤 scrub — 즉시 설정
+        //    video1 끝나기 전에 스크롤해도 canvas로 전환됨
+        drawFrame(0);
+        let switched = false;
+        const switchToCanvas = () => {
+          if (switched) return;
+          switched = true;
+          video1.pause();
+          gsap.set(canvas, { opacity: 1 });
+          gsap.set(video1, { opacity: 0 });
+        };
+
+        // video1 자연 종료 시에도 전환
+        video1.addEventListener("ended", switchToCanvas, { once: true });
+
+        const tracker = { frame: 0 };
+        gsap.to(tracker, {
+          frame: FRAME_COUNT - 1,
+          snap: "frame",
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "+=1000",
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.3,
+            onUpdate: (self) => {
+              if (self.progress > 0.01) switchToCanvas();
+            },
+          },
+          onUpdate: () => drawFrame(Math.round(tracker.frame)),
         });
       });
 
@@ -113,25 +146,21 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full h-screen flex flex-col justify-end bg-background pt-16 md:pt-18 overflow-hidden"
+      className="relative w-full h-screen flex flex-col justify-end bg-background pt-16 md:pt-18"
     >
       {/* 배경 영상 — 가로 꽉 차게, 컨트롤 없음 */}
       <video
         ref={video1Ref}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 z-0 w-full h-full object-cover"
         src="/videos/biliny/approaching-1.mp4"
         muted
         playsInline
         preload="auto"
         style={{ opacity: 0 }}
       />
-      <video
-        ref={video2Ref}
-        className="absolute inset-0 w-full h-full object-cover"
-        src="/videos/biliny/approaching-2.mp4"
-        muted
-        playsInline
-        preload="auto"
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 z-0 w-full h-full object-cover"
         style={{ opacity: 0 }}
       />
 
