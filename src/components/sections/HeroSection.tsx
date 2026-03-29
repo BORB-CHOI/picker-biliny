@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 const FRAME_COUNT = 200;
 const FRAME_PATH = "/videos/biliny/approaching-frames/frame-";
 /** 자동재생 정지 프레임 (~4초 × 30fps = 120프레임) */
-const AUTOPLAY_STOP_FRAME = 130;
+const AUTOPLAY_STOP_FRAME = 133; 
 /** 자동재생 fps */
 const AUTOPLAY_FPS = 30;
 
@@ -61,30 +61,38 @@ export function HeroSection() {
       // 현재 프레임 인덱스 (자동재생 + 스크롤 공유)
       let currentFrame = 0;
 
-      // canvas 크기를 화면에 맞춤 (1회)
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * devicePixelRatio;
-      canvas.height = rect.height * devicePixelRatio;
-      ctx.scale(devicePixelRatio, devicePixelRatio);
+      // canvas 크기를 화면에 맞춤 + 리사이즈 대응
+      const dpr = devicePixelRatio || 1;
+      let cw = 0;
+      let ch = 0;
 
-      /** canvas에 해당 인덱스 프레임 그리기 (cover 방식) */
+      function resizeCanvas() {
+        cw = window.innerWidth;
+        ch = window.innerHeight;
+        canvas!.width = cw * dpr;
+        canvas!.height = ch * dpr;
+        ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+        // 리사이즈 후 현재 프레임 다시 그리기
+        const prev = currentFrame;
+        currentFrame = -1;
+        drawFrame(prev >= 0 ? prev : 0);
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      /** canvas에 해당 인덱스 프레임 그리기 (가로 기준 꽉 채움) */
       function drawFrame(index: number) {
         const clamped = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(index)));
         if (clamped === currentFrame && currentFrame >= 0) return;
         currentFrame = clamped;
         const img = framesRef.current[clamped];
         if (!img || !img.complete) return;
-        // object-cover 계산: 이미지를 canvas에 꽉 채우되 비율 유지
-        const cw = rect.width;
-        const ch = rect.height;
-        const iw = img.naturalWidth;
-        const ih = img.naturalHeight;
-        const scale = Math.max(cw / iw, ch / ih);
-        const sw = iw * scale;
-        const sh = ih * scale;
-        const sx = (cw - sw) / 2;
+        // 가로 기준 맞춤: 이미지 폭 = canvas 폭, 세로는 비율 유지 + 센터링
+        const scale = cw / img.naturalWidth;
+        const sh = img.naturalHeight * scale;
         const sy = (ch - sh) / 2;
-        ctx!.drawImage(img, sx, sy, sw, sh);
+        ctx!.clearRect(0, 0, cw, ch);
+        ctx!.drawImage(img, 0, sy, cw, sh);
       }
 
       // ① 마운트 즉시 숨김
@@ -163,7 +171,10 @@ export function HeroSection() {
         });
       });
 
-      return cleanup;
+      return () => {
+        cleanup();
+        window.removeEventListener("resize", resizeCanvas);
+      };
     },
     { scope: sectionRef },
   );
@@ -177,7 +188,7 @@ export function HeroSection() {
       {/* 배경 canvas — 이미지 시퀀스 스크롤 scrub */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 z-0 w-full h-full object-cover"
+        className="absolute inset-0 z-0 w-full h-full"
         style={{ opacity: 0 }}
       />
 
