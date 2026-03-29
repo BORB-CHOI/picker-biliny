@@ -46,10 +46,9 @@ export const phase = {
 
 /**
  * 인트로~히어로 진입 전까지 스크롤 잠금
- * - body에 overflow: hidden 적용 → 스크롤바 숨김 + 스크롤 불가
- * - phase.header emit 시 해제
+ * 클라이언트 컴포넌트의 useEffect에서 호출해야 hydration mismatch 방지
  */
-if (typeof window !== "undefined") {
+export function lockScrollUntilHero() {
   document.body.style.overflow = "hidden";
   phase.header.on(() => {
     document.body.style.overflow = "";

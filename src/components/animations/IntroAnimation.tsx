@@ -1,11 +1,11 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { Inter } from "next/font/google";
 import { LeafTopLeft, LeafBottomRight, LogoName } from "@/components/ui/icons";
-import { phase } from "@/lib/animationState";
+import { phase, lockScrollUntilHero } from "@/lib/animationState";
 
 const inter = Inter({ subsets: ["latin"], weight: ["900"] });
 
@@ -18,6 +18,9 @@ const SKIP_INTRO = false;
 export function IntroAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hidden, setHidden] = useState(false);
+
+  // hydration 후 스크롤 잠금 (phase.header emit 시 해제)
+  useEffect(() => { lockScrollUntilHero(); }, []);
 
   useGSAP(() => {
     if (
