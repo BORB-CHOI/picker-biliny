@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 const FRAME_COUNT = 200;
 const FRAME_PATH = "/videos/biliny/approaching-frames/frame-";
 /** 자동재생 정지 프레임 (~4초 × 30fps = 120프레임) */
-const AUTOPLAY_STOP_FRAME = 120;
+const AUTOPLAY_STOP_FRAME = 130;
 /** 자동재생 fps */
 const AUTOPLAY_FPS = 30;
 
@@ -61,16 +61,30 @@ export function HeroSection() {
       // 현재 프레임 인덱스 (자동재생 + 스크롤 공유)
       let currentFrame = 0;
 
-      /** canvas에 해당 인덱스 프레임 그리기 */
+      // canvas 크기를 화면에 맞춤 (1회)
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * devicePixelRatio;
+      canvas.height = rect.height * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+
+      /** canvas에 해당 인덱스 프레임 그리기 (cover 방식) */
       function drawFrame(index: number) {
         const clamped = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(index)));
-        if (clamped === currentFrame && canvas!.width > 0) return; // 중복 그리기 방지
+        if (clamped === currentFrame && currentFrame >= 0) return;
         currentFrame = clamped;
         const img = framesRef.current[clamped];
         if (!img || !img.complete) return;
-        canvas!.width = img.naturalWidth;
-        canvas!.height = img.naturalHeight;
-        ctx!.drawImage(img, 0, 0);
+        // object-cover 계산: 이미지를 canvas에 꽉 채우되 비율 유지
+        const cw = rect.width;
+        const ch = rect.height;
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+        const scale = Math.max(cw / iw, ch / ih);
+        const sw = iw * scale;
+        const sh = ih * scale;
+        const sx = (cw - sw) / 2;
+        const sy = (ch - sh) / 2;
+        ctx!.drawImage(img, sx, sy, sw, sh);
       }
 
       // ① 마운트 즉시 숨김
@@ -114,30 +128,37 @@ export function HeroSection() {
           onUpdate: () => drawFrame(tracker.frame),
         });
 
-        // ④ 스크롤 scrub — 전체 200프레임을 스크롤로 제어
-        //    자동재생 중 스크롤 시 → 자동재생 중단, 스크롤이 이어받음
-        gsap.to(tracker, {
-          frame: FRAME_COUNT - 1,
-          snap: "frame",
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "+=2000",
-            pin: true,
-            pinSpacing: true,
-            scrub: 0.3,
-            onUpdate: (self) => {
-              if (!autoplayStopped && self.progress > 0.005) {
+        // ④ 스크롤 scrub — 전체 0→199 프레임을 스크롤로 제어
+        //    자동재생 중 스크롤 시 → 자동재생 중단, 스크롤 위치를 현재 프레임에 동기화
+        //    pin 상태라 스크롤 점프해도 화면은 안 움직임 → 이후 전 구간 자유 탐색
+        let scrollJumping = false;
+
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "+=2000",
+          pin: true,
+          pinSpacing: true,
+          onUpdate: (self) => {
+            if (scrollJumping) return;
+
+            if (!autoplayStopped) {
+              if (self.progress > 0.005) {
                 autoplayStopped = true;
                 autoplayTween.kill();
-                // 스크롤 위치에 맞는 프레임으로 즉시 동기화
-                tracker.frame = self.progress * (FRAME_COUNT - 1);
+                // CSS scroll-behavior: smooth를 무시하고 즉시 점프
+                scrollJumping = true;
+                const targetPos =
+                  self.start + (currentFrame / (FRAME_COUNT - 1)) * (self.end - self.start);
+                window.scrollTo({ top: targetPos, behavior: "instant" });
+                drawFrame(currentFrame);
+                requestAnimationFrame(() => {
+                  scrollJumping = false;
+                });
               }
-            },
-          },
-          onUpdate: () => {
-            if (autoplayStopped) drawFrame(tracker.frame);
+              return;
+            }
+            drawFrame(self.progress * (FRAME_COUNT - 1));
           },
         });
       });
