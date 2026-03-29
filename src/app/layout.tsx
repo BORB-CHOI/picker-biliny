@@ -23,6 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="h-full antialiased">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `window.history.scrollRestoration = "manual"; window.scrollTo(0, 0);` }} />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
