@@ -1,3 +1,4 @@
+import { TemporaryDesign } from "@/components/sections/TemporaryDesign";
 import { IntroAnimation } from "@/components/animations/IntroAnimation";
 import { Header } from "@/components/sections/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -18,6 +19,9 @@ export default function Home() {
       <main>
         {/* 1. 메인 온보딩 — 배경 영상 + 히어로 텍스트 */}
         <HeroSection />
+
+        {/* 임시 디자인 시안 */}
+        <TemporaryDesign />
 
         {/* 2. 스토리 — 1970↔2026 과거/현재 비교 타임라인 */}
         <StorySection />
