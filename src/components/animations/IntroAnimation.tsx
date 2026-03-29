@@ -5,20 +5,26 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { Inter } from "next/font/google";
 import { LeafTopLeft, LeafBottomRight, LogoName } from "@/components/ui/icons";
-import { emitIntroComplete } from "@/lib/animationState";
+import { phase } from "@/lib/animationState";
 
 const inter = Inter({ subsets: ["latin"], weight: ["900"] });
 
 const FRAME = 68;
 const LEAF = 58;
 
+/** 개발 중 인트로 스킵 — true로 설정하면 인트로 없이 바로 Header→Hero 시퀀스 시작 */
+const SKIP_INTRO = true;
+
 export function IntroAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hidden, setHidden] = useState(false);
 
   useGSAP(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      emitIntroComplete();
+    if (
+      SKIP_INTRO ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      phase.intro.emit();
       setHidden(true);
       return;
     }
@@ -57,7 +63,7 @@ export function IntroAnimation() {
 
     const tl = gsap.timeline({
       onComplete: () => {
-        emitIntroComplete();
+        phase.intro.emit();
         setHidden(true);
       },
     });

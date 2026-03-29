@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { Inter } from "next/font/google";
 import { Logo } from "@/components/ui/Logo";
 import { WordmarkLogo } from "@/components/ui/icons";
-import { onIntroComplete } from "@/lib/animationState";
+import { phase } from "@/lib/animationState";
 
 const inter = Inter({ subsets: ["latin"], weight: ["500"] });
 
@@ -37,11 +37,11 @@ export function Header() {
   const headerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const cleanup = onIntroComplete(() => {
+    const cleanup = phase.intro.on(() => {
       gsap.fromTo(
         headerRef.current,
         { y: -80, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", onComplete: phase.header.emit },
       );
     });
     return cleanup;
@@ -54,13 +54,13 @@ export function Header() {
       style={{ opacity: 0 }}
     >
       <nav
-        className={`mx-auto flex items-center justify-center gap-8 md:gap-14 lg:gap-30 px-5 py-4 md:py-5 ${inter.className}`}
+        className={`max-w-350 mx-auto flex items-center px-5 py-4 md:py-5 ${inter.className}`}
       >
         {NAV_LEFT.map((item) => (
           <a
             key={item.label}
             href={item.href}
-            className="group flex flex-col items-center gap-1.5 text-(--color-nav-text) hover:text-(--color-primary) transition-colors duration-200"
+            className="flex-1 group flex flex-col items-center gap-1.5 text-(--color-nav-text) hover:text-(--color-primary) transition-colors duration-200"
           >
             <NavBars count={item.bars} />
             <span className="text-xs md:text-sm font-medium tracking-[0.06em]">
@@ -73,7 +73,7 @@ export function Header() {
         <a
           href="#"
           aria-label="홈으로"
-          className="group relative flex items-center justify-center overflow-visible"
+          className="flex-1 group relative flex items-center justify-center overflow-visible"
         >
           <div className="transition-opacity duration-300 group-hover:opacity-0">
             <Logo size={1} />
@@ -88,7 +88,7 @@ export function Header() {
           <a
             key={item.label}
             href={item.href}
-            className="group flex flex-col items-center gap-1.5 text-(--color-nav-text) hover:text-(--color-primary) transition-colors duration-200"
+            className="flex-1 group flex flex-col items-center gap-1.5 text-(--color-nav-text) hover:text-(--color-primary) transition-colors duration-200"
           >
             <NavBars count={item.bars} />
             <span className="text-xs md:text-sm font-medium tracking-[0.06em]">

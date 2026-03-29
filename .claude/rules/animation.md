@@ -38,6 +38,20 @@ export function AnimatedSection() {
 - 배치 등장: `stagger` + `scrollTrigger.batch()`
 - Framer Motion은 hover/tap/layout 전환에만 사용
 
+## 컴포넌트 간 애니메이션 시퀀싱
+
+- **절대 `delay` 하드코딩 금지** — 다른 애니메이션의 duration을 추측해서 delay로 맞추지 않는다
+- `src/lib/animationState.ts`의 CustomEvent pub/sub 패턴을 사용하여 순서를 보장한다
+- 패턴: 선행 애니메이션이 `onComplete`에서 `emit*()` 호출 → 후행 컴포넌트가 `on*()` 콜백으로 시작
+
+```
+시퀀스 예시:
+IntroAnimation → emitIntroComplete() → Header onIntroComplete()
+Header → emitHeaderComplete() → HeroSection onHeaderComplete()
+```
+
+- 새 시퀀스 추가 시: `animationState.ts`에 emit/on 쌍 추가, 선행 애니메이션의 `onComplete`에서 emit 호출
+
 ## 성능 가이드라인
 
 - transform과 opacity만 애니메이션 (layout thrashing 방지)

@@ -1,10 +1,45 @@
-const INTRO_COMPLETE = "intro-complete";
+/**
+ * 전역 애니메이션 시퀀스 관리
+ *
+ * ┌─────────────────────────────────────────────────┐
+ * │  intro  →  header  →  hero                      │
+ * │                                                  │
+ * │  IntroAnimation 완료                             │
+ * │    → Header 위에서 슬라이드 다운                  │
+ * │      → HeroSection 워드마크 마스크 리빌 + 콘텐츠  │
+ * └─────────────────────────────────────────────────┘
+ *
+ * 사용법:
+ *   선행 컴포넌트: phase.intro.emit()  (onComplete 콜백에서)
+ *   후행 컴포넌트: phase.header.on(callback)
+ */
 
-export function emitIntroComplete() {
-  window.dispatchEvent(new CustomEvent(INTRO_COMPLETE));
+function createPhase(name: string) {
+  const event = `phase:${name}`;
+  let fired = false;
+  return {
+    /** 이 단계 완료를 알림 — 다음 단계 시작 트리거 */
+    emit: () => {
+      fired = true;
+      window.dispatchEvent(new CustomEvent(event));
+    },
+    /** 이 단계 완료 신호를 구독 — 이미 emit된 경우 즉시 콜백 실행 (래치) */
+    on: (cb: () => void) => {
+      if (fired) {
+        cb();
+        return () => {};
+      }
+      window.addEventListener(event, cb, { once: true });
+      return () => window.removeEventListener(event, cb);
+    },
+  };
 }
 
-export function onIntroComplete(callback: () => void) {
-  window.addEventListener(INTRO_COMPLETE, callback, { once: true });
-  return () => window.removeEventListener(INTRO_COMPLETE, callback);
-}
+export const phase = {
+  /** IntroAnimation 완료 → Header 시작 */
+  intro: createPhase("intro"),
+  /** Header 슬라이드 다운 완료 → HeroSection 시작 */
+  header: createPhase("header"),
+  /** HeroSection 등장 완료 → 이후 섹션 스크롤 애니메이션 활성화 */
+  hero: createPhase("hero"),
+} as const;
