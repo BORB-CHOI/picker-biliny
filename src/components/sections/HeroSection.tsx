@@ -58,7 +58,7 @@ export function HeroSection() {
 
             // ④ approaching-2: 끝나기 0.2초 전에 영원히 정지
             const onTimeUpdate = () => {
-              if (video2.duration - video2.currentTime <= 0.2) {
+              if (video2.duration - video2.currentTime <= 0.1) {
                 video2.pause();
                 video2.removeEventListener("timeupdate", onTimeUpdate);
               }
