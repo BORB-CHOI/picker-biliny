@@ -43,3 +43,15 @@ export const phase = {
   /** HeroSection 등장 완료 → 이후 섹션 스크롤 애니메이션 활성화 */
   hero: createPhase("hero"),
 } as const;
+
+/**
+ * 인트로~히어로 진입 전까지 스크롤 잠금
+ * - body에 overflow: hidden 적용 → 스크롤바 숨김 + 스크롤 불가
+ * - phase.header emit 시 해제
+ */
+if (typeof window !== "undefined") {
+  document.body.style.overflow = "hidden";
+  phase.header.on(() => {
+    document.body.style.overflow = "";
+  });
+}
