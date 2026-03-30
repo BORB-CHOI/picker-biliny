@@ -64,7 +64,9 @@ body {
   color: white;
 }
 
-/* ── Story Section 유틸리티 (vw 기반 — 뷰포트 비례 축소) ── */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Story Section — vw 기반 (1440px = 100%)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .story-img {
   @apply w-full h-auto;
@@ -74,73 +76,71 @@ body {
   @apply w-full h-auto;
 }
 
-/* 본문 텍스트: 1440px 기준 ~24px = 1.67vw */
 .story-text {
-  font-size: 1.67vw;
-  letter-spacing: 0.23vw;
+  font-size: clamp(14px, 2.1vw, 30px);
+  letter-spacing: 0.23em;
   @apply font-medium text-[var(--color-text-secondary)];
 }
 
-/* 연도: 1440px 기준 ~42px = 2.9vw */
 .story-year {
-  font-size: 2.9vw;
-  letter-spacing: 0.32vw;
+  font-size: clamp(24px, 2.9vw, 42px);
+  letter-spacing: 0.32em;
   @apply font-bold text-[var(--color-text-light)];
 }
 
-/* 대제목: 1440px 기준 ~42px = 2.9vw */
 .story-heading {
-  font-size: 2.9vw;
-  letter-spacing: 0.32vw;
+  font-size: clamp(24px, 2.9vw, 42px);
+  letter-spacing: 0.32em;
   @apply font-black text-[var(--color-text)];
 }
 
-/* 데이터 라벨: 1440px 기준 ~30px = 2.1vw */
 .story-data-label {
-  font-size: 2.1vw;
+  font-size: clamp(14px, 2.1vw, 30px);
   @apply font-bold text-[var(--color-spec-text)] leading-normal;
 }
 
-/* 데이터 숫자: 1440px 기준 ~76px = 5.3vw */
 .story-data-number {
-  font-size: 5.3vw;
+  font-size: clamp(36px, 5.3vw, 76px);
   @apply font-bold text-[#515151] leading-tight;
 }
 
-/* 대안 소제목 (전동스쿠터, 버스, 택시) */
 .story-subtitle {
-  font-size: 2.6vw;
-  letter-spacing: 0.29vw;
+  font-size: clamp(20px, 2.6vw, 38px);
+  letter-spacing: 0.29em;
   @apply font-bold text-[var(--color-text)];
 }
 
-/* 대안 라벨 (대안 Ⅰ, Ⅱ, Ⅲ) */
 .story-alt-label {
-  font-size: 2.1vw;
-  letter-spacing: 0.23vw;
+  font-size: clamp(14px, 2.1vw, 30px);
+  letter-spacing: 0.23em;
   @apply font-bold text-[#464646];
 }
 
-/* 인트로 텍스트 (인구감소, 중소도시, 박탈된...) */
 .story-intro {
-  font-size: 2.9vw;
-  letter-spacing: 0.32vw;
+  font-size: clamp(22px, 2.9vw, 42px);
+  letter-spacing: 0.32em;
   @apply text-[var(--color-text)];
 }
 
-/* 결론 카테고리 라벨 (전동스쿠터/버스/택시 아래 불안해 등) */
 .story-conclusion-label {
-  font-size: 1.3vw;
-  letter-spacing: 0.15vw;
+  font-size: clamp(10px, 1.3vw, 19px);
+  letter-spacing: 0.15em;
   @apply font-bold text-[#5c5c5c];
 }
 
 .story-conclusion-quote {
-  font-size: 2.1vw;
-  letter-spacing: 0.23vw;
+  font-size: clamp(14px, 2.1vw, 30px);
+  letter-spacing: 0.23em;
   @apply font-bold text-[var(--color-text)];
 }
-/* ── Solution Section 유틸리티 ── */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Solution Section — clamp 기반 반응형
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.sol-section-dark {
+  background: linear-gradient(to bottom, #ffffff 0%, #343434 30%, #2c2c2c 100%);
+}
 
 .solution-heading {
   font-size: clamp(28px, 2.8vw, 42px);
@@ -167,7 +167,8 @@ body {
 }
 
 .solution-card {
-  @apply relative overflow-hidden rounded-[2vw];
+  @apply relative overflow-hidden;
+  border-radius: clamp(16px, 2vw, 30px);
 }
 
 .solution-card-title {
@@ -185,10 +186,22 @@ body {
 .solution-label {
   font-size: clamp(12px, 1vw, 16px);
   letter-spacing: 0.05em;
-  @apply font-bold text-[var(--color-blue)] uppercase;
+  @apply font-bold text-[var(--color-blue)];
 }
 
-/* ── Business Section 유틸리티 ── */
+/* Glassmorphism 카드 (Solution & Business 공용) */
+.glass-card {
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: clamp(24px, 2.6vw, 38px);
+  @apply relative overflow-hidden;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Business Section — clamp 기반 반응형
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .business-heading {
   font-size: clamp(24px, 2.4vw, 36px);
@@ -196,47 +209,51 @@ body {
   @apply font-bold text-[var(--color-text)];
 }
 
-.business-phase-badge {
-  font-size: clamp(12px, 1vw, 16px);
-  @apply font-bold text-white bg-[#2563eb] rounded-[0.8vw] px-[1.2vw] py-[0.3vw] inline-block;
+.business-badge {
+  font-size: clamp(12px, 1.4vw, 20px);
+  @apply font-bold text-white bg-[#2563eb] inline-block;
+  border-radius: clamp(8px, 0.8vw, 11px);
+  padding: clamp(4px, 0.3vw, 5px) clamp(10px, 1.2vw, 17px);
 }
 
-.business-phase-title {
-  font-size: clamp(14px, 1.1vw, 18px);
+.business-phase-desc {
+  font-size: clamp(14px, 1.4vw, 20px);
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
-.business-stat-number {
-  font-size: clamp(16px, 1.4vw, 22px);
+.business-stat {
+  font-size: clamp(14px, 1.4vw, 20px);
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
 .business-stat-unit {
-  font-size: clamp(14px, 1.1vw, 18px);
-  @apply font-normal text-[var(--color-text-tertiary)];
-}
-
-.business-card {
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  @apply rounded-[2.6vw] p-[1.5vw] relative overflow-hidden;
+  @apply font-normal;
 }
 
 .business-card-label {
-  font-size: clamp(9px, 0.72vw, 12px);
-  @apply font-medium text-[rgba(49,49,49,0.68)];
+  font-size: clamp(8px, 0.9vw, 13px);
+  @apply font-medium;
+  color: rgba(49, 49, 49, 0.68);
+}
+
+.business-card-tag {
+  font-size: clamp(7px, 0.7vw, 10px);
+  color: rgba(49, 49, 49, 0.5);
 }
 
 .business-card-value {
-  font-size: clamp(10px, 0.9vw, 14px);
-  @apply font-medium text-[rgba(49,49,49,0.68)];
+  font-size: clamp(10px, 1.1vw, 16px);
+  color: rgba(49, 49, 49, 0.68);
 }
 
 .business-card-total {
-  font-size: clamp(14px, 1.2vw, 20px);
+  font-size: clamp(14px, 1.5vw, 22px);
   @apply font-bold text-[var(--color-blue)];
+}
+
+.business-card-note {
+  font-size: clamp(7px, 0.8vw, 11px);
+  @apply font-bold text-[var(--color-text-tertiary)];
 }
 
 @media (prefers-reduced-motion: reduce) {
