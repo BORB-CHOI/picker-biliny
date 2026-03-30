@@ -13,7 +13,7 @@ const FRAME = 68;
 const LEAF = 58;
 
 /** 개발 중 인트로 스킵 — true로 설정하면 인트로 없이 바로 Header→Hero 시퀀스 시작 */
-const SKIP_INTRO = false;
+const SKIP_INTRO = true;
 
 export function IntroAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
