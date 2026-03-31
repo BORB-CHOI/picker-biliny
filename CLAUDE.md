@@ -10,7 +10,7 @@ Apple 수준의 스크롤 애니메이션과 정교한 인터랙션을 구현해
 - **Styling**: Tailwind CSS v4
 - **Animation**: GSAP + @gsap/react (스크롤 트리거 애니메이션), Framer Motion (UI 전환/마이크로인터랙션)
 - **Deployment**: Vercel (도메인: ai.kr, 가비아 DNS)
-- **Font**: Pretendard (한글), 디자인에 맞는 영문 디스플레이 폰트
+- **Font**: Inter (전체 고정)
 
 ## Commands
 
@@ -113,7 +113,7 @@ Figma 디자인 참조: `4ofzLPWgHAFGKebRvk9cau`
 
 ## Forbidden
 
-- Inter, Roboto, Arial 등 기본 폰트 사용 금지
+- Roboto, Arial 등 기본 폰트 사용 금지 (Inter는 프로젝트 지정 폰트)
 - 보라색 그라데이션 on 흰 배경 (전형적 AI 디자인) 금지
 - jQuery 또는 레거시 애니메이션 라이브러리 사용 금지
 - inline style 남용 금지 (Tailwind 또는 CSS 변수 사용)

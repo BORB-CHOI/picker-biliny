@@ -109,33 +109,32 @@ export function StorySection() {
 
   return (
     <section ref={sectionRef} id="story" className="relative bg-white overflow-hidden">
-      <div className="w-full max-w-[1440px] mx-auto px-5 md:px-[5%]">
-
+      <div className="w-full max-w-[80%] mx-auto px-5 md:px-[5%]">
         {/* ═══════════════════════════════════════
             STORY 헤더
         ═══════════════════════════════════════ */}
         <div className="s-fade flex items-center gap-3 pt-[6vw] md:pt-[4vw] justify-center">
-          <div className="w-[2px] h-[2.2vw] min-h-[16px] bg-[#3a3a3a]" />
-          <span className="text-[clamp(24px,3vw,43px)] font-bold text-[#3a3a3a] tracking-wider">STORY</span>
+          <div className="w-[7px] h-[2.2vw] min-h-[16px] bg-[#3a3a3a]" />
+          <span className="text-[clamp(24px,3vw,43px)] font-bold text-[#3a3a3a] tracking-wider">
+            STORY
+          </span>
         </div>
 
         {/* ═══════════════════════════════════════
             인트로 텍스트
         ═══════════════════════════════════════ */}
-        <div className="mt-[6vw] flex flex-col items-center">
-          <p className="s-reveal story-intro">인구감소</p>
-          <p className="s-reveal story-intro mt-1">중소도시,</p>
+        <div className="mt-[6vw] flex flex-col items-center translate-x-1">
+          <p className="s-reveal story-intro">
+            인구감소
+            <br />
+            중소도시,
+          </p>
         </div>
         <p className="s-reveal story-intro font-bold text-center mt-[3vw]">
           박탈된 고령자의 이동권
-        </p>
-
-        {/* ═══════════════════════════════════════
-            대제목
-        ═══════════════════════════════════════ */}
-        <h2 className="s-reveal story-heading mt-[8vw] text-center md:text-left md:w-[60%]">
+          <br />
           빼앗긴 두 다리
-        </h2>
+        </p>
 
         {/* ────────────────────────────────────
             1970 할아버지 — 트럭 운전
@@ -146,7 +145,8 @@ export function StorySection() {
             <Image
               src="/images/story/1_grandfather-driving.png"
               alt="젊은 시절 트럭을 운전하는 할아버지"
-              width={1432} height={799}
+              width={1432}
+              height={799}
               className="story-img"
               sizes="(max-width: 768px) 100vw, 70vw"
             />
@@ -165,7 +165,8 @@ export function StorySection() {
             <Image
               src="/images/story/2_grandfather-bench.png"
               alt="벤치에 앉아 지팡이를 짚고 있는 할아버지"
-              width={497} height={891}
+              width={497}
+              height={891}
               className="story-img"
               sizes="(max-width: 768px) 60vw, 35vw"
             />
@@ -184,7 +185,8 @@ export function StorySection() {
             <Image
               src="/images/story/3_grandmother-walking.png"
               alt="힘차게 걷는 젊은 시절의 할머니"
-              width={690} height={855}
+              width={690}
+              height={855}
               className="story-img"
               sizes="(max-width: 768px) 65vw, 48vw"
             />
@@ -206,7 +208,8 @@ export function StorySection() {
             <Image
               src="/images/story/4_grandmother-walker.png"
               alt="보행보조기에 의지하여 걷는 할머니"
-              width={688} height={855}
+              width={688}
+              height={855}
               className="story-img"
               sizes="(max-width: 768px) 65vw, 48vw"
             />
@@ -229,7 +232,14 @@ export function StorySection() {
         {/* 스쿠터 1 — 어디든지 다니기 쉽지만 */}
         <div className="mt-[6vw] flex flex-col md:flex-row-reverse items-center gap-[3vw]">
           <div className="s-img w-[80%] md:w-[52%]">
-            <Image src="/images/story/5_scooter-riding.png" alt="전동스쿠터를 타는 어르신" width={751} height={599} className="story-img" sizes="(max-width: 768px) 80vw, 52vw" />
+            <Image
+              src="/images/story/5_scooter-riding.png"
+              alt="전동스쿠터를 타는 어르신"
+              width={751}
+              height={599}
+              className="story-img"
+              sizes="(max-width: 768px) 80vw, 52vw"
+            />
           </div>
           <p className="s-reveal story-text text-center md:text-left md:w-[40%]">
             <span className="font-bold">전동스쿠터</span>는 어디든지 다니기 쉽지만
@@ -239,7 +249,14 @@ export function StorySection() {
         {/* 스쿠터 2 — 비가 올 땐 무방비 */}
         <div className="mt-[8vw] flex flex-col md:flex-row items-center gap-[3vw]">
           <div className="s-img w-[80%] md:w-[52%]">
-            <Image src="/images/story/6_scooter-rain.png" alt="비를 맞으며 전동스쿠터를 타는 어르신" width={744} height={599} className="story-img" sizes="(max-width: 768px) 80vw, 52vw" />
+            <Image
+              src="/images/story/6_scooter-rain.png"
+              alt="비를 맞으며 전동스쿠터를 타는 어르신"
+              width={744}
+              height={599}
+              className="story-img"
+              sizes="(max-width: 768px) 80vw, 52vw"
+            />
           </div>
           <p className="s-reveal story-text text-center md:text-left md:w-[40%]">
             비가 올 땐 <span className="font-bold">무방비</span>하고
@@ -249,7 +266,14 @@ export function StorySection() {
         {/* 스쿠터 3 — 길을 잃으면 */}
         <div className="mt-[8vw] flex flex-col md:flex-row items-center gap-[3vw]">
           <div className="s-img w-[80%] md:w-[52%]">
-            <Image src="/images/story/7_scooter-lost.png" alt="길을 잃어 당황하는 어르신" width={744} height={599} className="story-img" sizes="(max-width: 768px) 80vw, 52vw" />
+            <Image
+              src="/images/story/7_scooter-lost.png"
+              alt="길을 잃어 당황하는 어르신"
+              width={744}
+              height={599}
+              className="story-img"
+              sizes="(max-width: 768px) 80vw, 52vw"
+            />
           </div>
           <p className="s-reveal story-text text-center md:text-right md:w-[40%]">
             만약 <span className="font-bold">길을 잃어버리면</span> 돌아갈 방법이 없습니다.
@@ -259,10 +283,19 @@ export function StorySection() {
         {/* 스쿠터 4 — 긴급 상황 */}
         <div className="mt-[8vw] flex flex-col md:flex-row-reverse items-center gap-[3vw]">
           <div className="s-img w-[80%] md:w-[60%]">
-            <Image src="/images/story/8_scooter-accident.png" alt="전동스쿠터 전복 사고" width={864} height={645} className="story-img" sizes="(max-width: 768px) 80vw, 60vw" />
+            <Image
+              src="/images/story/8_scooter-accident.png"
+              alt="전동스쿠터 전복 사고"
+              width={864}
+              height={645}
+              className="story-img"
+              sizes="(max-width: 768px) 80vw, 60vw"
+            />
           </div>
           <div className="s-reveal text-center md:text-left md:w-[35%]">
-            <p className="story-text leading-relaxed"><span className="font-bold">긴급한 상황</span>에서 어르신을</p>
+            <p className="story-text leading-relaxed">
+              <span className="font-bold">긴급한 상황</span>에서 어르신을
+            </p>
             <p className="story-text leading-relaxed">도와드릴 수 없습니다</p>
           </div>
         </div>
@@ -270,10 +303,18 @@ export function StorySection() {
         {/* 스쿠터 5 — 고장 */}
         <div className="mt-[8vw] flex flex-col md:flex-row items-center gap-[3vw]">
           <div className="s-img w-[80%] md:w-[60%]">
-            <Image src="/images/story/9_scooter-breakdown.png" alt="전동스쿠터 고장" width={864} height={645} className="story-img" sizes="(max-width: 768px) 80vw, 60vw" />
+            <Image
+              src="/images/story/9_scooter-breakdown.png"
+              alt="전동스쿠터 고장"
+              width={864}
+              height={645}
+              className="story-img"
+              sizes="(max-width: 768px) 80vw, 60vw"
+            />
           </div>
           <p className="s-reveal story-text text-center md:text-left md:w-[35%]">
-            <span className="font-bold">고장</span>이 난다면 어떻게 해야할지 <span className="font-bold">난감</span>합니다.
+            <span className="font-bold">고장</span>이 난다면 어떻게 해야할지{" "}
+            <span className="font-bold">난감</span>합니다.
           </p>
         </div>
 
@@ -287,20 +328,37 @@ export function StorySection() {
         <div className="mt-[6vw] flex flex-col items-center gap-[2vw]">
           <p className="s-reveal story-text">버스를 타고 싶지만</p>
           <div className="s-img w-[50%] md:w-[35%]">
-            <Image src="/images/story/10_bus-dreaming.png" alt="버스를 타고 싶어하는 어르신" width={580} height={940} className="story-img" sizes="(max-width: 768px) 50vw, 35vw" />
+            <Image
+              src="/images/story/10_bus-dreaming.png"
+              alt="버스를 타고 싶어하는 어르신"
+              width={580}
+              height={940}
+              className="story-img"
+              sizes="(max-width: 768px) 50vw, 35vw"
+            />
           </div>
         </div>
 
         {/* 정류장까지 거리 — 800m */}
         <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
           <p className="s-reveal story-text text-center">
-            <span className="font-bold">정류장</span>까지 거리가 <span className="font-bold">너무 멉니다.</span>
+            <span className="font-bold">정류장</span>까지 거리가{" "}
+            <span className="font-bold">너무 멉니다.</span>
           </p>
-          <div className="s-img relative w-[90%] md:w-[62%]">
-            <Image src="/images/story/11_busstop-faraway.png" alt="먼 거리의 정류장" width={884} height={493} className="story-img-wide rounded-full" sizes="(max-width: 768px) 90vw, 62vw" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="s-img relative w-[90%] md:w-[80%]">
+            <Image
+              src="/images/story/11_busstop-faraway.png"
+              alt="먼 거리의 정류장"
+              width={884}
+              height={493}
+              className="story-img-wide rounded-full"
+              sizes="(max-width: 768px) 90vw, 62vw"
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-top">
               <p className="s-reveal story-data-label text-center">정류장 평균 거리</p>
-              <p className="story-data-number" data-count="800" data-suffix="m">0m</p>
+              <p className="story-data-number" data-count="800" data-suffix="m">
+                0m
+              </p>
             </div>
           </div>
         </div>
@@ -310,8 +368,15 @@ export function StorySection() {
           <p className="s-reveal story-text text-center">
             먼거리를 감수하고 <span className="font-bold">정류장에 도착</span>했지만
           </p>
-          <div className="s-img relative w-[90%] md:w-[62%] overflow-hidden rounded-full border-[3px] border-[#e6e6e6]">
-            <Image src="/images/story/12_busstop-waiting.png" alt="정류장에서 기다리는 어르신" width={888} height={496} className="story-img-wide" sizes="(max-width: 768px) 90vw, 62vw" />
+          <div className="s-img relative w-[90%] md:w-[80%] overflow-hidden rounded-full border-[3px] border-[#e6e6e6]">
+            <Image
+              src="/images/story/12_busstop-waiting.png"
+              alt="정류장에서 기다리는 어르신"
+              width={888}
+              height={496}
+              className="story-img-wide"
+              sizes="(max-width: 768px) 90vw, 62vw"
+            />
             <div className="absolute right-[5%] top-[25%] text-left">
               <p className="s-reveal story-text">도심 외곽 정류장 평균</p>
               <p className="s-reveal story-data-label mt-1">하루 배차</p>
@@ -322,28 +387,51 @@ export function StorySection() {
         {/* 4대 — 기다림 */}
         <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
           <p className="s-reveal story-text text-center">
-            <span className="font-bold">언제올지 모르는 버스</span>를 하염없이 <span className="font-bold">기다리기만 합니다.</span>
+            <span className="font-bold">언제올지 모르는 버스</span>를 하염없이{" "}
+            <span className="font-bold">기다리기만 합니다.</span>
           </p>
-          <div className="s-img relative w-[90%] md:w-[62%] overflow-hidden rounded-full">
-            <Image src="/images/story/13_bus-long-wait.png" alt="끝없이 버스를 기다리는 어르신" width={887} height={496} className="story-img-wide" sizes="(max-width: 768px) 90vw, 62vw" />
+          <div className="s-img relative w-[90%] md:w-[80%] overflow-hidden rounded-full">
+            <Image
+              src="/images/story/13_bus-long-wait.png"
+              alt="끝없이 버스를 기다리는 어르신"
+              width={887}
+              height={496}
+              className="story-img-wide"
+              sizes="(max-width: 768px) 90vw, 62vw"
+            />
             <div className="absolute right-[5%] top-[20%] text-left">
               <p className="s-reveal story-text !text-white">약 4시간당 1대</p>
-              <p className="story-data-number !text-white tracking-wider" data-count="4" data-suffix="대">0대</p>
+              <p
+                className="story-data-number !text-white tracking-wider"
+                data-count="4"
+                data-suffix="대"
+              >
+                0대
+              </p>
             </div>
           </div>
         </div>
 
         {/* 36% 포기율 */}
         <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
-          <p className="s-reveal story-text font-bold text-center">결국 포기하고 돌아갑니다.</p>
-          <div className="flex flex-col md:flex-row items-center gap-[3vw] w-full md:w-[80%] mx-auto">
-            <div className="s-img w-[90%] md:w-[65%] overflow-hidden rounded-full">
-              <Image src="/images/story/14_bus-giving-up.png" alt="결국 포기하고 돌아가는 어르신" width={925} height={568} className="story-img-wide" sizes="(max-width: 768px) 90vw, 52vw" />
-            </div>
-            <div className="s-reveal text-center md:text-left">
-              <p className="story-data-label">대기로 인한</p>
-              <p className="story-data-label">이동 포기율</p>
-              <p className="story-data-number mt-1" data-count="36" data-suffix="%">0%</p>
+          <p className="s-reveal story-text text-center !font-bold">결국 포기하고 돌아갑니다.</p>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-[3vw] w-full md:w-[80%] mx-auto">
+            <div className="s-img relative w-[90%] md:w-[90%] overflow-hidden rounded-full">
+              <Image
+                src="/images/story/14_bus-giving-up.png"
+                alt="결국 포기하고 돌아가는 어르신"
+                width={925}
+                height={568}
+                className="story-img-wide"
+                sizes="(max-width: 768px) 90vw, 52vw"
+              />
+              <div className="s-reveal absolute right-[5%] top-[20%] text-center md:text-left">
+                <p className="story-data-label">대기로 인한</p>
+                <p className="story-data-label">이동 포기율</p>
+                <p className="story-data-number mt-1" data-count="36" data-suffix="%">
+                  0%
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -361,12 +449,25 @@ export function StorySection() {
           </p>
           <div className="flex flex-col md:flex-row items-center gap-[3vw] w-full md:w-[80%] mx-auto">
             <div className="s-img w-[90%] md:w-[60%]">
-              <Image src="/images/story/15_taxi-expensive.png" alt="택시 비용에 놀라는 어르신" width={1032} height={831} className="story-img" sizes="(max-width: 768px) 90vw, 48vw" />
+              <Image
+                src="/images/story/15_taxi-expensive.png"
+                alt="택시 비용에 놀라는 어르신"
+                width={1032}
+                height={831}
+                className="story-img"
+                sizes="(max-width: 768px) 90vw, 48vw"
+              />
             </div>
             <div className="s-reveal text-center md:text-left">
               <p className="story-data-label">왕복 평균</p>
               <div className="flex items-baseline gap-1 mt-1">
-                <p className="story-data-number !text-[var(--color-text)]" data-count="30000" data-suffix="">0</p>
+                <p
+                  className="story-data-number !text-[var(--color-text)]"
+                  data-count="30000"
+                  data-suffix=""
+                >
+                  0
+                </p>
                 <p className="story-data-label">원</p>
               </div>
             </div>
@@ -380,12 +481,21 @@ export function StorySection() {
           </p>
           <div className="flex flex-col md:flex-row items-center gap-[3vw] w-full md:w-[80%] mx-auto">
             <div className="s-img w-[50%] md:w-[35%]">
-              <Image src="/images/story/16_taxi-burden.png" alt="택시 비용에 괴로워하는 어르신" width={461} height={640} className="story-img" sizes="(max-width: 768px) 50vw, 28vw" />
+              <Image
+                src="/images/story/16_taxi-burden.png"
+                alt="택시 비용에 괴로워하는 어르신"
+                width={461}
+                height={640}
+                className="story-img"
+                sizes="(max-width: 768px) 50vw, 28vw"
+              />
             </div>
             <div className="s-reveal text-center md:text-left">
               <p className="story-data-label">비용으로 인한</p>
               <p className="story-data-label">이동 포기율</p>
-              <p className="story-data-number mt-1" data-count="35" data-suffix="%">0%</p>
+              <p className="story-data-number mt-1" data-count="35" data-suffix="%">
+                0%
+              </p>
             </div>
           </div>
         </div>
@@ -417,7 +527,14 @@ export function StorySection() {
           {/* 고립 이미지 */}
           <div className="mt-[6vw] flex flex-col md:flex-row items-center gap-[3vw] w-full md:w-[80%] mx-auto">
             <div className="s-img w-[60%] md:w-[50%]">
-              <Image src="/images/story/17_isolation.png" alt="주저앉은 어르신의 뒷모습" width={857} height={755} className="story-img" sizes="(max-width: 768px) 60vw, 40vw" />
+              <Image
+                src="/images/story/17_isolation.png"
+                alt="주저앉은 어르신의 뒷모습"
+                width={857}
+                height={755}
+                className="story-img"
+                sizes="(max-width: 768px) 60vw, 40vw"
+              />
             </div>
             <div className="s-reveal text-center md:text-right flex-1">
               <p className="story-conclusion-quote">&ldquo;집에 있을래.&rdquo;</p>

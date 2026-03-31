@@ -77,7 +77,7 @@ body {
 }
 
 .story-text {
-  font-size: clamp(14px, 2.1vw, 30px);
+  font-size: clamp(14px, 1.7vw, 30px);
   letter-spacing: 0.23em;
   @apply font-medium text-[var(--color-text-secondary)];
 }
@@ -90,17 +90,17 @@ body {
 
 .story-heading {
   font-size: clamp(24px, 2.9vw, 42px);
-  letter-spacing: 0.32em;
+  letter-spacing: 11%;
   @apply font-black text-[var(--color-text)];
 }
 
 .story-data-label {
-  font-size: clamp(14px, 2.1vw, 30px);
+  font-size: clamp(14px, 1.5vw, 30px);
   @apply font-bold text-[var(--color-spec-text)] leading-normal;
 }
 
 .story-data-number {
-  font-size: clamp(36px, 5.3vw, 76px);
+  font-size: clamp(36px, 3.3vw, 76px);
   @apply font-bold text-[#515151] leading-tight;
 }
 
@@ -117,8 +117,8 @@ body {
 }
 
 .story-intro {
-  font-size: clamp(22px, 2.9vw, 42px);
-  letter-spacing: 0.32em;
+  font-size: clamp(22px, 2.3vw, 42px);
+  letter-spacing: 11%;
   @apply text-[var(--color-text)];
 }
 
@@ -134,126 +134,299 @@ body {
   @apply font-bold text-[var(--color-text)];
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Solution Section — clamp 기반 반응형
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-.sol-section-dark {
-  background: linear-gradient(to bottom, #ffffff 0%, #343434 30%, #2c2c2c 100%);
-}
-
-.solution-heading {
-  font-size: clamp(28px, 2.8vw, 42px);
-  letter-spacing: 0.02em;
-  @apply font-bold text-[var(--color-text)];
-}
-
-.solution-subheading {
-  font-size: clamp(18px, 1.6vw, 24px);
-  letter-spacing: 0.03em;
-  @apply font-bold text-[var(--color-text-tertiary)];
-}
-
-.solution-text {
-  font-size: clamp(14px, 1.25vw, 20px);
-  line-height: 1.8;
-  letter-spacing: 0.02em;
-  @apply font-medium text-[var(--color-text-secondary)];
-}
-
-.solution-number {
-  font-size: clamp(48px, 5.5vw, 80px);
-  @apply font-bold text-[var(--color-text)] leading-none;
-}
-
-.solution-card {
-  @apply relative overflow-hidden;
-  border-radius: clamp(16px, 2vw, 30px);
-}
-
-.solution-card-title {
-  font-size: clamp(20px, 1.8vw, 28px);
-  letter-spacing: 0.02em;
-  @apply font-bold text-[var(--color-text)];
-}
-
-.solution-card-desc {
-  font-size: clamp(13px, 1.1vw, 17px);
-  line-height: 1.7;
-  @apply font-medium text-[var(--color-text-secondary)];
-}
-
-.solution-label {
-  font-size: clamp(12px, 1vw, 16px);
-  letter-spacing: 0.05em;
-  @apply font-bold text-[var(--color-blue)];
-}
-
-/* Glassmorphism 카드 (Solution & Business 공용) */
-.glass-card {
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: clamp(24px, 2.6vw, 38px);
-  @apply relative overflow-hidden;
-}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Business Section — clamp 기반 반응형
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-.business-heading {
-  font-size: clamp(24px, 2.4vw, 36px);
-  letter-spacing: 0.02em;
-  @apply font-bold text-[var(--color-text)];
-}
-
-.business-badge {
-  font-size: clamp(12px, 1.4vw, 20px);
-  @apply font-bold text-white bg-[#2563eb] inline-block;
-  border-radius: clamp(8px, 0.8vw, 11px);
-  padding: clamp(4px, 0.3vw, 5px) clamp(10px, 1.2vw, 17px);
-}
-
-.business-phase-desc {
-  font-size: clamp(14px, 1.4vw, 20px);
+/* 섹션 대제목 (41.684px 기준) */
+.biz-title {
+  font-size: clamp(22px, 2.9vw, 42px);
+  letter-spacing: 0.11em;
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
-.business-stat {
-  font-size: clamp(14px, 1.4vw, 20px);
-  @apply font-bold text-[var(--color-text-tertiary)];
+/* 섹션 대제목 (다크 배경용, white) */
+.biz-title-white {
+  font-size: clamp(22px, 2.9vw, 42px);
+  letter-spacing: 0.11em;
+  @apply font-black text-white;
 }
 
-.business-stat-unit {
+/* 중간 제목 (45.474px 기준) */
+.biz-heading-lg {
+  font-size: clamp(24px, 3.16vw, 46px);
+  letter-spacing: 0.11em;
+  @apply font-bold text-white;
+}
+
+/* 소제목/설명 (25-28px 기준) */
+.biz-subtitle {
+  font-size: clamp(15px, 1.8vw, 26px);
+  @apply text-[var(--color-text-tertiary)];
+}
+
+/* 다크 배경 본문 */
+.biz-body-dark {
+  font-size: clamp(14px, 1.84vw, 27px);
   @apply font-normal;
+  color: #b3b3c0;
 }
 
-.business-card-label {
-  font-size: clamp(8px, 0.9vw, 13px);
+/* 아이콘 그룹 라벨 (26.526px 기준) */
+.biz-icon-label {
+  font-size: clamp(14px, 1.84vw, 27px);
+  letter-spacing: 0.11em;
+  @apply font-bold text-white;
+}
+
+/* 비용 숫자 (26.526px 기준) */
+.biz-cost-number {
+  font-size: clamp(14px, 1.84vw, 27px);
+  letter-spacing: 0.11em;
+  @apply font-bold text-white;
+}
+
+/* 작은 보조텍스트 */
+.biz-small {
+  font-size: clamp(10px, 1.05vw, 15px);
+  @apply font-normal;
+  color: #b7b0b0;
+}
+
+/* "310억" 같은 큰 숫자 */
+.biz-big-number {
+  font-size: clamp(22px, 2.9vw, 42px);
+  letter-spacing: 0.1em;
+  @apply font-bold text-white;
+}
+
+/* "중소도시 당 연간" 같은 숫자 앞 텍스트 */
+.biz-big-prefix {
+  font-size: clamp(20px, 2.63vw, 38px);
+  letter-spacing: 0.11em;
+  @apply font-normal text-white;
+}
+
+/* "+" 기호 */
+.biz-plus {
+  font-size: clamp(24px, 3.16vw, 46px);
+  @apply font-bold text-white;
+}
+
+/* 다크 스탯 카드 타이틀 */
+.biz-stat-title {
+  font-size: clamp(14px, 1.6vw, 23px);
+  letter-spacing: 0.05em;
+  @apply font-bold text-white;
+}
+
+/* 다크 스탯 카드 설명 */
+.biz-stat-desc {
+  font-size: clamp(9px, 1vw, 14px);
+  @apply font-normal;
+  color: #9a9aaa;
+}
+
+/* 1/5 강조 숫자 */
+.biz-fraction {
+  font-size: clamp(20px, 2.74vw, 40px);
+  @apply font-bold text-white;
+}
+
+/* ── 교통 복지 예산 10% 섹션 ── */
+
+/* "10%" 강조 */
+.biz-highlight-blue {
+  @apply font-bold text-[var(--color-blue)];
+}
+
+/* 본문 설명 텍스트 (25.737px) */
+.biz-desc {
+  font-size: clamp(14px, 1.79vw, 26px);
+  @apply text-[var(--color-text-tertiary)];
+}
+
+/* 작은 주석 */
+.biz-note {
+  font-size: clamp(10px, 1.11vw, 16px);
+  @apply font-normal text-[#6d6d6d];
+}
+
+/* 글래스모피즘 카드 */
+.biz-glass-card {
+  @apply relative overflow-hidden;
+  backdrop-filter: blur(39px);
+  -webkit-backdrop-filter: blur(39px);
+  border-radius: clamp(20px, 2.62vw, 38px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* 글래스 카드 제목 (22px) */
+.biz-card-title {
+  font-size: clamp(13px, 1.53vw, 22px);
+  @apply font-bold text-[var(--color-text-tertiary)];
+}
+
+/* 글래스 카드 수량 (18.877px) */
+.biz-card-qty {
+  font-size: clamp(11px, 1.31vw, 19px);
+  @apply font-medium text-[var(--color-text-tertiary)];
+}
+
+/* 글래스 카드 가격 (23.596px) */
+.biz-card-price {
+  font-size: clamp(14px, 1.64vw, 24px);
+  @apply font-bold text-[var(--color-blue)];
+}
+
+/* 글래스 카드 설명 */
+.biz-card-desc {
+  font-size: clamp(9px, 1vw, 14px);
+  @apply font-normal text-[var(--color-text-tertiary)];
+}
+
+/* ── 자율주행 수익 섹션 ── */
+
+/* "게다가" 같은 큰 제목 */
+.biz-revenue-heading {
+  font-size: clamp(22px, 2.9vw, 42px);
+  @apply font-bold text-[var(--color-text-tertiary)];
+}
+
+/* 수익 카드 라벨 */
+.biz-revenue-label {
+  font-size: clamp(11px, 1.21vw, 18px);
+  @apply font-bold text-[#363636];
+}
+
+/* 수익 카드 세부 */
+.biz-revenue-detail {
+  font-size: clamp(9px, 0.97vw, 14px);
+  @apply font-normal text-[#929292];
+}
+
+/* 수익 금액 - 일 */
+.biz-revenue-daily {
+  font-size: clamp(9px, 0.97vw, 14px);
+  @apply font-bold text-[#929292];
+}
+
+/* 수익 금액 - 연 (파란색 큰 숫자) */
+.biz-revenue-annual {
+  font-size: clamp(18px, 2.37vw, 34px);
+  @apply font-bold text-[var(--color-blue)];
+}
+
+/* 수익 금액 - 연 뒤 "억 원" */
+.biz-revenue-unit {
+  font-size: clamp(14px, 1.82vw, 26px);
+  @apply font-medium text-[var(--color-text-tertiary)];
+}
+
+/* "시티 케어 솔루션" 강조 */
+.biz-city-care {
+  font-size: clamp(16px, 2.1vw, 30px);
+  @apply font-bold text-[var(--color-text-tertiary)];
+}
+
+/* ── 글로벌 확장 Pin 섹션 ── */
+
+/* 연도 뱃지 */
+.biz-year-badge {
+  font-size: clamp(12px, 1.39vw, 20px);
+  @apply font-bold text-white inline-flex items-center justify-center;
+  background: #2563eb;
+  border-radius: clamp(8px, 0.83vw, 12px);
+  padding: clamp(4px, 0.35vw, 5px) clamp(10px, 1.18vw, 17px);
+}
+
+.biz-year-badge-inactive {
+  @apply opacity-40;
+}
+
+/* 페이즈 설명 */
+.biz-phase-desc {
+  font-size: clamp(13px, 1.39vw, 20px);
+  @apply font-bold text-[var(--color-text-tertiary)];
+}
+
+/* 스탯 숫자 (16km, 50대 등) */
+.biz-phase-stat {
+  font-size: clamp(13px, 1.39vw, 20px);
+  @apply font-bold text-[var(--color-text-tertiary)];
+}
+
+/* 재정 카드 라벨 */
+.biz-fin-label {
+  font-size: clamp(7px, 0.76vw, 11px);
   @apply font-medium;
   color: rgba(49, 49, 49, 0.68);
 }
 
-.business-card-tag {
-  font-size: clamp(7px, 0.7vw, 10px);
-  color: rgba(49, 49, 49, 0.5);
-}
-
-.business-card-value {
-  font-size: clamp(10px, 1.1vw, 16px);
+/* 재정 카드 값 */
+.biz-fin-value {
+  font-size: clamp(9px, 1.04vw, 15px);
   color: rgba(49, 49, 49, 0.68);
 }
 
-.business-card-total {
-  font-size: clamp(14px, 1.5vw, 22px);
+/* 재정 카드 토탈 (파란색) */
+.biz-fin-total {
+  font-size: clamp(12px, 1.46vw, 21px);
   @apply font-bold text-[var(--color-blue)];
 }
 
-.business-card-note {
-  font-size: clamp(7px, 0.8vw, 11px);
+/* 재정 카드 주석 */
+.biz-fin-note {
+  font-size: clamp(7px, 0.76vw, 11px);
   @apply font-bold text-[var(--color-text-tertiary)];
+}
+
+/* "확장성" 부제 (28px) */
+.biz-expansion-sub {
+  font-size: clamp(15px, 1.95vw, 28px);
+  @apply text-[var(--color-text-tertiary)];
+}
+
+/* 수익 카드 이미지 라운딩 */
+.biz-revenue-img {
+  border-radius: clamp(12px, 1.67vw, 24px);
+  @apply w-full h-auto object-cover;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Solution Section — clamp 기반 반응형
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.solution-heading {
+  font-size: clamp(20px, 2.6vw, 42px);
+  letter-spacing: 0.11em;
+  @apply font-bold text-[var(--color-text)];
+}
+
+.solution-title {
+  font-size: clamp(20px, 2.6vw, 42px);
+  letter-spacing: 0.11em;
+  @apply font-extrabold text-[var(--color-primary)];
+}
+
+.solution-desc {
+  font-size: clamp(13px, 1.66vw, 27px);
+  letter-spacing: 0.11em;
+  line-height: 1.29;
+  @apply text-[var(--color-text-secondary)];
+}
+
+.solution-img {
+  @apply w-full h-auto;
+  border-radius: clamp(24px, 5.8vw, 83px);
+}
+
+.solution-img-sm {
+  @apply w-full h-auto;
+  border-radius: clamp(16px, 3.6vw, 52px);
 }
 
 @media (prefers-reduced-motion: reduce) {
