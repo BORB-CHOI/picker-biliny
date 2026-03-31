@@ -22,7 +22,7 @@ export default function Home() {
         {/* <TemporaryDesign /> */}
 
         {/* 2. 스토리 — 1970↔2026 과거/현재 비교 타임라인 */}
-        {/* <StorySection /> */}
+        <StorySection />
 
         {/* 5. 해결책 제시 — 빌리니, 안내길, 돌봄이, 공평한 모빌리티 */}
         <SolutionSection />

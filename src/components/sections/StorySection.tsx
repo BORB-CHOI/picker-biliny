@@ -113,9 +113,9 @@ export function StorySection() {
         {/* ═══════════════════════════════════════
             STORY 헤더
         ═══════════════════════════════════════ */}
-        <div className="s-fade flex items-center gap-3 pt-[6vw] md:pt-[4vw] justify-center">
-          <div className="w-[7px] h-[2.2vw] min-h-[16px] bg-[#3a3a3a]" />
-          <span className="text-[clamp(24px,3vw,43px)] font-bold text-[#3a3a3a] tracking-wider">
+        <div className="s-fade section-title-row">
+          <div className="section-bar" />
+          <span className="text-[clamp(24px,3vw,43px)] font-bold text-[#3a3a3a]">
             STORY
           </span>
         </div>

@@ -225,11 +225,11 @@ export function SolutionSection() {
       {/* ═══════════════════════════════════════
           3. 모든 과정을 지켜봐주는 "돌봄이"
       ═══════════════════════════════════════ */}
-      <div className="w-full max-w-[90%] md:max-w-[80%] mx-auto mt-[13.6vw] relative z-20">
+      <div className="w-full max-w-[90%] md:max-w-[80%] mx-auto mt-[8vw] relative z-20">
         <h3 className="sol-reveal solution-title">
           모든 과정을 지켜봐주는 &ldquo;돌봄이&rdquo;
         </h3>
-        <div className="sol-reveal solution-desc mt-[5.6vw]">
+        <div className="sol-reveal solution-desc mt-[3.2vw]">
           <p>
             <span className="font-medium">
               안전과 편의를 위해

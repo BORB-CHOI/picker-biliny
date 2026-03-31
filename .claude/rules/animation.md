@@ -52,6 +52,47 @@ Header → emitHeaderComplete() → HeroSection onHeaderComplete()
 
 - 새 시퀀스 추가 시: `animationState.ts`에 emit/on 쌍 추가, 선행 애니메이션의 `onComplete`에서 emit 호출
 
+### phase 사용 시 필수 확인 사항
+
+**새 섹션에서 phase를 사용할 때, 반드시 기존 코드에서 어떤 phase가 실제로 emit되고 있는지 grep으로 확인한다.**
+
+1. `phase.xxx.on()`을 쓰려면 → 먼저 `phase.xxx.emit()`이 코드에 존재하는지 확인
+2. emit이 없는 phase를 on()으로 기다리면 **콜백이 영원히 호출되지 않는다**
+3. `gsap.set()`으로 초기 숨김 처리한 뒤 phase 콜백 안에서 `gsap.to()`를 쓰는 패턴이므로, 콜백이 안 돌면 **요소가 영원히 안 보인다**
+
+현재 실제 사용 중인 phase:
+- `phase.intro` — IntroAnimation이 emit → Header가 on
+- `phase.header` — Header가 emit → **모든 섹션**이 on (Hero, Story, Solution, Business, Biliny, Triny 등)
+
+**일반 섹션은 `phase.header.on()`을 사용한다. `phase.hero`는 emit하는 곳이 없으므로 사용 금지.**
+
+### gsap.set() + gsap.to() 패턴 (필수)
+
+`gsap.from()`은 사용하지 않는다. 반드시 아래 패턴을 따른다:
+
+```tsx
+// 1. 초기 상태 — phase 콜백 바깥에서 즉시 숨김
+gsap.set(section.querySelectorAll('.anim-class'), {
+  clipPath: 'inset(100% 0% 0% 0%)',
+  opacity: 0,
+});
+
+// 2. phase 콜백 안에서 gsap.to()로 보여줌
+const unsubscribe = phase.header.on(() => {
+  rafId = requestAnimationFrame(() => {
+    section.querySelectorAll<HTMLElement>('.anim-class').forEach((el) => {
+      gsap.to(el, {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        opacity: 1,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%' },
+      });
+    });
+  });
+});
+```
+
 ## 스크롤 비디오 (이미지 시퀀스 + Canvas)
 
 Apple 스타일 스크롤 연동 영상. 영상을 JPEG 시퀀스로 분해 → canvas에 그려서 스크롤로 프레임 제어.

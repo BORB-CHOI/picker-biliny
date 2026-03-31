@@ -65,6 +65,21 @@ body {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   공통 — 섹션 타이틀 세로 막대
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.section-bar {
+  width: 7px;
+  height: clamp(18px, 2.2vw, 30px);
+  background: #3a3a3a;
+}
+
+.section-title-row {
+  @apply flex items-center justify-center gap-3;
+  padding-top: clamp(40px, 5.5vw, 80px);
+  padding-bottom: clamp(24px, 3.3vw, 48px);
+}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Story Section — vw 기반 (1440px = 100%)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
@@ -429,6 +444,150 @@ body {
   border-radius: clamp(16px, 3.6vw, 52px);
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Product Sections (Biliny, Triny) — 공용 clamp 기반 반응형
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.product-container {
+  @apply px-5 md:px-12 lg:px-20;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+/* ── 섹션 대제목 (42px, 영어 자간 0) ── */
+.product-section-title {
+  font-size: clamp(22px, 2.9vw, 42px);
+  @apply font-bold text-(--color-text);
+}
+
+/* ── "LINE-UP" 라벨 (19px, 영어 자간 0) ── */
+.product-label {
+  font-size: clamp(12px, 1.32vw, 19px);
+  @apply font-bold;
+}
+
+/* ── 한글 중간 제목 (24px) ── */
+.product-sub-heading {
+  font-size: clamp(14px, 1.67vw, 24px);
+  letter-spacing: 0.11em;
+  @apply font-bold text-(--color-text);
+}
+
+/* ── 한글 주 제목 / 쇼케이스 제목 (30px) ── */
+.product-heading {
+  font-size: clamp(18px, 2.1vw, 30px);
+  letter-spacing: 0.11em;
+  @apply font-bold text-(--color-text);
+}
+
+/* ── 한글 제품명 (24px) ── */
+.product-name {
+  font-size: clamp(14px, 1.67vw, 24px);
+  letter-spacing: 0.11em;
+  @apply font-bold text-(--color-text);
+}
+
+/* ── 본문 설명 (14px) ── */
+.product-desc {
+  font-size: clamp(10px, 0.97vw, 14px);
+  line-height: 1.7;
+  letter-spacing: 0.11em;
+  color: var(--color-feature-text);
+}
+
+/* ── 특장점 아이템 행 ── */
+.product-feature-item {
+  @apply flex items-center gap-[clamp(6px,0.7vw,10px)];
+}
+
+/* ── 특장점 텍스트 (13px, 한글 자간) ── */
+.product-feature-text {
+  font-size: clamp(9px, 0.9vw, 13px);
+  letter-spacing: 0.11em;
+  color: var(--color-feature-text);
+}
+
+/* ── 체크 아이콘 반응형 ── */
+.product-check-icon {
+  width: clamp(12px, 1.05vw, 15px);
+  height: clamp(12px, 1.05vw, 15px);
+}
+
+/* ── 스펙 행 ── */
+.product-spec-row {
+  @apply flex items-baseline gap-[clamp(8px,1.1vw,16px)];
+}
+
+/* ── 스펙 라벨 (14px, 한글 자간) ── */
+.product-spec-label {
+  font-size: clamp(10px, 0.97vw, 14px);
+  letter-spacing: 0.11em;
+  color: #4b4c4e;
+}
+
+/* ── 스펙 숫자 (42px, 숫자 자간 0) ── */
+.product-spec-number {
+  font-size: clamp(24px, 2.9vw, 42px);
+  @apply font-bold text-(--color-text);
+}
+
+/* ── 스펙 단위 (28px, 한글 자간) ── */
+.product-spec-unit {
+  font-size: clamp(16px, 1.95vw, 28px);
+  letter-spacing: 0.11em;
+  @apply font-bold;
+  color: #4e4e4e;
+}
+
+/* ── 쇼케이스 서브텍스트 (20px, 한글 자간) ── */
+.product-sub {
+  font-size: clamp(12px, 1.39vw, 20px);
+  letter-spacing: 0.11em;
+  @apply font-medium text-(--color-text-secondary);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Biliny 전용 — 속도 표기, 모바일 축소 변형
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.biliny-video-speed {
+  font-size: clamp(11px, 1.25vw, 18px);
+  letter-spacing: 0.05em;
+  color: #838383;
+}
+
+/* ── 모바일 축소 변형 (앉아서/서서용) ── */
+.biliny-video-heading-sm {
+  font-size: 12px;
+  letter-spacing: 0.11em;
+  @apply font-bold text-(--color-text);
+}
+
+.biliny-video-sub-sm {
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  @apply font-medium text-(--color-text-secondary);
+}
+
+.biliny-video-speed-sm {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: #838383;
+}
+
+@media (min-width: 768px) {
+  .biliny-video-heading-sm {
+    font-size: clamp(18px, 2.1vw, 30px);
+  }
+
+  .biliny-video-sub-sm {
+    font-size: clamp(12px, 1.39vw, 20px);
+  }
+
+  .biliny-video-speed-sm {
+    font-size: clamp(11px, 1.25vw, 18px);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
