@@ -17,7 +17,7 @@ export function BilinyProductSection() {
   useProductAnimations(sectionRef);
 
   return (
-    <section ref={sectionRef} id="biliny" className="relative">
+    <section ref={sectionRef} id="biliny" className="relative overflow-x-clip">
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 0: # BILINY 타이틀
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
@@ -35,8 +35,8 @@ export function BilinyProductSection() {
       <div className="product-container relative">
         {/* 2열: 좌측 텍스트 + 우측 이미지 */}
         <div className="flex flex-col lg:flex-row gap-[clamp(24px,3.3vw,48px)] items-start">
-          {/* 좌측 텍스트 */}
-          <div className="lg:w-[38%] min-w-0 shrink-0">
+          {/* 좌측 텍스트 — Figma 기준 아래로 내려옴 */}
+          <div className="lg:w-[38%] min-w-0 shrink-0 lg:pt-[clamp(160px,20vw,290px)]">
             <p className="b-fade product-label text-(--color-primary)">LINE-UP</p>
             <p className="b-reveal product-sub-heading mt-[clamp(8px,0.7vw,10px)]">
               이동의 자유를 나누는
@@ -83,17 +83,18 @@ export function BilinyProductSection() {
             </div>
           </div>
 
-          {/* 우측 제품 이미지 — 오른쪽으로 밀어내기 */}
-          <div className="flex-1 min-w-0 b-from-right lg:mt-[clamp(60px,8.3vw,120px)] overflow-hidden">
-            <Image
-              src="/images/biliny/1_lineup-hero.png"
-              alt="빌리니 제품 이미지"
-              width={640}
-              height={633}
-              className="w-full h-auto lg:translate-x-[15%] lg:scale-110"
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              priority
-            />
+          {/* 우측 제품 이미지 — div 래퍼 기준 레이아웃, 이미지 우측 정렬 */}
+          <div className="flex-1 min-w-0 b-from-right lg:-mr-[5rem]">
+            <div className="relative aspect-[4/5]">
+              <Image
+                src="/images/biliny/1_lineup-hero.png"
+                alt="빌리니 제품 이미지"
+                fill
+                className="object-contain object-right-bottom"
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                priority
+              />
+            </div>
           </div>
         </div>
 
@@ -164,9 +165,9 @@ export function BilinyProductSection() {
             />
           </div>
           {/* 텍스트 — 우측 하단, 왼쪽 정렬 */}
-          <div className="lg:absolute lg:right-50 lg:bottom-[35%] mt-[clamp(16px,2.2vw,32px)] lg:mt-0 text-left">
+          <div className="lg:absolute lg:right-[5%] lg:bottom-[30%] mt-[clamp(16px,2.2vw,32px)] lg:mt-0 text-left">
             <h3 className="b-reveal product-heading">위에서 아래로,</h3>
-            <p className="b-fade product-sub mt-[clamp(12px,1.7vw,24px)]">
+            <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
               스스로 이동할땐 부담없는 크기로
             </p>
           </div>
@@ -179,9 +180,9 @@ export function BilinyProductSection() {
       <div className="mt-[clamp(30px,4.2vw,60px)]">
         <div className="product-container relative">
           {/* 텍스트 — 좌측 상단, 오른쪽 정렬 */}
-          <div className="lg:absolute z-10 lg:left-70 lg:top-[10%] mb-[clamp(16px,2.2vw,32px)] lg:mb-0 text-right">
+          <div className="lg:absolute z-10 lg:left-[5%] lg:top-[10%] mb-[clamp(16px,2.2vw,32px)] lg:mb-0 text-right">
             <h3 className="b-reveal product-heading">아래에서 위로,</h3>
-            <p className="b-fade product-sub mt-[clamp(12px,1.7vw,24px)]">
+            <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
               안전을 위해 누구에게나 눈에 띄도록
             </p>
           </div>
@@ -215,7 +216,7 @@ export function BilinyProductSection() {
               className="w-full h-auto"
             />
           </div>
-          <div className="absolute lg:left-[15%] top-[5%] flex flex-col gap-[clamp(160px,18vw,240px)] mb-[clamp(16px,2.2vw,32px)] lg:mb-0 ">
+          <div className="absolute lg:left-[10%] top-[8%] flex flex-col gap-[clamp(100px,14vw,200px)] mb-[clamp(16px,2.2vw,32px)] lg:mb-0">
             {/* "앉아서" — 좌측 상단에 absolute */}
             <div className="z-10 lg:mt-0 text-right">
               <div className="b-from-left">
@@ -256,7 +257,7 @@ export function BilinyProductSection() {
           />
         </div>
         {/* 텍스트 — 비디오 좌측 상단에 absolute */}
-        <div className="absolute top-70 left-100 z-10 product-container">
+        <div className="absolute top-[20%] left-[8%] z-10">
           <h3 className="b-reveal product-heading">안전한 길을 따라</h3>
           <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
             쉽고 배려있는 주행 문화를 만들다.

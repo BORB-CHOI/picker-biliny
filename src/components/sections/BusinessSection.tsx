@@ -6,236 +6,278 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import { phase } from '@/lib/animationState';
+import { useProductAnimations } from '@/hooks/useProductAnimations';
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   데이터
+   Phase Data
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-const PRODUCT_CARDS = [
-  {
-    img: '/images/busniess/6_biliny-pm.png',
-    imgW: 780, imgH: 680,
-    title: "공유형 PM 'BILINY'",
-    qty: '50 대', price: '2.5',
-    lines: [
-      { text: '스마트 레인 기반 ', blue: '저속 자율주행', suffix: ' 기능' },
-      { text: '', blue: '사계절 기후 대응', suffix: '형 1인승 퍼스널 모빌리티' },
-    ],
-  },
-  {
-    img: '/images/busniess/7_smart-lane.png',
-    imgW: 1027, imgH: 518,
-    title: '스마트 레인',
-    qty: '16km', price: '9.6',
-    lines: [
-      { text: '시각 인식 기반의 ', blue: '저비용 유도 주행', suffix: ' 레인 인프라' },
-      { text: '태양광 야간 시인성 확보 및 보행자 안전 경계선 기능', blue: '', suffix: '' },
-    ],
-  },
-  {
-    img: '/images/busniess/8_carewatch.png',
-    imgW: 301, imgH: 320,
-    title: '케어워치',
-    qty: '1300 개', price: '0.3',
-    lines: [
-      { text: '고령자 ', blue: '이동 현황 모니터링', suffix: ' - ' },
-      { text: '', blue: '안심 케어', suffix: ' 디바이스' },
-      { text: '119 자동 신고 기능, 컨디션 맞춤 목적지 제안 기능', blue: '', suffix: '' },
-    ],
-  },
-] as const;
-
-const REVENUE_CARDS = [
-  {
-    img: '/images/busniess/9_elderly-commute.png',
-    imgW: 430, imgH: 402,
-    topLabel: '출/퇴근 이동 3회, 등/하원 3회, 점심시간 단거리 이동 2회',
-    note: '*50대 운영기준',
-    daily: '일 1.45만 원',
-    annual: '2.7',
-  },
-  {
-    img: '/images/busniess/10_urban-boarding.png',
-    imgW: 525, imgH: 472,
-    topLabel: '중단거리 출퇴근 / 학교·학원 등하교',
-    note: '',
-    daily: '',
-    annual: '',
-  },
-  {
-    img: '/images/busniess/11_delivery-service.png',
-    imgW: 870, imgH: 637,
-    topLabel: '점심시간 단거리 이동 / 퀵 배달 · 배송서비스',
-    note: '퀵 배달 2회, 저녁심야배송 3회',
-    daily: '일 2.6만 원',
-    annual: '5',
-  },
-  {
-    img: '/images/busniess/12_night-patrol.png',
-    imgW: 684, imgH: 643,
-    topLabel: '대리 기사 복귀 이동수단 / 야간 순찰',
-    note: '야간순찰 3시간, 대리기사이송 1회',
-    daily: '일 0.6만 원',
-    annual: '1.1',
-  },
-] as const;
 
 const PHASES = [
   {
-    year: '2027',
-    desc: '600m 반경 부분적 실증',
-    descBlue: '600m 반경',
-    km: '16km', units: '50 대', people: '1300명',
-    map: '/images/busniess/13_map-2027.png',
-    mapW: 448, mapH: 438,
+    year: "2027",
+    desc: (
+      <>
+        <span className="text-(--color-blue)">600m 반경 </span>부분적 실증
+      </>
+    ),
+    map: "/images/busniess/13_map-2027.png",
+    mapAlt: "홍성읍 600m 반경 지도",
+    mapOpacity: "opacity-30",
+    stats: [
+      { number: "16", unit: "km" },
+      { number: "50", unit: " 대" },
+      { number: "1300", unit: "명" },
+    ],
     finance: {
-      items: [
-        { label: '스마트레인', value: '9.6억', color: '#0060EF' },
-        { label: '공유 PM', value: '2.5억', color: '#0060EF' },
-        { label: '관리운영', value: '0.5억', color: '#0060EF' },
+      left: [
+        { label: "스마트레인", value: "9.6억", tag: "투자" },
+        { label: "공유 PM", value: "2.5억", tag: "투자" },
+        { label: "관리운영", value: "0.5억", tag: "투자" },
       ],
-      tag: '1회성 투자',
-      total: '12.6억 원',
-      annual: '약 22.5',
-      fiveYear: '약 112.5',
+      right: [
+        { label: "교통복지비", value: "7.5억", tag: "감축" },
+        { label: "사회복지비", value: "8억", tag: "감축" },
+        { label: "부가서비스", value: "9억", tag: "수익" },
+      ],
+      totalLeft: "12.6",
+      totalLeftUnit: "억 원",
+      totalLeftNote: "1회성 투자",
+      totalRight: "22.5",
+      totalRightUnit: "억 원",
+      totalRightNote: "연",
+      cumulative: "112.5",
+      cumulativeUnit: "억 원",
     },
   },
   {
-    year: '2028',
-    desc: '2km 반경 전범위 실증',
-    descBlue: '2km 반경',
-    km: '110km', units: '1000 대', people: '2.7만 명',
-    map: '/images/busniess/14_map-2028.png',
-    mapW: 448, mapH: 438,
+    year: "2028",
+    desc: (
+      <>
+        <span className="text-(--color-blue)">2km 반경</span> 전범위 실증
+      </>
+    ),
+    map: "/images/busniess/14_map-2028.png",
+    mapAlt: "홍성읍 2km 반경 지도",
+    mapOpacity: "",
+    stats: [
+      { number: "110", unit: "km" },
+      { number: "1000", unit: " 대" },
+      { number: "2.7만", unit: " 명" },
+    ],
     finance: {
-      items: [
-        { label: '감축', value: '150억', color: '#F77F4C' },
-        { label: '감축', value: '160억', color: '#F77F4C' },
-        { label: '투자', value: '67억', color: '#0060EF' },
-        { label: '수익', value: '9억', color: '#22C55E' },
-        { label: '부가서비스', value: '8억', color: '#22C55E' },
+      left: [
+        { label: "스마트레인", value: "67억", tag: "투자" },
+        { label: "공유 PM", value: "50억", tag: "투자" },
+        { label: "관리운영", value: "5억", tag: "투자" },
       ],
-      tag: '감축 / 투자 / 수익',
-      total: '122억 원',
-      annual: '약 490',
-      fiveYear: '약 2,450',
+      right: [
+        { label: "교통복지비", value: "150억", tag: "감축" },
+        { label: "사회복지비", value: "160억", tag: "감축" },
+        { label: "부가서비스", value: "180억", tag: "수익" },
+      ],
+      totalLeft: "122",
+      totalLeftUnit: "억 원",
+      totalLeftNote: "1회성 투자",
+      totalRight: "490",
+      totalRightUnit: "억 원",
+      totalRightNote: "연",
+      cumulative: "2450",
+      cumulativeUnit: "억 원",
     },
   },
   {
-    year: '2030',
-    desc: '인구감소 중소도시 89개군 확장',
-    descBlue: '89개군',
-    km: '6,930km', units: '63,000 대', people: '171만 명',
-    map: '/images/busniess/15_map-2030.png',
-    mapW: 350, mapH: 456,
+    year: "2030",
+    desc: (
+      <>
+        인구감소 중소도시 <span className="text-(--color-blue)">89개군</span> 확장
+      </>
+    ),
+    map: "/images/busniess/15_map-2030.png",
+    mapAlt: "전국 89개 인구감소 중소도시 지도",
+    mapOpacity: "",
+    stats: [
+      { number: "6930", unit: "km" },
+      { number: "63000", unit: " 대" },
+      { number: "171만", unit: " 명" },
+    ],
     finance: {
-      items: [
-        { label: '교통복지비', value: '1조', color: '#F77F4C' },
-        { label: '사회복지비', value: '1조', color: '#F77F4C' },
-        { label: '스마트레인', value: '4,220억', color: '#0060EF' },
+      left: [
+        { label: "스마트레인", value: "4220억", tag: "투자" },
+        { label: "공유 PM", value: "1890억", tag: "투자" },
+        { label: "관리운영", value: "100억", tag: "투자" },
       ],
-      tag: '감축 / 투자 / 수익',
-      total: '0.6 조 원',
-      annual: '약 3.1',
-      fiveYear: '약 15.5',
+      right: [
+        { label: "교통복지비", value: "1조", tag: "감축" },
+        { label: "사회복지비", value: "1조", tag: "감축" },
+        { label: "부가서비스", value: "1.1조", tag: "수익" },
+      ],
+      totalLeft: "0.6",
+      totalLeftUnit: "조 원",
+      totalLeftNote: "1회성 투자",
+      totalRight: "3.1",
+      totalRightUnit: "조 원",
+      totalRightNote: "연",
+      cumulative: "15.5",
+      cumulativeUnit: "조 원",
     },
   },
-] as const;
+];
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   컴포넌트
+   Expansion Pin Section (로컬 실증에서 글로벌 확장까지)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-export function BusinessSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
+/** 단일 페이즈 컬럼 (지도 + 스탯 + 재정카드) */
+function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
+  return (
+    <div className="flex flex-col items-center min-w-0 flex-1">
+      {/* 설명 */}
+      <p className="biz-phase-desc text-center mb-[clamp(8px,1.1vw,16px)]">{p.desc}</p>
+
+      {/* 지도 + 스탯 가로 배치 */}
+      <div className="flex items-start justify-center gap-[clamp(6px,1vw,16px)]">
+        <div className="relative w-[clamp(100px,12vw,180px)] h-[clamp(100px,12vw,180px)] shrink-0">
+          <Image
+            src={p.map}
+            alt={p.mapAlt}
+            fill
+            className={`object-contain ${p.mapOpacity}`}
+            sizes="12vw"
+          />
+        </div>
+        <div className="flex flex-col justify-center gap-[clamp(4px,0.7vw,10px)] pt-[clamp(8px,1vw,14px)]">
+          {p.stats.map((s) => (
+            <p key={s.number} className="biz-phase-stat">
+              <span className="font-bold">{s.number}</span>
+              <span className="font-normal">{s.unit}</span>
+            </p>
+          ))}
+        </div>
+      </div>
+
+      {/* 재정 카드 */}
+      <div className="relative mt-[clamp(12px,1.7vw,24px)] w-full max-w-[clamp(240px,26vw,380px)]">
+        <div className="rounded-[clamp(20px,2.6vw,38px)] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] backdrop-blur-sm px-[clamp(10px,1.4vw,20px)] py-[clamp(8px,1.1vw,16px)]">
+          {/* 투자 / 감축·수익 테이블 */}
+          <div className="grid grid-cols-2 gap-x-[clamp(8px,1.1vw,16px)]">
+            <div className="flex flex-col gap-[clamp(1px,0.2vw,3px)]">
+              {p.finance.left.map((item) => (
+                <div key={item.label} className="flex items-baseline justify-between">
+                  <span className="biz-fin-label">{item.label}</span>
+                  <span className="biz-fin-value">{item.value}</span>
+                  <span className="biz-fin-label text-[clamp(5px,0.56vw,8px)]">{item.tag}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col gap-[clamp(1px,0.2vw,3px)]">
+              {p.finance.right.map((item) => (
+                <div key={item.label} className="flex items-baseline justify-between">
+                  <span className="biz-fin-label">{item.label}</span>
+                  <span className="biz-fin-value">{item.value}</span>
+                  <span className="biz-fin-label text-[clamp(5px,0.56vw,8px)]">{item.tag}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 하단 요약 */}
+          <div className="flex items-center justify-between mt-[clamp(6px,0.8vw,12px)] pt-[clamp(3px,0.4vw,6px)] border-t border-[rgba(0,0,0,0.06)]">
+            <div className="flex items-baseline gap-[clamp(1px,0.2vw,3px)]">
+              <span className="biz-fin-total">{p.finance.totalLeft}</span>
+              <span className="biz-fin-label">{p.finance.totalLeftUnit}</span>
+              <span className="biz-fin-note">{p.finance.totalLeftNote}</span>
+            </div>
+
+            {/* 화살표 */}
+            <div className="relative w-[clamp(14px,1.5vw,22px)] h-[clamp(10px,1.1vw,16px)] mx-[clamp(2px,0.3vw,6px)] shrink-0">
+              <Image
+                src="/images/busniess/16_fin-card-shadow.png"
+                alt=""
+                fill
+                className="object-contain"
+                sizes="1.5vw"
+                aria-hidden="true"
+              />
+            </div>
+
+            <div className="flex flex-col items-end">
+              <div className="flex items-baseline gap-[clamp(1px,0.2vw,3px)]">
+                <span className="biz-fin-note">{p.finance.totalRightNote}</span>
+                <span className="biz-fin-total">{p.finance.totalRight}</span>
+                <span className="biz-fin-label">{p.finance.totalRightUnit}</span>
+              </div>
+              <div className="flex items-baseline gap-[clamp(1px,0.2vw,3px)]">
+                <span className="biz-fin-label">5년누적</span>
+                <span className="biz-fin-total">{p.finance.cumulative}</span>
+                <span className="biz-fin-label">{p.finance.cumulativeUnit}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ExpansionPinSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
       const section = sectionRef.current;
       if (!section) return;
 
-      /* ── 초기 상태: 즉시 숨김 ── */
-      gsap.set(section.querySelectorAll('.biz-fade'), {
-        y: 40,
-        opacity: 0,
-      });
-      gsap.set(section.querySelectorAll('.biz-reveal'), {
-        clipPath: 'inset(100% 0% 0% 0%)',
-        opacity: 0,
-      });
+      /* ── 초기 숨김 (즉시, phase 무관) ── */
+      gsap.set(section.querySelectorAll('.exp-title'), { y: 40, opacity: 0 });
+      gsap.set(section.querySelectorAll('.exp-col'), { opacity: 0, y: 30 });
+      gsap.set(section.querySelectorAll('.exp-connector'), { opacity: 0, scaleX: 0 });
 
       let rafId: number;
 
       const unsubscribe = phase.header.on(() => {
         rafId = requestAnimationFrame(() => {
-          /* ── 스크롤 등장: fade up ── */
-          section.querySelectorAll<HTMLElement>('.biz-fade').forEach((el) => {
+          /* 제목 등장 */
+          section.querySelectorAll<HTMLElement>('.exp-title').forEach((el) => {
             gsap.to(el, {
-              y: 0,
-              opacity: 1,
-              duration: 1,
-              ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top 88%' },
+              y: 0, opacity: 1, duration: 1, ease: 'power2.out',
+              scrollTrigger: { trigger: el, start: 'top 90%' },
             });
           });
 
-          /* ── 스크롤 등장: clip-path reveal ── */
-          section.querySelectorAll<HTMLElement>('.biz-reveal').forEach((el) => {
-            gsap.to(el, {
-              clipPath: 'inset(0% 0% 0% 0%)',
-              opacity: 1,
-              duration: 1.2,
-              ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 85%' },
-            });
-          });
+          /* 컬럼, 커넥터 참조 */
+          const cols = section.querySelectorAll<HTMLElement>('.exp-col');
+          const connectors = section.querySelectorAll<HTMLElement>('.exp-connector');
+          if (cols.length < 3) return;
 
-          /* ── Pin 애니메이션: 글로벌 확장 섹션 ── */
-          const pinContainer = pinRef.current;
-          if (!pinContainer) return;
-
-          const phases = pinContainer.querySelectorAll<HTMLElement>('.expansion-phase');
-          if (phases.length < 3) return;
-
-          /* 초기: 2번, 3번 페이즈 숨김 */
-          gsap.set(phases[1], { opacity: 0, y: 60 });
-          gsap.set(phases[2], { opacity: 0, y: 60 });
-
-          /* 뱃지 초기: 2028, 2030 비활성 */
-          const badges = pinContainer.querySelectorAll<HTMLElement>('.year-badge-item');
-          if (badges.length >= 3) {
-            gsap.set(badges[1], { opacity: 0.4 });
-            gsap.set(badges[2], { opacity: 0.4 });
-          }
-
-          const pinTl = gsap.timeline({
+          /* 섹션 통째로 Pin 고정 */
+          const tl = gsap.timeline({
             scrollTrigger: {
-              trigger: pinContainer,
+              trigger: section,
               start: 'top top',
-              end: '+=3000',
+              end: '+=3500',
               pin: true,
               scrub: 1,
+              anticipatePin: 1,
             },
           });
 
-          /* Phase 1 → Phase 2 */
-          pinTl
-            .to(phases[0], { opacity: 0, y: -60, duration: 0.4 })
-            .to(badges[0], { opacity: 0.4, duration: 0.2 }, '<')
-            .to(badges[1], { opacity: 1, duration: 0.2 }, '<')
-            .to(phases[1], { opacity: 1, y: 0, duration: 0.5 }, '-=0.2')
-            .to({}, { duration: 0.6 }); /* pause */
+          /* Step 1: 빈 화면에서 2027 등장 */
+          tl.to(cols[0], { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' })
+            .to({}, { duration: 0.2 })
 
-          /* Phase 2 → Phase 3 */
-          pinTl
-            .to(phases[1], { opacity: 0, y: -60, duration: 0.4 })
-            .to(badges[1], { opacity: 0.4, duration: 0.2 }, '<')
-            .to(badges[2], { opacity: 1, duration: 0.2 }, '<')
-            .to(phases[2], { opacity: 1, y: 0, duration: 0.5 }, '-=0.2')
-            .to({}, { duration: 0.6 }); /* pause */
+          /* Step 2: 선 + 2028 등장 */
+            .to(connectors[0], { opacity: 1, scaleX: 1, duration: 0.3, ease: 'power2.out' })
+            .to(cols[1], { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '<0.1')
+            .to({}, { duration: 0.2 })
+
+          /* Step 3: 선 + 2030 등장 */
+            .to(connectors[1], { opacity: 1, scaleX: 1, duration: 0.3, ease: 'power2.out' })
+            .to(cols[2], { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '<0.1')
+
+          /* Step 4: 최종 유지 */
+            .to({}, { duration: 0.3 });
         });
       });
 
@@ -248,432 +290,529 @@ export function BusinessSection() {
   );
 
   return (
-    <section ref={sectionRef} id="business" className="relative overflow-hidden">
-      {/* ═══════════════════════════════════════
-          A. "과연 현실적일까요?"
-      ═══════════════════════════════════════ */}
-      <div className="bg-white pt-[10vw] pb-[6vw]">
-        <p className="biz-fade biz-title text-center font-black!">
-          과연 현실적일까요?
+    <div ref={sectionRef} className="bg-white">
+      {/* 제목 */}
+      <div className="product-container text-center pt-[clamp(120px,16.6vw,240px)] pb-[clamp(20px,2.8vw,40px)]">
+        <h3 className="exp-title biz-title">로컬 실증에서 글로벌 확장까지</h3>
+        <p className="exp-title biz-expansion-sub mt-[clamp(20px,2.8vw,40px)]">
+          <span className="font-bold text-(--color-blue)">10% </span>
+          <span className="font-bold">예산 전환을 시작으로,</span>
+          {" "}5년간{" "}
+          <span className="font-bold text-(--color-blue)">2600%</span>
+          <span className="font-bold"> 확장성</span>을 이루는 솔루션
         </p>
       </div>
 
-      {/* ═══════════════════════════════════════
-          B. 다크 섹션 — 사회적 비용
-      ═══════════════════════════════════════ */}
-      <div className="relative bg-gradient-to-b from-white via-[#2c2c2c] to-[#2c2c2c] pt-[8vw]">
-        {/* 제목 */}
-        <div className="text-center px-[5%]">
-          <p className="biz-fade biz-title-white">
-            이동권 박탈로 인해 발생하는 사회적 비용
-          </p>
-          <div className="biz-fade mt-[2.5vw]">
-            <span className="biz-big-prefix">중소도시 당 연간 </span>
-            <span className="biz-big-number">310억</span>
-          </div>
-          <p className="biz-fade biz-small mt-[0.8vw]">
-            인구 10만명 미만기준
-          </p>
-        </div>
-
-        {/* 아이콘 그룹: 복지버스/택시 + 우울증/요양시설 */}
-        <div className="biz-fade flex items-center justify-center gap-[4vw] md:gap-[6vw] mt-[5vw] px-[5%]">
-          {/* 왼쪽 그룹 */}
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-[2vw] md:gap-[3vw]">
-              <div className="flex flex-col items-center">
-                <Image
-                  src="/images/busniess/1_welfare-bus-icon.png"
-                  alt="복지버스" width={120} height={135}
-                  className="w-[clamp(40px,5.5vw,80px)] h-auto"
-                />
-              </div>
-              <div className="flex flex-col items-center">
-                <Image
-                  src="/images/busniess/2_welfare-taxi-icon.png"
-                  alt="복지택시" width={133} height={116}
-                  className="w-[clamp(40px,5.5vw,80px)] h-auto"
-                />
-              </div>
-            </div>
-            <p className="biz-icon-label mt-[1.5vw]">복지버스 / 복지택시</p>
-            <p className="biz-cost-number mt-[1vw]">연 150억</p>
+      {/* 3컬럼 + 커넥터 (뱃지는 각 컬럼 상단) */}
+      <div className="product-container pb-[clamp(40px,5.5vw,80px)]">
+        <div className="flex items-start justify-center">
+          {/* 컬럼 1: 2027 */}
+          <div className="exp-col flex flex-col items-center flex-1 min-w-0">
+            <span className="biz-year-badge mb-[clamp(10px,1.4vw,20px)]">2027</span>
+            <PhaseColumn p={PHASES[0]} />
           </div>
 
-          {/* + 기호 */}
-          <span className="biz-plus">+</span>
+          {/* 커넥터 1 */}
+          <div className="exp-connector flex items-center self-start mt-[clamp(6px,0.6vw,10px)] mx-[clamp(2px,0.4vw,6px)] origin-left shrink-0">
+            <span className="block w-[clamp(30px,5.5vw,80px)] h-0.5 bg-(--color-blue)" />
+            <span className="block w-[clamp(8px,0.7vw,10px)] h-[clamp(8px,0.7vw,10px)] rounded-full bg-(--color-blue) shrink-0" />
+          </div>
 
-          {/* 오른쪽 그룹 */}
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-[2vw] md:gap-[3vw]">
-              <div className="flex flex-col items-center">
-                <Image
-                  src="/images/busniess/3_depression-icon.png"
-                  alt="우울증" width={186} height={123}
-                  className="w-[clamp(50px,6.5vw,95px)] h-auto"
-                />
-              </div>
-              <div className="flex flex-col items-center">
-                <Image
-                  src="/images/busniess/4_nursing-facility-icon.png"
-                  alt="요양시설 가속" width={139} height={217}
-                  className="w-[clamp(40px,5vw,70px)] h-auto"
-                />
-              </div>
-            </div>
-            <p className="biz-icon-label mt-[1.5vw]">우울증 / 요양시설 가속</p>
-            <p className="biz-cost-number mt-[1vw]">연 160억</p>
+          {/* 컬럼 2: 2028 */}
+          <div className="exp-col flex flex-col items-center flex-1 min-w-0">
+            <span className="biz-year-badge mb-[clamp(10px,1.4vw,20px)]">2028</span>
+            <PhaseColumn p={PHASES[1]} />
+          </div>
+
+          {/* 커넥터 2 */}
+          <div className="exp-connector flex items-center self-start mt-[clamp(6px,0.6vw,10px)] mx-[clamp(2px,0.4vw,6px)] origin-left shrink-0">
+            <span className="block w-[clamp(30px,5.5vw,80px)] h-0.5 bg-(--color-blue)" />
+            <span className="block w-[clamp(8px,0.7vw,10px)] h-[clamp(8px,0.7vw,10px)] rounded-full bg-(--color-blue) shrink-0" />
+          </div>
+
+          {/* 컬럼 3: 2030 */}
+          <div className="exp-col flex flex-col items-center flex-1 min-w-0">
+            <span className="biz-year-badge mb-[clamp(10px,1.4vw,20px)]">2030</span>
+            <PhaseColumn p={PHASES[2]} />
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
 
-        {/* ═══════════════════════════════════════
-            C. 막대한 예산 투입
-        ═══════════════════════════════════════ */}
-        <div className="mt-[10vw] px-[5%] pb-[8vw]">
-          <p className="biz-fade biz-heading-lg text-center">
-            막대한 예산 투입, 그러나 여전한 이동의 고립
-          </p>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Main Component
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-          <div className="biz-fade text-center mt-[3vw]">
-            <p className="biz-body-dark">
+export function BusinessSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
+
+  useProductAnimations(sectionRef);
+
+  return (
+    <section ref={sectionRef} className="relative z-10">
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         Part 1: 과연 현실적일까요?
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <div className="bg-white text-center pt-[clamp(60px,8.3vw,120px)] pb-[clamp(24px,3.3vw,48px)]">
+        <h2 className="b-fade biz-title">과연 현실적일까요?</h2>
+      </div>
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         Part 2 + 3: 사회적 비용 + 막대한 예산 투입 (다크 통합)
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <div className="relative">
+        {/* 단일 요소 blur: 솔리드 사각형 + filter blur → 가우시안 엣지 */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: "75px",
+            bottom: "75px",
+            left: "-100px",
+            right: "-100px",
+            background: "#2C2C2C",
+            filter: "blur(75px)",
+          }}
+        />
+        <div className="relative z-1">
+          {/* ── 사회적 비용 ── */}
+          <div className="product-container text-center pt-[clamp(200px,27vw,400px)] pb-[clamp(40px,5.5vw,80px)]">
+            <h3 className="b-reveal biz-heading-lg">이동권 박탈로 인해 발생하는 사회적 비용</h3>
+            <div className="b-fade mt-[clamp(20px,2.8vw,40px)] flex flex-col inline-block">
+              <span className="biz-big-prefix">
+                중소도시 당 연간{" "}
+                <span className="biz-big-number">
+                  310<span className="biz-big-prefix">억</span>
+                </span>
+              </span>
+              <p className="b-fade biz-small text-start ml-2">인구 10만명 미만기준</p>
+            </div>
+
+            {/* Icon Groups */}
+            <div className="b-fade flex flex-col md:flex-row items-center justify-center gap-[clamp(24px,3.3vw,48px)] mt-[clamp(40px,5.5vw,80px)]">
+              {/* 복지버스/택시 */}
+              <div className="flex flex-col items-center gap-[clamp(8px,1vw,14px)]">
+                <div className="flex items-center gap-[clamp(16px,2.2vw,32px)]">
+                  <div className="relative w-[clamp(48px,5.5vw,80px)] h-[clamp(48px,5.5vw,80px)]">
+                    <Image
+                      src="/images/busniess/1_welfare-bus-icon.png"
+                      alt="복지버스"
+                      fill
+                      className="object-contain"
+                      sizes="5.5vw"
+                    />
+                  </div>
+                  <div className="relative w-[clamp(48px,5.5vw,80px)] h-[clamp(48px,5.5vw,80px)]">
+                    <Image
+                      src="/images/busniess/2_welfare-taxi-icon.png"
+                      alt="복지택시"
+                      fill
+                      className="object-contain"
+                      sizes="5.5vw"
+                    />
+                  </div>
+                </div>
+                <p className="biz-icon-label">복지버스 / 복지택시</p>
+                <p className="biz-cost-number">연 150억</p>
+              </div>
+
+              <span className="biz-plus">+</span>
+
+              {/* 우울증/요양 */}
+              <div className="flex flex-col items-center gap-[clamp(8px,1vw,14px)]">
+                <div className="flex items-center gap-[clamp(16px,2.2vw,32px)]">
+                  <div className="relative w-[clamp(48px,5.5vw,80px)] h-[clamp(48px,5.5vw,80px)]">
+                    <Image
+                      src="/images/busniess/3_depression-icon.png"
+                      alt="우울증"
+                      fill
+                      className="object-contain"
+                      sizes="5.5vw"
+                    />
+                  </div>
+                  <div className="relative w-[clamp(48px,5.5vw,80px)] h-[clamp(48px,5.5vw,80px)]">
+                    <Image
+                      src="/images/busniess/4_nursing-facility-icon.png"
+                      alt="요양시설"
+                      fill
+                      className="object-contain"
+                      sizes="5.5vw"
+                    />
+                  </div>
+                </div>
+                <p className="biz-icon-label">우울증 / 요양시설 가속</p>
+                <p className="biz-cost-number">연 160억</p>
+              </div>
+            </div>
+          </div>
+
+          {/* ── 막대한 예산 투입 ── */}
+          <div className="product-container text-center pt-[clamp(80px,11vw,160px)]">
+            <h3 className="b-reveal biz-title-white">
+              막대한 예산 투입, 그러나 여전한 이동의 고립
+            </h3>
+            <p className="b-fade biz-body-dark mt-[clamp(16px,2.2vw,32px)]">
               기존 복지버스/무료 택시는 연간 150억원을 투입하지만,
             </p>
-            <p className="biz-body-dark mt-[0.5vw]">
-              <span>실제 이용률은 </span>
-              <span className="biz-body-dark font-bold!">대도심 대중교통 대비 </span>
-              <span className="biz-fraction">1/5</span>
-              <span> 에 불과합니다.</span>
+            <p className="b-fade biz-body-dark">
+              실제 이용률은 <span className="font-bold text-white">대도심 대중교통 대비</span>{" "}
+              <span className="biz-fraction">1/5</span> 에 불과합니다.
             </p>
+
+            {/* Three Info Cards — Figma 4142:26 */}
+            <div className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(12px,1.7vw,24px)] mt-[clamp(40px,5.5vw,80px)]">
+              {[
+                {
+                  icon: (
+                    <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+                      <circle
+                        cx="13"
+                        cy="13"
+                        r="10"
+                        stroke="#7a7a8a"
+                        strokeWidth="1.2"
+                        fill="none"
+                      />
+                      <path d="M13 8V14" stroke="#7a7a8a" strokeWidth="1.2" strokeLinecap="round" />
+                      <path
+                        d="M13 8L16 11"
+                        stroke="#7a7a8a"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  ),
+                  title: "66분 / 600m",
+                  subtitle: "불친절한 사용성",
+                  desc: "평균 배차시간과 정류장까지의 거리는 고령자에게 보행의 한계입니다.",
+                },
+                {
+                  icon: (
+                    <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+                      <path
+                        d="M4 18L10 12L15 15L22 7"
+                        stroke="#7a7a8a"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M17 7H22V12"
+                        stroke="#7a7a8a"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ),
+                  title: "127.5억 원 낭비",
+                  subtitle: "소모적인 복지예산",
+                  desc: "운행 효율 저하로 매년 막대한 지자체 예산이 허공으로 사라집니다.",
+                },
+                {
+                  icon: (
+                    <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+                      <circle
+                        cx="9"
+                        cy="10"
+                        r="3.5"
+                        stroke="#7a7a8a"
+                        strokeWidth="1.2"
+                        fill="none"
+                      />
+                      <circle
+                        cx="17"
+                        cy="10"
+                        r="3.5"
+                        stroke="#7a7a8a"
+                        strokeWidth="1.2"
+                        fill="none"
+                      />
+                      <path
+                        d="M4 22C4 18.5 6.5 16 9 16C10.5 16 12 16.5 13 17C14 16.5 15.5 16 17 16C19.5 16 22 18.5 22 22"
+                        stroke="#7a7a8a"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  ),
+                  title: "생존권의 위협",
+                  subtitle: "사회적 고립 가속",
+                  desc: "이동권의 빈틈은 병원 방문 단절과 우울증, 치매 가속으로 이어집니다.",
+                },
+              ].map((card) => (
+                <div
+                  key={card.title}
+                  className="rounded-[clamp(12px,1.1vw,16px)] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] p-[clamp(20px,2.2vw,32px)] text-left"
+                >
+                  <div className="w-[clamp(20px,1.8vw,26px)] h-[clamp(20px,1.8vw,26px)] mb-[clamp(16px,2vw,28px)]">
+                    {card.icon}
+                  </div>
+                  <p className="biz-stat-title">{card.title}</p>
+                  <p className="biz-stat-desc font-bold mt-[clamp(4px,0.4vw,6px)]">
+                    {card.subtitle}
+                  </p>
+                  <p className="biz-stat-desc mt-[clamp(12px,1.4vw,20px)]">{card.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* 3 스탯 카드 */}
-          <div className="biz-fade grid grid-cols-3 gap-[2vw] md:gap-[3vw] mt-[5vw] max-w-[900px] mx-auto">
-            {/* 카드 1: 환승범위 */}
-            <div className="text-center">
-              <div className="mx-auto w-[clamp(28px,3.5vw,50px)] h-[clamp(28px,3.5vw,50px)] mb-[1.5vw]">
-                <svg viewBox="0 0 40 40" fill="none" className="w-full h-full">
-                  <circle cx="20" cy="16" r="6" stroke="white" strokeWidth="2" fill="none" />
-                  <path d="M20 22 L20 30" stroke="white" strokeWidth="2" />
-                  <circle cx="20" cy="16" r="2" fill="white" />
-                  <path d="M10 36 Q20 28 30 36" stroke="white" strokeWidth="1.5" fill="none" />
-                </svg>
-              </div>
-              <p className="biz-stat-title">66분 / 600m</p>
-              <p className="biz-stat-desc mt-[0.5vw]">환승범위 사실상 불가능</p>
-              <p className="biz-stat-desc mt-[0.8vw] hidden md:block">
-                최소 1회이상의 환승방식이나 고령
-                이동수단으로 활용이 어렵습니다.
-              </p>
-            </div>
-            {/* 카드 2: 소극적 복지예산 */}
-            <div className="text-center">
-              <div className="mx-auto w-[clamp(28px,3.5vw,50px)] h-[clamp(28px,3.5vw,50px)] mb-[1.5vw]">
-                <svg viewBox="0 0 40 40" fill="none" className="w-full h-full">
-                  <path d="M8 32 L16 20 L24 26 L32 10" stroke="white" strokeWidth="2" fill="none" />
-                  <path d="M28 10 L32 10 L32 14" stroke="white" strokeWidth="2" fill="none" />
-                </svg>
-              </div>
-              <p className="biz-stat-title">127.5억 원 낭비</p>
-              <p className="biz-stat-desc mt-[0.5vw]">소극적인 복지예산</p>
-              <p className="biz-stat-desc mt-[0.8vw] hidden md:block">
-                전체 복지 예산의 1인 단위 이동에 대한
-                비효율적 투입
-              </p>
-            </div>
-            {/* 카드 3: 생존권 위협 */}
-            <div className="text-center">
-              <div className="mx-auto w-[clamp(28px,3.5vw,50px)] h-[clamp(28px,3.5vw,50px)] mb-[1.5vw]">
-                <svg viewBox="0 0 40 40" fill="none" className="w-full h-full">
-                  <path d="M8 28 Q14 18 20 20 Q26 22 32 12" stroke="white" strokeWidth="2" fill="none" />
-                  <circle cx="20" cy="12" r="4" stroke="white" strokeWidth="1.5" fill="none" />
-                  <path d="M16 32 L20 24 L24 32" stroke="white" strokeWidth="1.5" fill="none" />
-                </svg>
-              </div>
-              <p className="biz-stat-title">생존권의 위협</p>
-              <p className="biz-stat-desc mt-[0.5vw]">사회적 고립 가중</p>
-              <p className="biz-stat-desc mt-[0.8vw] hidden md:block">
-                사계절 이동이 되지 않아 사회적
-                고립과 우울증 발생 위험 증가
-              </p>
+          {/* ── 전환 화살표 (그라데이션 영역 안) ── */}
+          <div className="b-fade flex justify-center pb-[clamp(30px,4vw,60px)] translate-y-10 -mt-50">
+            <div className="relative w-[clamp(180px,24vw,360px)] aspect-[1/2]">
+              <Image
+                src="/images/busniess/5_transition-arrow.png"
+                alt=""
+                fill
+                className="object-contain translate-y-50"
+                sizes="30vw"
+                aria-hidden="true"
+              />
             </div>
           </div>
         </div>
       </div>
-
-      {/* ═══════════════════════════════════════
-          D. 블루 화살표 전환
-      ═══════════════════════════════════════ */}
-      <div className="biz-fade flex justify-center py-[4vw] bg-white">
-        <Image
-          src="/images/busniess/5_transition-arrow.png"
-          alt="" width={474} height={1292}
-          className="w-[clamp(80px,8vw,130px)] h-auto"
-          sizes="10vw"
-        />
-      </div>
-
-      {/* ═══════════════════════════════════════
-          E. 교통 복지 예산의 10%만으로
-      ═══════════════════════════════════════ */}
-      <div className="bg-white pt-[2vw] pb-[6vw] px-[5%]">
-        <div className="text-center">
-          <p className="biz-reveal biz-title">
-            <span>교통 복지 예산의 </span>
-            <span className="biz-highlight-blue text-[1.1em]">10%</span>
-            <span>만으로</span>
-          </p>
-          <div className="biz-fade mt-[2.5vw] max-w-[800px] mx-auto">
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         Part 5: 교통 복지 예산의 10%만으로
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <div className="bg-white">
+        <div className="product-container text-center py-[clamp(60px,8.3vw,120px)] pt-70">
+          <h3 className="b-reveal biz-title">
+            교통 복지 예산의 <span className="biz-highlight-blue">10%</span>만으로
+          </h3>
+          <div className="b-fade mt-[clamp(16px,2.2vw,32px)] mb-[clamp(40px,5.5vw,80px)]">
             <p className="biz-desc">
-              <span>1년 교통 복지 예산의 단 </span>
-              <span className="biz-highlight-blue font-bold">10%</span>
-              <span className="font-bold">만으로 고령자 생활에 맞춘 </span>
-              <span className="biz-highlight-blue font-bold">새로운 이동수단 대안을 제공</span>
-              <span>할 수 있습니다.</span>
+              <span className="relative inline-block">
+                1년 교통 복지 <span className="font-bold">예산</span>
+                <span className="absolute left-0 right-0 top-full flex flex-col items-center mt-[clamp(2px,0.3vw,4px)]">
+                  <span
+                    className="w-full h-px"
+                    style={{
+                      background:
+                        "linear-gradient(to right, transparent, #c0c0c0 30%, #c0c0c0 70%, transparent)",
+                    }}
+                  />
+                  <span className="biz-note mt-[clamp(2px,0.3vw,4px)]">(150억)</span>
+                </span>
+              </span>
+              <span className="font-bold">의 단</span>
+              <span className="font-bold text-(--color-blue)">10%</span>만으로 고령자 생활에 맞춘{" "}
+              <span className="font-bold">새로운 이동수단 대안을 제공</span>할 수 있습니다.
             </p>
-            <p className="biz-note mt-[0.8vw]">(150억)</p>
-            <p className="biz-note mt-[0.5vw]">
+            <p className="biz-note mt-2">
               홍성읍 중심지 600m 반경 고령자 1300명을 대상, 초기 서비스 도입 시뮬레이션
             </p>
           </div>
-        </div>
 
-        {/* 3 제품 카드 */}
-        <div className="biz-fade grid grid-cols-1 md:grid-cols-3 gap-[3vw] mt-[5vw] max-w-[1100px] mx-auto">
-          {PRODUCT_CARDS.map((card) => (
-            <div key={card.title} className="flex flex-col items-center">
-              {/* 제품 이미지 */}
-              <div className="relative w-[60%] md:w-[70%] aspect-square flex items-center justify-center mb-[2vw]">
-                <Image
-                  src={card.img}
-                  alt={card.title}
-                  width={card.imgW}
-                  height={card.imgH}
-                  className="w-full h-auto object-contain"
-                  sizes="(max-width: 768px) 60vw, 25vw"
-                />
-              </div>
-              {/* 글래스 카드 */}
-              <div className="biz-glass-card w-full p-[clamp(16px,2vw,28px)]">
-                <p className="biz-card-title">{card.title}</p>
-                <div className="flex items-baseline gap-[1.5vw] mt-[0.8vw]">
-                  <span className="biz-card-qty">{card.qty}</span>
-                  <span className="biz-card-price">{card.price} <span className="biz-card-qty">억 원</span></span>
+          {/* 3 Product Cards — 이미지 위 + 카드 아래 */}
+          <div className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]">
+            {[
+              {
+                src: "/images/busniess/6_biliny-pm.png",
+                alt: "공유형 PM BILINY",
+                title: "공유형 PM 'BILINY'",
+                qty: "50 대",
+                price: "2.5",
+                desc1: (
+                  <>
+                    스마트 레인 기반{" "}
+                    <span className="font-bold text-(--color-blue)">저속 자율주행</span> 기능
+                  </>
+                ),
+                desc2: (
+                  <>
+                    <span className="font-bold text-(--color-blue)">사계절 기후 대응형</span> 1인승
+                    퍼스널 모빌리티
+                  </>
+                ),
+              },
+              {
+                src: "/images/busniess/7_smart-lane.png",
+                alt: "스마트 레인",
+                title: "스마트 레인",
+                qty: "16km",
+                price: "9.6",
+                wide: true,
+                desc1: (
+                  <>
+                    시각 인식 기반의{" "}
+                    <span className="font-bold text-(--color-blue)">저비용 유도 주행</span> 레인
+                    인프라
+                  </>
+                ),
+                desc2: <>태양광 야간 시인성 확보 및 보행자 안전 경계선 기능</>,
+              },
+              {
+                src: "/images/busniess/8_carewatch.png",
+                alt: "케어워치",
+                title: "케어워치",
+                qty: "1300 개",
+                price: "0.3",
+                desc1: (
+                  <>
+                    고령자 <span className="font-bold text-(--color-blue)">이동 현황 모니터링</span>{" "}
+                    - <span className="font-bold text-(--color-blue)">안심 케어</span> 디바이스
+                  </>
+                ),
+                desc2: <>119 자동 신고 기능, 컨디션 맞춤 목적지 제안 기능</>,
+              },
+            ].map((card) => (
+              <div key={card.title} className="flex flex-col items-center">
+                {/* 제품 이미지 (카드 바깥) */}
+                <div
+                  className={`relative overflow-hidden h-[clamp(160px,18vw,260px)] ${card.wide ? "w-[clamp(280px,34vw,500px)]" : "w-[clamp(160px,18vw,260px)]"} mb-[clamp(12px,1.4vw,20px)]`}
+                >
+                  <Image
+                    src={card.src}
+                    alt={card.alt}
+                    fill
+                    className={`object-contain ${card.wide ? "-translate-y-[10%]" : ""}`}
+                    sizes="18vw"
+                  />
                 </div>
-                <div className="mt-[1.2vw] space-y-[0.3vw]">
-                  {card.lines.map((line, i) => (
-                    <p key={i} className="biz-card-desc">
-                      {line.text}
-                      {line.blue && (
-                        <span className="text-[var(--color-blue)] font-medium">{line.blue}</span>
-                      )}
-                      {line.suffix}
-                    </p>
-                  ))}
+                {/* 카드 */}
+                <div className="w-full rounded-[clamp(16px,1.7vw,24px)] bg-[var(--color-bg-subtle)] border border-[#ebebeb] shadow-[0_4px_32px_rgba(98,98,98,0.15)] px-5 py-5 text-center">
+                  <p className="biz-card-title">{card.title}</p>
+                  <p className="biz-card-qty mt-[clamp(2px,0.3vw,4px)]">{card.qty}</p>
+                  <p className="biz-card-price mt-[clamp(6px,0.7vw,10px)]">
+                    {card.price}
+                    <span className="biz-card-qty">억 원</span>
+                  </p>
+                  <div className="mt-[clamp(14px,1.7vw,24px)]">
+                    <p className="biz-card-desc">{card.desc1}</p>
+                    <p className="biz-card-desc mt-[clamp(2px,0.3vw,4px)]">{card.desc2}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ═══════════════════════════════════════
-          F. 게다가 자율주행이잖아?
-      ═══════════════════════════════════════ */}
-      <div className="bg-white pt-[12vw] pb-[8vw] px-[5%]">
-        <div className="text-center">
-          <p className="biz-reveal biz-revenue-heading">게다가</p>
-          <p className="biz-reveal biz-revenue-heading mt-[0.5vw]">자율주행이잖아?</p>
-
-          <p className="biz-fade biz-subtitle mt-[3vw]">
-            <span className="font-bold">비활동시간 추가 비즈니스</span>
-            <span>를 통한 부가가치 확장</span>
-          </p>
-
-          <div className="biz-fade mt-[2vw]">
-            <p className="biz-desc">
-              <span>케어 업무 이외 </span>
-              <span className="biz-highlight-blue font-bold">남는 시간</span>
-              <span>, 도심 속 </span>
-              <span className="biz-highlight-blue font-bold">업무 확장</span>
-              <span>이 가능한</span>
-            </p>
-            <p className="biz-city-care mt-[1vw]">시티 케어 솔루션</p>
+            ))}
           </div>
         </div>
+      </div>
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         Part 6: 게다가 자율주행이잖아?
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <div className="bg-white">
+        <div className="product-container text-center py-[clamp(60px,8.3vw,120px)]">
+          <h3 className="b-reveal biz-revenue-heading">게다가</h3>
+          <h3 className="b-reveal biz-revenue-heading mt-[clamp(12px,1.7vw,24px)]">
+            자율주행이잖아?
+          </h3>
+          <p className="b-fade mt-[clamp(24px,3.3vw,48px)] text-[clamp(16px,1.7vw,24px)] tracking-[0.05em] text-[var(--color-text-tertiary)]">
+            <span className="font-bold">비활동시간 추가 비즈니스</span>를 통한 부가가치 확장
+          </p>
+          <p className="b-fade biz-subtitle mt-[clamp(16px,2.2vw,32px)]">
+            케어 업무 이외 <span className="font-bold text-(--color-blue)">남는 시간</span>, 도심 속{" "}
+            <span className="font-bold text-(--color-blue)">업무 확장</span>이 가능한
+          </p>
+          <p className="b-fade biz-city-care mt-[clamp(4px,0.5vw,8px)]">시티 케어 솔루션</p>
 
-        {/* 수익 카드 그리드 — 4열 비대칭 */}
-        <div className="biz-fade flex flex-wrap md:flex-nowrap gap-[2vw] mt-[5vw] max-w-[1200px] mx-auto items-end">
-          {REVENUE_CARDS.map((card, idx) => {
-            /* 0: 18%, 1: 19%, 2: 35%, 3: 26% (Figma 비율) */
-            const widths = ['w-[48%] md:w-[18%]', 'w-[48%] md:w-[19%]', 'w-full md:w-[35%]', 'w-full md:w-[26%]'];
-            return (
-              <div key={card.topLabel} className={widths[idx]}>
-                {/* 상단 라벨 */}
-                <p className="biz-revenue-label mb-[0.8vw]">{card.topLabel}</p>
-                {card.note && (
-                  <p className="biz-revenue-detail mb-[0.5vw]">{card.note}</p>
-                )}
+          {/* Revenue Cards */}
+          <div className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]">
+            {/* Card 1: 9번+10번 겹침 — 배경 없이 이미지만 */}
+            <div className="flex flex-col items-center">
+              <p className="biz-revenue-label">중단거리 출퇴근 / 학교·학원 등하교</p>
 
-                {/* 이미지 */}
-                <div className="relative overflow-hidden rounded-[clamp(12px,1.67vw,24px)]">
+              <div className="relative w-full h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)]">
+                <p className="biz-revenue-detail absolute top-0 left-[clamp(8px,1vw,16px)] z-2">
+                  *50대 운영기준
+                </p>
+                {/* Image 9 — 좌상단, 원본 비율 */}
+                <div className="absolute left-0 top-[8%] w-[60%]">
                   <Image
-                    src={card.img}
-                    alt={card.topLabel}
-                    width={card.imgW}
-                    height={card.imgH}
-                    className="biz-revenue-img"
-                    sizes="(max-width: 768px) 50vw, 25vw"
+                    src="/images/busniess/9_elderly-commute.png"
+                    alt="출퇴근 보조"
+                    width={400}
+                    height={300}
+                    className="w-full h-auto rounded-[clamp(20px,2.4vw,35px)]"
+                    sizes="15vw"
                   />
                 </div>
-
-                {/* 금액 */}
-                {card.daily && (
-                  <p className="biz-revenue-daily mt-[1vw]">{card.daily}</p>
-                )}
-                {card.annual && (
-                  <p className="mt-[0.5vw]">
-                    <span className="biz-revenue-annual">연 {card.annual} </span>
-                    <span className="biz-revenue-unit">억 원</span>
-                  </p>
-                )}
+                {/* Image 10 — 9번과 같은 가로 폭, 원본 비율 유지 */}
+                <div className="absolute right-0 bottom-0 w-[70%] z-1">
+                  <Image
+                    src="/images/busniess/10_urban-boarding.png"
+                    alt="승하차 보조"
+                    width={400}
+                    height={300}
+                    className="w-full h-auto rounded-[clamp(20px,2.4vw,35px)]"
+                    sizes="15vw"
+                  />
+                </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* ═══════════════════════════════════════
-          G. 로컬 실증에서 글로벌 확장까지 — Pin 애니메이션
-      ═══════════════════════════════════════ */}
-      <div className="bg-white pt-[8vw] px-[5%]">
-        <div className="text-center">
-          <p className="biz-reveal biz-title">
-            로컬 실증에서 글로벌 확장까지
-          </p>
-          <p className="biz-fade biz-expansion-sub mt-[2vw] max-w-[800px] mx-auto">
-            <span className="biz-highlight-blue font-bold">10%</span>
-            <span className="font-bold"> 예산 전환을 시작으로, </span>
-            <span>5년간 </span>
-            <span className="biz-highlight-blue font-bold">2600%</span>
-            <span className="font-bold"> 확장성</span>
-            <span>을 이루는 솔루션</span>
-          </p>
-        </div>
-      </div>
-
-      {/* Pin 컨테이너 */}
-      <div
-        ref={pinRef}
-        className="relative bg-white min-h-screen flex flex-col justify-start pt-[4vw] px-[5%]"
-      >
-        {/* 연도 뱃지 행 */}
-        <div className="flex items-center justify-center gap-[3vw] mb-[4vw]">
-          {PHASES.map((p) => (
-            <span key={p.year} className="year-badge-item biz-year-badge">
-              {p.year}
-            </span>
-          ))}
-        </div>
-
-        {/* 페이즈 콘텐츠 (절대 포지션으로 겹침) */}
-        <div className="relative flex-1 min-h-[60vh]">
-          {PHASES.map((p, idx) => (
-            <div
-              key={p.year}
-              className={`expansion-phase ${idx === 0 ? '' : 'absolute inset-0'}`}
-            >
-              {/* 페이즈 설명 */}
-              <p className="biz-phase-desc text-center mb-[2vw]">
-                {p.desc.split(p.descBlue).map((part, i, arr) => (
-                  <span key={i}>
-                    {part}
-                    {i < arr.length - 1 && (
-                      <span className="text-[var(--color-blue)]">{p.descBlue}</span>
-                    )}
-                  </span>
-                ))}
+              <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4vw,20px)]">
+                <span className="biz-revenue-label">연</span>
+                <span className="biz-revenue-annual">2.7</span>
+                <span className="biz-revenue-unit">억 원</span>
+              </div>
+              <p className="biz-revenue-detail mt-[clamp(4px,0.5vw,8px)]">
+                출/퇴근 이동 3회, 등/하원 3회, 점심시간 단거리 이동 2회
               </p>
-
-              {/* 스탯 행 */}
-              <div className="flex items-center justify-center gap-[4vw] md:gap-[6vw] mb-[3vw]">
-                <div className="text-center">
-                  <p className="biz-phase-stat">{p.km}</p>
-                </div>
-                <div className="text-center">
-                  <p className="biz-phase-stat">{p.units}</p>
-                </div>
-                <div className="text-center">
-                  <p className="biz-phase-stat">{p.people}</p>
-                </div>
-              </div>
-
-              {/* 지도 + 재정 카드 */}
-              <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-[4vw] max-w-[1000px] mx-auto">
-                {/* 지도 이미지 */}
-                <div className="w-[50%] md:w-[35%] flex-shrink-0">
-                  <Image
-                    src={p.map}
-                    alt={`${p.year} 서비스 영역`}
-                    width={p.mapW}
-                    height={p.mapH}
-                    className="w-full h-auto"
-                    sizes="(max-width: 768px) 50vw, 30vw"
-                  />
-                </div>
-
-                {/* 재정 카드 */}
-                <div className="biz-glass-card p-[clamp(16px,2vw,28px)] w-full md:w-[55%]">
-                  {/* 바 차트 */}
-                  <div className="flex items-end gap-[clamp(4px,0.5vw,8px)] h-[clamp(80px,8vw,120px)] mb-[1.5vw]">
-                    {p.finance.items.map((item, i) => {
-                      const heights = p.finance.items.map((_, j) =>
-                        30 + ((p.finance.items.length - j) / p.finance.items.length) * 70,
-                      );
-                      return (
-                        <div key={i} className="flex flex-col items-center flex-1">
-                          <div
-                            className="w-full rounded-t-[4px]"
-                            style={{
-                              height: `${heights[i]}%`,
-                              backgroundColor: item.color,
-                              opacity: 0.85,
-                            }}
-                          />
-                          <p className="biz-fin-label mt-[0.3vw] text-center whitespace-nowrap">
-                            {item.label}
-                          </p>
-                          <p className="biz-fin-value text-center">{item.value}</p>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* 태그 */}
-                  <p className="biz-fin-note">{p.finance.tag}</p>
-
-                  {/* 토탈 */}
-                  <p className="biz-fin-total mt-[1vw]">{p.finance.total}</p>
-
-                  {/* 연간 / 5년 누적 */}
-                  <div className="flex gap-[3vw] mt-[1vw]">
-                    <div>
-                      <p className="biz-fin-label">교통복지비 연</p>
-                      <p className="biz-fin-value font-bold">{p.finance.annual} 억 원</p>
-                    </div>
-                    <div>
-                      <p className="biz-fin-label">5년누적</p>
-                      <p className="biz-fin-value font-bold">{p.finance.fiveYear} 억 원</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <p className="biz-revenue-daily mt-[clamp(2px,0.3vw,4px)]">일 1.45만 원</p>
             </div>
-          ))}
+
+            {/* Card 2 */}
+            <div className="flex flex-col items-center">
+              <p className="biz-revenue-label">점심시간 단거리 이동 / 퀵 배달 · 배송서비스</p>
+
+              <div className="h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)] flex items-center justify-center">
+                <Image
+                  src="/images/busniess/11_delivery-service.png"
+                  alt="택배 배송"
+                  width={600}
+                  height={420}
+                  className="rounded-[clamp(24px,2.8vw,42px)]"
+                  style={{ height: "100%", width: "auto", maxWidth: "none" }}
+                  sizes="26vw"
+                />
+              </div>
+
+              <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4vw,20px)]">
+                <span className="biz-revenue-label">연</span>
+                <span className="biz-revenue-annual">5</span>
+                <span className="biz-revenue-unit">억 원</span>
+              </div>
+              <p className="biz-revenue-detail mt-[clamp(4px,0.5vw,8px)]">
+                퀵 배달 2회, 저녁심야배송 3회
+              </p>
+              <p className="biz-revenue-daily mt-[clamp(2px,0.3vw,4px)]">일 2.6만 원</p>
+            </div>
+
+            {/* Card 3 — 배경 없이 이미지만 */}
+            <div className="flex flex-col items-center">
+              <p className="biz-revenue-label">대리 기사 복귀 이동수단 / 야간 순찰</p>
+
+              <div className="w-full h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)] flex items-center justify-center">
+                <Image
+                  src="/images/busniess/12_night-patrol.png"
+                  alt="야간 순찰"
+                  width={500}
+                  height={370}
+                  style={{ height: "100%", width: "auto" }}
+                  sizes="20vw"
+                />
+              </div>
+
+              <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4vw,20px)]">
+                <span className="biz-revenue-label">연</span>
+                <span className="biz-revenue-annual">1.1</span>
+                <span className="biz-revenue-unit">억 원</span>
+              </div>
+              <p className="biz-revenue-detail mt-[clamp(4px,0.5vw,8px)]">
+                야간순찰 3시간, 대리기사이송 1회
+              </p>
+              <p className="biz-revenue-daily mt-[clamp(2px,0.3vw,4px)]">일 0.6만 원</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Pin 이후 여백 */}
-      <div className="h-[8vw] bg-white" />
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         Part 7: 로컬 실증에서 글로벌 확장까지 (GSAP Pin)
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <ExpansionPinSection />
     </section>
   );
 }

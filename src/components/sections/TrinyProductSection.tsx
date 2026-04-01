@@ -13,12 +13,13 @@ export function TrinyProductSection() {
   useProductAnimations(sectionRef);
 
   return (
-    <section ref={sectionRef} id="triny" className="relative">
+    <section ref={sectionRef} id="triny" className="relative overflow-x-clip">
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 0: # TRINY 타이틀
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="b-fade section-title-row">
         <div className="flex gap-2">
+          <div className="section-bar" />
           <div className="section-bar" />
           <div className="section-bar" />
         </div>
@@ -30,8 +31,8 @@ export function TrinyProductSection() {
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="product-container relative">
         <div className="flex flex-col lg:flex-row gap-[clamp(24px,3.3vw,48px)] items-start">
-          {/* 좌측 텍스트 */}
-          <div className="lg:w-[38%] min-w-0 shrink-0">
+          {/* 좌측 텍스트 — Figma 기준 아래로 내려옴 */}
+          <div className="lg:w-[38%] min-w-0 shrink-0 lg:pt-[clamp(160px,20vw,290px)]">
             <p className="b-fade product-label text-(--color-primary)">LINE-UP</p>
             <p className="b-reveal product-sub-heading mt-[clamp(8px,0.7vw,10px)]">
               이동의 자유를 나누는
@@ -44,8 +45,8 @@ export function TrinyProductSection() {
             </p>
             <div className="b-fade product-desc mt-[clamp(8px,1.1vw,16px)]">
               <p>
-                초소형 다용성 모빌리티 플랫폼으로, 캐빈 결합과 로봇암 장착 등을 통해
-                도시 관리의 모든 수요를 대응합니다.
+                초소형 다용성 모빌리티 플랫폼으로, 캐빈 결합과 로봇암 장착 등을 통해 도시 관리의
+                모든 수요를 대응합니다.
               </p>
             </div>
 
@@ -72,27 +73,35 @@ export function TrinyProductSection() {
             </div>
           </div>
 
-          {/* 우측 제품 이미지 */}
-          <div className="flex-1 min-w-0 b-from-right lg:mt-[clamp(60px,8.3vw,120px)] overflow-hidden">
-            <Image
-              src="/images/triny/1_lineup-hero.png"
-              alt="트리니 제품 이미지"
-              width={800}
-              height={600}
-              className="w-full h-auto lg:translate-x-[15%] lg:scale-110"
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              priority
-            />
+          {/* 우측 제품 이미지 — div 래퍼 기준 레이아웃, 이미지 우측 정렬 */}
+          <div className="flex-1 min-w-0 b-from-right lg:-mr-[5rem]">
+            <div className="relative aspect-[4/5] lg:scale-90 lg:origin-right">
+              <Image
+                src="/images/triny/1_lineup-hero.png"
+                alt="트리니 제품 이미지"
+                fill
+                className="object-contain object-right-bottom"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                priority
+              />
+            </div>
           </div>
         </div>
 
         {/* 스펙 — desktop absolute */}
-        <div className="b-fade hidden lg:flex flex-col absolute left-[40%] top-[75%] -translate-y-1/2">
+        <div className="b-fade hidden lg:flex flex-col absolute left-[37%] top-[63%] -translate-y-1/2">
           <div className="product-spec-row">
             <span className="product-spec-label">1회 충전 주행거리</span>
             <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
               <span className="product-spec-number">250</span>
               <span className="product-spec-unit">km</span>
+            </div>
+          </div>
+          <div className="product-spec-row">
+            <span className="product-spec-label">무료 탑승 횟수</span>
+            <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
+              <span className="product-spec-number">∞</span>
+              <span className="product-spec-unit">회</span>
             </div>
           </div>
           <div className="product-spec-row">
@@ -110,6 +119,13 @@ export function TrinyProductSection() {
             <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
               <span className="product-spec-number">250</span>
               <span className="product-spec-unit">km</span>
+            </div>
+          </div>
+          <div className="product-spec-row">
+            <span className="product-spec-label">무료 탑승 횟수</span>
+            <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
+              <span className="product-spec-number">∞</span>
+              <span className="product-spec-unit">회</span>
             </div>
           </div>
           <div className="product-spec-row">
@@ -131,25 +147,25 @@ export function TrinyProductSection() {
           <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
             어떤 계절과 상황에도 대응이 강한
           </p>
-          <div className="flex flex-col md:flex-row gap-[clamp(16px,2.2vw,32px)] mt-[clamp(32px,4.4vw,64px)]">
-            <div className="flex-1 b-from-left">
+          <div className="flex flex-col gap-[clamp(16px,2.2vw,32px)] mt-[clamp(32px,4.4vw,64px)] max-w-[clamp(400px,65vw,940px)] mx-auto">
+            <div className="b-scale">
               <Image
                 src="/images/triny/2_protect-front.png"
                 alt="트리니 전면 보호 디자인"
                 width={1200}
                 height={800}
                 className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 65vw"
               />
             </div>
-            <div className="flex-1 b-from-right">
+            <div className="b-scale">
               <Image
                 src="/images/triny/3_protect-rear.png"
                 alt="트리니 후면 보호 디자인"
                 width={1200}
                 height={800}
                 className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 65vw"
               />
             </div>
           </div>
@@ -162,9 +178,7 @@ export function TrinyProductSection() {
       <div className="mt-[clamp(60px,8.3vw,120px)]">
         <div className="product-container text-center">
           <h3 className="b-reveal product-heading">완전한 대칭</h3>
-          <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
-            극단적으로 효율적인
-          </p>
+          <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">극단적으로 효율적인</p>
           <div className="b-scale mt-[clamp(32px,4.4vw,64px)]">
             <Image
               src="/images/triny/4_symmetry.png"
@@ -228,9 +242,7 @@ export function TrinyProductSection() {
       <div className="mt-[clamp(60px,8.3vw,120px)]">
         <div className="product-container text-center">
           <h3 className="b-reveal product-heading">넉넉한 내부공간</h3>
-          <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
-            여행, 운송도 거뜬한
-          </p>
+          <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">여행, 운송도 거뜬한</p>
           <div className="b-scale mt-[clamp(32px,4.4vw,64px)] max-w-[clamp(400px,55vw,800px)] mx-auto">
             <Image
               src="/images/triny/7_interior.png"
@@ -277,56 +289,36 @@ export function TrinyProductSection() {
           </p>
         </div>
         <div className="product-container">
-          <div className="flex flex-col gap-[clamp(60px,8.3vw,120px)] mt-[clamp(32px,4.4vw,64px)]">
-            {/* 도로선 보수 */}
-            <div className="flex flex-col lg:flex-row items-center gap-[clamp(24px,3.3vw,48px)]">
-              <div className="flex-[1.4] min-w-0 b-from-left">
-                <Image
-                  src="/images/triny/9_road-marking.png"
-                  alt="트리니 도로선 보수 작업"
-                  width={1000}
-                  height={1000}
-                  className="w-full h-auto"
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                />
-              </div>
-              <div className="flex-1 min-w-0 b-from-right">
-                <h4 className="product-heading">도로선 보수</h4>
-              </div>
+          <div className="flex flex-col gap-[clamp(40px,5.5vw,80px)] mt-[clamp(32px,4.4vw,64px)] max-w-[clamp(400px,65vw,940px)] mx-auto">
+            <div className="b-scale">
+              <Image
+                src="/images/triny/9_road-marking.png"
+                alt="트리니 도로선 보수 작업"
+                width={1000}
+                height={1000}
+                className="w-full h-auto"
+                sizes="(max-width: 1024px) 100vw, 65vw"
+              />
             </div>
-
-            {/* 도로 작업 */}
-            <div className="flex flex-col lg:flex-row-reverse items-center gap-[clamp(24px,3.3vw,48px)]">
-              <div className="flex-[1.4] min-w-0 b-from-right">
-                <Image
-                  src="/images/triny/10_robot-arm.png"
-                  alt="트리니 로봇암 도로 작업"
-                  width={1000}
-                  height={1000}
-                  className="w-full h-auto"
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                />
-              </div>
-              <div className="flex-1 min-w-0 b-from-left">
-                <h4 className="product-heading">도로 작업</h4>
-              </div>
+            <div className="b-scale">
+              <Image
+                src="/images/triny/10_robot-arm.png"
+                alt="트리니 로봇암 도로 작업"
+                width={1000}
+                height={1000}
+                className="w-full h-auto"
+                sizes="(max-width: 1024px) 100vw, 65vw"
+              />
             </div>
-
-            {/* 도로 검사 */}
-            <div className="flex flex-col lg:flex-row items-center gap-[clamp(24px,3.3vw,48px)]">
-              <div className="flex-[1.4] min-w-0 b-from-left">
-                <Image
-                  src="/images/triny/11_infra-manage.png"
-                  alt="트리니 인프라 관리 로봇"
-                  width={1000}
-                  height={1000}
-                  className="w-full h-auto"
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                />
-              </div>
-              <div className="flex-1 min-w-0 b-from-right">
-                <h4 className="product-heading">도로 검사</h4>
-              </div>
+            <div className="b-scale">
+              <Image
+                src="/images/triny/11_infra-manage.png"
+                alt="트리니 인프라 관리 로봇"
+                width={1000}
+                height={1000}
+                className="w-full h-auto"
+                sizes="(max-width: 1024px) 100vw, 65vw"
+              />
             </div>
           </div>
         </div>
@@ -359,19 +351,17 @@ export function TrinyProductSection() {
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="mt-[clamp(60px,8.3vw,120px)]">
         <div className="product-container text-center">
-          <h3 className="b-reveal product-heading">
-            단지 내 모든 길을 돌아다닐 수 있는 사이즈
-          </h3>
-          <div className="b-scale mt-[clamp(32px,4.4vw,64px)] max-w-[clamp(400px,55vw,800px)] mx-auto">
-            <Image
-              src="/images/triny/12_scene-complex.png"
-              alt="단지 내 트리니 주행 장면"
-              width={800}
-              height={1000}
-              className="w-full h-auto"
-              sizes="(max-width: 1024px) 100vw, 55vw"
-            />
-          </div>
+          <h3 className="b-reveal product-heading">단지 내 모든 길을 돌아다닐 수 있는 사이즈</h3>
+        </div>
+        <div className="b-scale mt-[clamp(32px,4.4vw,64px)]">
+          <Image
+            src="/images/triny/12_scene-complex.png"
+            alt="단지 내 트리니 주행 장면"
+            width={800}
+            height={1000}
+            className="w-full h-auto"
+            sizes="100vw"
+          />
         </div>
       </div>
 
