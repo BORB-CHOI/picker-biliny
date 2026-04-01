@@ -9,21 +9,49 @@ import { phase } from "@/lib/animationState";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** APPROACHING BILINY 통합 이미지 시퀀스 (200프레임, 30fps) */
+/** APPROACHING BILINY 이미지 시퀀스 (200프레임 WebP, 30fps) */
 const FRAME_COUNT = 200;
-const FRAME_PATH = "/videos/biliny/approaching-frames/frame-";
-/** 자동재생 정지 프레임 (~4초 × 30fps = 120프레임) */
-const AUTOPLAY_STOP_FRAME = 133; 
+const FRAME_PATH = "/videos/biliny/approaching-webp/frame-";
+/** 자동재생 정지 프레임 (~4초 × 30fps = 133프레임) */
+const AUTOPLAY_STOP_FRAME = 133;
 /** 자동재생 fps */
 const AUTOPLAY_FPS = 30;
 
 function preloadFrames(): HTMLImageElement[] {
   const images: HTMLImageElement[] = [];
-  for (let i = 1; i <= FRAME_COUNT; i++) {
-    const img = new Image();
-    img.src = `${FRAME_PATH}${String(i).padStart(3, "0")}.jpg`;
-    images.push(img);
+
+  // 핵심 프레임 먼저 로드 (첫 프레임, 자동재생 정지, 마지막 + 매 20프레임)
+  const priorityIndices = new Set<number>();
+  priorityIndices.add(0);
+  priorityIndices.add(AUTOPLAY_STOP_FRAME - 1);
+  priorityIndices.add(FRAME_COUNT - 1);
+  for (let i = 0; i < FRAME_COUNT; i += 20) priorityIndices.add(i);
+
+  // 전체 배열 초기화
+  for (let i = 0; i < FRAME_COUNT; i++) {
+    images.push(new Image());
   }
+
+  // 우선 프레임 즉시 로드
+  for (const idx of priorityIndices) {
+    images[idx].src = `${FRAME_PATH}${String(idx + 1).padStart(3, "0")}.webp`;
+  }
+
+  // 나머지 프레임 rAF 배치 로드 (메인 스레드 블로킹 방지)
+  let nextIdx = 0;
+  function loadBatch() {
+    let loaded = 0;
+    while (nextIdx < FRAME_COUNT && loaded < 6) {
+      if (!priorityIndices.has(nextIdx)) {
+        images[nextIdx].src = `${FRAME_PATH}${String(nextIdx + 1).padStart(3, "0")}.webp`;
+        loaded++;
+      }
+      nextIdx++;
+    }
+    if (nextIdx < FRAME_COUNT) requestAnimationFrame(loadBatch);
+  }
+  requestAnimationFrame(loadBatch);
+
   return images;
 }
 
@@ -144,7 +172,7 @@ export function HeroSection() {
         ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=2000",
+          end: "+=800",
           pin: true,
           pinSpacing: true,
           onUpdate: (self) => {
