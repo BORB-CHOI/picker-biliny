@@ -19,22 +19,22 @@ export default function Home() {
         <HeroSection />
 
         {/* 임시 디자인 시안 */}
-        {/* <TemporaryDesign /> */}
+        <TemporaryDesign />
 
         {/* 2. 스토리 — 1970↔2026 과거/현재 비교 타임라인 */}
-        {/* <StorySection /> */}
+        <StorySection />
 
         {/* 5. 해결책 제시 — 빌리니, 안내길, 돌봄이, 공평한 모빌리티 */}
-        {/* <SolutionSection /> */}
+        <SolutionSection />
 
         {/* 6. 사업성 — 돌봄이, 사회적 비용, 예산, 수익 모델 */}
-        {/* <BusinessSection /> */}
+        <BusinessSection />
 
         {/* 7. 빌리니 제품 — 스펙, 디자인 영상, 360°, 도면, 충전 */}
-        {/* <BilinyProductSection /> */}
+        <BilinyProductSection />
 
         {/* 8. 트리니 제품 — 영상 기반 소개 */}
-        {/* <TrinyProductSection /> */}
+        <TrinyProductSection />
 
         {/* 9. 문의 + 푸터 — 폼, 연락처, 저작권 */}
         <ContactSection />
