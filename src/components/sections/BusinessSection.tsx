@@ -222,49 +222,51 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
 }
 
 function ExpansionPinSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const outerRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const section = sectionRef.current;
-      if (!section) return;
+      const outer = outerRef.current;
+      const sticky = stickyRef.current;
+      if (!outer || !sticky) return;
 
-      /* ── 초기 숨김 (즉시, phase 무관) ── */
-      gsap.set(section.querySelectorAll('.exp-title'), { y: 40, opacity: 0 });
-      gsap.set(section.querySelectorAll('.exp-col'), { opacity: 0, y: 30 });
-      gsap.set(section.querySelectorAll('.exp-connector'), { opacity: 0, scaleX: 0 });
+      /* ── 초기 숨김 ── */
+      gsap.set(sticky.querySelectorAll('.exp-title'), { y: 40, opacity: 0 });
+      gsap.set(sticky.querySelectorAll('.exp-col'), { opacity: 0, y: 30 });
+      gsap.set(sticky.querySelectorAll('.exp-connector'), { opacity: 0, scaleX: 0 });
 
       let rafId: number;
 
       const unsubscribe = phase.header.on(() => {
         rafId = requestAnimationFrame(() => {
-          /* 제목 등장 */
-          section.querySelectorAll<HTMLElement>('.exp-title').forEach((el) => {
-            gsap.to(el, {
-              y: 0, opacity: 1, duration: 1, ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top 90%' },
-            });
-          });
-
-          /* 컬럼, 커넥터 참조 */
-          const cols = section.querySelectorAll<HTMLElement>('.exp-col');
-          const connectors = section.querySelectorAll<HTMLElement>('.exp-connector');
+          const cols = sticky.querySelectorAll<HTMLElement>('.exp-col');
+          const connectors = sticky.querySelectorAll<HTMLElement>('.exp-connector');
+          const titles = sticky.querySelectorAll<HTMLElement>('.exp-title');
           if (cols.length < 3) return;
 
-          /* 섹션 통째로 Pin 고정 */
+          /*
+           * CSS sticky + ScrollTrigger scrub (pin: false)
+           * 외부 div가 충분한 높이(300vh)를 가지고,
+           * 내부 sticky div가 화면에 고정됨.
+           * ScrollTrigger는 외부 div의 스크롤 진행도에 따라 애니메이션만 제어.
+           * → GSAP pin 없음 → position:fixed 전환 없음 → 튕김 없음
+           */
           const tl = gsap.timeline({
             scrollTrigger: {
-              trigger: section,
+              trigger: outer,
               start: 'top top',
-              end: '+=3500',
-              pin: true,
+              end: 'bottom bottom',
               scrub: 1,
-              anticipatePin: 1,
             },
           });
 
-          /* Step 1: 빈 화면에서 2027 등장 */
-          tl.to(cols[0], { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' })
+          /* Step 0: 제목 등장 */
+          tl.to(titles, { y: 0, opacity: 1, duration: 0.3, stagger: 0.1, ease: 'power2.out' })
+            .to({}, { duration: 0.15 })
+
+          /* Step 1: 2027 등장 */
+            .to(cols[0], { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' })
             .to({}, { duration: 0.2 })
 
           /* Step 2: 선 + 2028 등장 */
@@ -286,54 +288,54 @@ function ExpansionPinSection() {
         cancelAnimationFrame(rafId);
       };
     },
-    { scope: sectionRef },
+    { scope: outerRef },
   );
 
   return (
-    <div ref={sectionRef} className="bg-white">
-      {/* 제목 */}
-      <div className="product-container text-center pt-[clamp(120px,16.6vw,240px)] pb-[clamp(20px,2.8vw,40px)]">
-        <h3 className="exp-title biz-title">로컬 실증에서 글로벌 확장까지</h3>
-        <p className="exp-title biz-expansion-sub mt-[clamp(20px,2.8vw,40px)]">
-          <span className="font-bold text-(--color-blue)">10% </span>
-          <span className="font-bold">예산 전환을 시작으로,</span>
-          {" "}5년간{" "}
-          <span className="font-bold text-(--color-blue)">2600%</span>
-          <span className="font-bold"> 확장성</span>을 이루는 솔루션
-        </p>
-      </div>
+    <div ref={outerRef} className="relative bg-white" style={{ height: '300vh' }}>
+      <div
+        ref={stickyRef}
+        className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden"
+      >
+        {/* 제목 */}
+        <div className="product-container text-center mb-8 md:mb-12">
+          <h3 className="exp-title biz-title">로컬 실증에서 글로벌 확장까지</h3>
+          <p className="exp-title biz-expansion-sub mt-5 md:mt-8">
+            <span className="font-bold text-(--color-blue)">10% </span>
+            <span className="font-bold">예산 전환을 시작으로,</span>
+            {" "}5년간{" "}
+            <span className="font-bold text-(--color-blue)">2600%</span>
+            <span className="font-bold"> 확장성</span>을 이루는 솔루션
+          </p>
+        </div>
 
-      {/* 3컬럼 + 커넥터 (뱃지는 각 컬럼 상단) */}
-      <div className="product-container pb-[clamp(40px,5.5vw,80px)]">
-        <div className="flex items-start justify-center">
-          {/* 컬럼 1: 2027 */}
-          <div className="exp-col flex flex-col items-center flex-1 min-w-0">
-            <span className="biz-year-badge mb-[clamp(10px,1.4vw,20px)]">2027</span>
-            <PhaseColumn p={PHASES[0]} />
-          </div>
+        {/* 3컬럼 + 커넥터 */}
+        <div className="product-container">
+          <div className="flex items-start justify-center">
+            <div className="exp-col flex flex-col items-center flex-1 min-w-0">
+              <span className="biz-year-badge mb-3 md:mb-5">2027</span>
+              <PhaseColumn p={PHASES[0]} />
+            </div>
 
-          {/* 커넥터 1 */}
-          <div className="exp-connector flex items-center self-start mt-[clamp(6px,0.6vw,10px)] mx-[clamp(2px,0.4vw,6px)] origin-left shrink-0">
-            <span className="block w-[clamp(30px,5.5vw,80px)] h-0.5 bg-(--color-blue)" />
-            <span className="block w-[clamp(8px,0.7vw,10px)] h-[clamp(8px,0.7vw,10px)] rounded-full bg-(--color-blue) shrink-0" />
-          </div>
+            <div className="exp-connector flex items-center self-start mt-1.5 mx-1 origin-left shrink-0">
+              <span className="block w-12 md:w-20 h-0.5 bg-(--color-blue)" />
+              <span className="block w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-(--color-blue) shrink-0" />
+            </div>
 
-          {/* 컬럼 2: 2028 */}
-          <div className="exp-col flex flex-col items-center flex-1 min-w-0">
-            <span className="biz-year-badge mb-[clamp(10px,1.4vw,20px)]">2028</span>
-            <PhaseColumn p={PHASES[1]} />
-          </div>
+            <div className="exp-col flex flex-col items-center flex-1 min-w-0">
+              <span className="biz-year-badge mb-3 md:mb-5">2028</span>
+              <PhaseColumn p={PHASES[1]} />
+            </div>
 
-          {/* 커넥터 2 */}
-          <div className="exp-connector flex items-center self-start mt-[clamp(6px,0.6vw,10px)] mx-[clamp(2px,0.4vw,6px)] origin-left shrink-0">
-            <span className="block w-[clamp(30px,5.5vw,80px)] h-0.5 bg-(--color-blue)" />
-            <span className="block w-[clamp(8px,0.7vw,10px)] h-[clamp(8px,0.7vw,10px)] rounded-full bg-(--color-blue) shrink-0" />
-          </div>
+            <div className="exp-connector flex items-center self-start mt-1.5 mx-1 origin-left shrink-0">
+              <span className="block w-12 md:w-20 h-0.5 bg-(--color-blue)" />
+              <span className="block w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-(--color-blue) shrink-0" />
+            </div>
 
-          {/* 컬럼 3: 2030 */}
-          <div className="exp-col flex flex-col items-center flex-1 min-w-0">
-            <span className="biz-year-badge mb-[clamp(10px,1.4vw,20px)]">2030</span>
-            <PhaseColumn p={PHASES[2]} />
+            <div className="exp-col flex flex-col items-center flex-1 min-w-0">
+              <span className="biz-year-badge mb-3 md:mb-5">2030</span>
+              <PhaseColumn p={PHASES[2]} />
+            </div>
           </div>
         </div>
       </div>

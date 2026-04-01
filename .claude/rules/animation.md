@@ -32,11 +32,43 @@ export function AnimatedSection() {
 
 ## 핵심 원칙
 
-- 스크롤 기반 등장: `gsap.from()` + `scrollTrigger`
+- 스크롤 기반 등장: `gsap.set()` + `gsap.to()` + `scrollTrigger`
 - 스크롤 연동(scrub): `scrub: true` 또는 `scrub: 1` (부드러운 추적)
-- pin 효과: `pin: true` (섹션 고정 후 콘텐츠 변경)
+- **pin 효과: GSAP `pin: true` 사용 금지** — CSS `sticky` + `scrub`으로 대체 (아래 패턴 참조)
 - 배치 등장: `stagger` + `scrollTrigger.batch()`
 - Framer Motion은 hover/tap/layout 전환에만 사용
+
+## 스크롤 고정(Pin) 효과 — CSS sticky 패턴
+
+GSAP `pin: true`는 `position: fixed` 전환 시 레이아웃 시프트(튕김)를 유발한다.
+`scroll-behavior: smooth`, 다른 ScrollTrigger와 충돌하면 더 심해진다.
+**반드시 CSS `sticky` + ScrollTrigger `scrub`으로 구현한다.**
+
+```tsx
+// 외부: 스크롤 거리 확보 (높이로 스크롤 양 조절)
+<div ref={outerRef} style={{ height: '300vh' }}>
+  {/* 내부: 브라우저 네이티브 sticky로 화면 고정 */}
+  <div className="sticky top-0 h-screen">
+    {/* 콘텐츠 */}
+  </div>
+</div>
+
+// GSAP: pin 없이 scrub만 — 외부 div 진입~이탈 구간에 애니메이션
+gsap.timeline({
+  scrollTrigger: {
+    trigger: outerRef.current,
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: 1,
+    // pin: false (기본값) — 절대 pin: true 사용하지 않음
+  },
+});
+```
+
+- 외부 div `height`로 스크롤 거리 조절 (300vh = 뷰포트 3배 스크롤)
+- 내부 `sticky top-0 h-screen`으로 화면 고정 (브라우저 네이티브, DOM 조작 없음)
+- ScrollTrigger `start: 'top top'`, `end: 'bottom bottom'`
+- GSAP은 애니메이션(타임라인)만 담당, 고정은 CSS가 담당
 
 ## 컴포넌트 간 애니메이션 시퀀싱
 

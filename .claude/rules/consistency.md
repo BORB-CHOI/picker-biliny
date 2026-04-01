@@ -28,8 +28,8 @@ Figma 디자인 데이터에 있는 값(font-family, text-shadow, box-shadow 등
 - `filter: drop-shadow()` — 기존에 없으면 추가하지 않음
 
 ### 3. 폰트 관련
-- `font-family` 직접 지정 금지 — body의 Pretendard를 상속받으면 됨
-- Figma의 Inter, Noto Sans KR 등은 **무시** (프로젝트 폰트는 Pretendard)
+- `font-family` 직접 지정 금지 — body의 Inter를 상속받으면 됨
+- Figma의 Noto Sans KR 등은 **무시** (프로젝트 폰트는 Inter)
 - Tailwind의 `font-sans`, `font-display` 등도 불필요 (이미 body에서 설정됨)
 
 ## 체크리스트: 새 섹션 개발 시

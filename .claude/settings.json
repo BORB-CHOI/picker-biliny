@@ -46,6 +46,12 @@
             "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);const f=j.tool_input?.file_path||'';if(f.includes('node_modules')||f.includes('.next')){console.log(JSON.stringify({decision:'block',reason:'Protected directory: writes to node_modules/ and .next/ are not allowed'}));process.exit(2)}});\"",
             "timeout": 10,
             "statusMessage": "Checking protected directories..."
+          },
+          {
+            "type": "prompt",
+            "if": "Edit(src/components/**)",
+            "prompt": "컴포넌트 수정 전 규칙 점검. 아래 변경 내용에서 위반 사항이 있으면 additionalContext에 경고를 넣어라. 위반 없으면 빈 additionalContext를 반환.\n\n점검 항목:\n1. GSAP pin: true 사용 금지 — 스크롤 고정은 반드시 CSS sticky + scrub 패턴\n2. font-family 직접 지정 금지 — body의 Inter를 상속, Pretendard/Noto Sans 사용 금지\n3. Figma 값 직접 복사 금지 — text-shadow, box-shadow(글래스모피즘 카드 제외), font-family 등\n4. gsap.from() 사용 금지 — gsap.set() + gsap.to() 패턴만 사용\n5. phase.hero.on() 사용 금지 — emit하는 곳 없음, phase.header.on() 사용\n\n변경 내용: $ARGUMENTS",
+            "statusMessage": "프로젝트 규칙 점검 중..."
           }
         ]
       }

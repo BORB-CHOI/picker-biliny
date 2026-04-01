@@ -56,10 +56,10 @@ Figma 디자인 참조: `4ofzLPWgHAFGKebRvk9cau`
 - 제품 중심: node `2658:29` (홈페이지 목업 326, ~10,471px)
 
 ### Colors (CSS 변수로 정의)
-- `--color-primary`: #F77F4C (오렌지 CTA)
-- `--color-accent`: #0060EF (블루 강조)
+- `--color-primary`: #0060EF (블루 CTA/강조)
+- `--color-accent`: #2675FF (블루 강조 밝은)
 - `--color-dark`: #2C2C2C (다크 섹션 배경)
-- `--color-text`: #000000 (본문)
+- `--color-text`: #202020 (본문)
 - `--color-text-secondary`: #656565 (설명 텍스트)
 - `--color-text-tertiary`: #313131 (부제목)
 - `--color-bg`: #FFFFFF (배경)
@@ -113,7 +113,7 @@ Figma 디자인 참조: `4ofzLPWgHAFGKebRvk9cau`
 
 ## Forbidden
 
-- Roboto, Arial 등 기본 폰트 사용 금지 (Inter는 프로젝트 지정 폰트)
+- Roboto, Arial, Pretendard 등 Inter 외 폰트 사용 금지 (Inter가 프로젝트 지정 폰트)
 - 보라색 그라데이션 on 흰 배경 (전형적 AI 디자인) 금지
 - jQuery 또는 레거시 애니메이션 라이브러리 사용 금지
 - inline style 남용 금지 (Tailwind 또는 CSS 변수 사용)
