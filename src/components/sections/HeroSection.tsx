@@ -222,30 +222,30 @@ export function HeroSection() {
 
       <div
         ref={innerRef}
-        className="hero-inner relative z-10 px-6 md:px-12 lg:px-20 pb-16 md:pb-24 lg:pb-32 w-full max-w-350 mx-auto"
+        className="hero-inner relative z-10 px-6 md:px-12 lg:px-20 pb-16 md:pb-24 lg:pb-32 w-full max-w-380 mx-auto"
       >
         {/* PICKER PROJECT wordmark */}
-        <div className="flex items-center gap-2 mb-5 md:mb-6">
-          <WordmarkLogoHorizon width={200} fill="#192746" />
+        <div className="flex items-center gap-2 mb-6 md:mb-7 ml-1">
+          <WordmarkLogoHorizon width={240} fill="#192746" />
         </div>
 
         {/* Main heading */}
-        <h1 className="mb-5 md:mb-6">
-          <span className="block text-[28px] md:text-[36px] lg:text-[42px] font-medium tracking-[0.06em] text-(--color-hero-title) leading-tight">
+        <h1 className="mb-6 md:mb-7">
+          <span className="block text-5xl font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight">
             중소도시의 이동권을
           </span>
-          <span className="block text-[30px] md:text-[40px] lg:text-[46px] font-medium tracking-[0.06em] text-(--color-primary) leading-tight mt-1">
+          <span className="block text-5xl font-bold tracking-[0.06em] text-(--color-primary) leading-tight mt-1">
             다시 설계합니다.
           </span>
         </h1>
 
         {/* Horizontal decorative line */}
-        <div className="h-px bg-[#D8D8D8] w-full max-w-85 md:max-w-102.5 mb-5 md:mb-6" />
+        <div className="h-px bg-[#D8D8D8] w-full max-w-100 md:max-w-130 mb-6 md:mb-7" />
 
         {/* Description */}
-        <p className="text-[11px] md:text-[13px] lg:text-sm text-(--color-text-desc) leading-[1.9] max-w-75 md:max-w-85 mb-8 md:mb-10">
+        <p className="text-[14px] md:text-[16px] lg:text-[18px] text-(--color-text-desc) leading-[1.85] max-w-95 md:max-w-115 mb-10 md:mb-12">
           피커 프로젝트 &lsquo;빌리니(BILINY)&rsquo; 는 일상 속<br />
-          <strong className="font-bold text-(--color-hero-title)">
+          <strong className="font-extrabold">
             이동의 비효율 사각지대를 해결
           </strong>
           하는
@@ -254,17 +254,17 @@ export function HeroSection() {
         </p>
 
         {/* CTA buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3.5">
           <a
             href="#story"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#4B4B4B] text-white text-[10px] md:text-xs font-bold rounded-[10px] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
+            className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#4B4B4B] text-white text-[12px] md:text-[14px] font-bold rounded-[11px] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
           >
             <BarIndicator count={1} />
             빌리니 스토리 →
           </a>
           <a
             href="#biliny"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2675FF] text-white text-[10px] md:text-xs font-bold rounded-[10px] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
+            className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#2675FF] text-white text-[12px] md:text-[14px] font-bold rounded-[11px] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
           >
             <BarIndicator count={2} />
             빌리니 둘러보기 →

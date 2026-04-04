@@ -123,7 +123,7 @@ export function SolutionSection() {
       {/* ═══════════════════════════════════════
           실루엣 장식 (1_)
       ═══════════════════════════════════════ */}
-      <div className="sol-fade w-full pt-[3.25vw]">
+      <div className="sol-fade w-[80%] pt-[3.25vw] mx-auto">
         <Image
           src="/images/solution/1_biliny-silhouette.png"
           alt=""
@@ -138,7 +138,7 @@ export function SolutionSection() {
       {/* ═══════════════════════════════════════
           섹션 헤딩
       ═══════════════════════════════════════ */}
-      <div className="w-full max-w-[90%] md:max-w-[80%] mx-auto relative z-20">
+      <div className="w-full max-w-[80%] mx-auto relative z-20">
         <p className="sol-reveal solution-heading text-center mt-[3.2vw]">
           이에 대한 해결책을 제시합니다
         </p>
@@ -147,15 +147,13 @@ export function SolutionSection() {
       {/* ═══════════════════════════════════════
           1. 빌려타는 "빌리니"
       ═══════════════════════════════════════ */}
-      <div className="w-full max-w-[90%] md:max-w-[80%] mx-auto mt-[10.75vw] relative z-20">
-        <h3 className="sol-reveal solution-title font-black!">
-          빌려타는 &ldquo;빌리니&rdquo;
-        </h3>
-        <div className="sol-reveal solution-desc mt-[6.4vw]">
+      <div className="w-full max-w-[50%] mx-auto mt-[10.75vw] relative z-20">
+        <h3 className="sol-reveal solution-title font-black!">빌려타는 &ldquo;빌리니&rdquo;</h3>
+        <div className="sol-reveal solution-desc mt-10">
           <p>
             <span className="font-medium">필요할 때 </span>
             <span className="font-bold text-(--color-primary)">
-              언제든지 부르시면 빌려드립니다.{' '}
+              언제든지 부르시면 빌려드립니다.{" "}
             </span>
           </p>
           <p className="font-medium">
@@ -165,15 +163,13 @@ export function SolutionSection() {
           </p>
           <p className="mt-1">
             <span className="font-medium">모든 여정을 마치면 </span>
-            <span className="font-bold text-(--color-primary)">
-              스스로 돌아갑니다.
-            </span>
+            <span className="font-bold text-(--color-primary)">스스로 돌아갑니다.</span>
           </p>
         </div>
       </div>
 
       {/* 2_ 빌리니 집 앞 — 좌측 끝, 화면 밖 확장 */}
-      <div className="sol-from-left mt-[3vw] w-[98%] ml-[-11%]">
+      <div className="sol-from-left mt-[3vw] w-[80%] ml-[5%]">
         <Image
           src="/images/solution/2_biliny-doorstep.png"
           alt="빌리니가 집 앞까지 찾아오는 모습"
@@ -187,21 +183,20 @@ export function SolutionSection() {
       {/* ═══════════════════════════════════════
           2. 서로에게 안전한 "안내길"
       ═══════════════════════════════════════ */}
-      <div className="w-full max-w-[90%] md:max-w-[80%] mx-auto mt-[16vw] relative z-20">
+      <div className="w-full max-w-[50%] mx-auto mt-[16vw] relative z-20">
         <div className="text-right">
           <h3 className="sol-reveal solution-title font-black!">
             서로에게 안전한 &ldquo;안내길&rdquo;
           </h3>
-          <div className="sol-reveal solution-desc mt-[4.7vw]">
-            <p className="font-medium">
-              가는 길이 약속된 &lsquo;안내길&rsquo;을 깔아드려요.
-            </p>
+          <div className="sol-reveal solution-desc mt-10">
+            <p className="font-medium">가는 길이 약속된 &lsquo;안내길&rsquo;을 깔아드려요.</p>
             <p className="mt-1">
               <span className="font-bold text-(--color-primary)">
                 탑승자/보행자/운전자 모두를 안전하게
               </span>
               <span className="font-medium">
-                {' '}안내하기 위해
+                {" "}
+                안내하기 위해{"\u00A0"}
                 <br />
                 따라가야할 길을 보여드립니다.
               </span>
@@ -211,7 +206,7 @@ export function SolutionSection() {
       </div>
 
       {/* 3_ 스마트레인 야간 — 좌측 끝, 화면 밖 확장 */}
-      <div className="sol-from-left mt-[3vw] w-[92%] ml-[-8%]">
+      <div className="sol-from-right mt-[3vw] w-[80%] ml-[15%]">
         <Image
           src="/images/solution/3_smartlane-night.png"
           alt="야간 도로 위 빌리니 안내길 시스템"
@@ -225,20 +220,16 @@ export function SolutionSection() {
       {/* ═══════════════════════════════════════
           3. 모든 과정을 지켜봐주는 "돌봄이"
       ═══════════════════════════════════════ */}
-      <div className="w-full max-w-[90%] md:max-w-[80%] mx-auto mt-[8vw] relative z-20">
-        <h3 className="sol-reveal solution-title">
-          모든 과정을 지켜봐주는 &ldquo;돌봄이&rdquo;
-        </h3>
-        <div className="sol-reveal solution-desc mt-[3.2vw]">
+      <div className="w-full max-w-[50%] mx-auto mt-[8vw] relative z-20">
+        <h3 className="sol-reveal solution-title">모든 과정을 지켜봐주는 &ldquo;돌봄이&rdquo;</h3>
+        <div className="sol-reveal solution-desc mt-10">
           <p>
             <span className="font-medium">
               안전과 편의를 위해
               <br />
-              탑승자가 이동을{' '}
+              탑승자가 이동을{" "}
             </span>
-            <span className="font-bold text-(--color-primary)">
-              시작할 때부터 이동이 끝날 때
-            </span>
+            <span className="font-bold text-(--color-primary)">시작할 때부터 이동이 끝날 때</span>
             <span className="font-medium">
               까지,
               <br />
@@ -255,7 +246,7 @@ export function SolutionSection() {
       ═══════════════════════════════════════ */}
       <div className="relative mt-[3.4vw]">
         {/* 4_ 케어워치 — 좌측 끝 화면 밖, 위쪽에 위치, z-10 */}
-        <div className="sol-from-left w-[66%] ml-[-19%] relative z-10">
+        <div className="sol-from-left w-[48%] ml-[5%] relative z-10">
           <Image
             src="/images/solution/4_carewatch-wrist.png"
             alt="돌봄이 손목 디바이스를 착용한 어르신"
@@ -266,7 +257,7 @@ export function SolutionSection() {
           />
         </div>
         {/* 5_ 가디언 대시보드 — 우측 끝, 4_와 겹치며 아래 배치 */}
-        <div className="sol-from-right w-[82%] ml-auto mr-[-5%] mt-[-18vw] md:mt-[-20vw]">
+        <div className="sol-from-right w-[70%] ml-auto mr-[5%] mt-[-18vw]">
           <Image
             src="/images/solution/5_guardian-dashboard.png"
             alt="PICKER 가디언 관제 시스템 2.0 대시보드"
@@ -281,22 +272,16 @@ export function SolutionSection() {
       {/* ═══════════════════════════════════════
           4. 모두에게 "공평한" 모빌리티
       ═══════════════════════════════════════ */}
-      <div className="w-full max-w-[90%] md:max-w-[80%] mx-auto mt-[12.2vw] relative z-20">
-        <h3 className="sol-reveal solution-title">
-          모두에게 &ldquo;공평한&rdquo; 모빌리티
-        </h3>
-        <div className="sol-reveal solution-desc mt-[5.4vw]">
+      <div className="w-full max-w-[50%] mx-auto mt-[12.2vw] relative z-20">
+        <h3 className="sol-reveal solution-title">모두에게 &ldquo;공평한&rdquo; 모빌리티</h3>
+        <div className="sol-reveal solution-desc mt-10">
           <p>
             <span className="font-medium">
               모두가 타실 수 있어요.
               <br />
             </span>
-            <span className="font-bold text-(--color-primary)">
-              학생부터 고령자
-            </span>
-            <span className="font-medium">
-              까지 모두 이용할 수 있습니다.
-            </span>
+            <span className="font-bold text-(--color-primary)">학생부터 고령자</span>
+            <span className="font-medium">까지 모두 이용할 수 있습니다.</span>
           </p>
         </div>
       </div>
@@ -306,7 +291,7 @@ export function SolutionSection() {
       ═══════════════════════════════════════ */}
       <div className="mt-[6.75vw]">
         {/* 6_ 학생들 — 좌측 끝 화면 밖 */}
-        <div className="sol-from-left w-[64%] ml-[-8.5%]">
+        <div className="sol-from-left w-[50%] ml-[5%]">
           <Image
             src="/images/solution/6_biliny-students.png"
             alt="빌리니를 이용하는 학생들"
@@ -318,7 +303,7 @@ export function SolutionSection() {
         </div>
 
         {/* 7_ 출퇴근 — 우측 끝 화면 밖 */}
-        <div className="sol-from-right w-[80%] ml-auto mr-[-16%] mt-[1.9vw]">
+        <div className="sol-from-right w-[55%] ml-auto mr-[5%] mt-[1.9vw]">
           <Image
             src="/images/solution/7_biliny-commute.png"
             alt="빌리니와 함께하는 출퇴근"
@@ -330,7 +315,7 @@ export function SolutionSection() {
         </div>
 
         {/* 8_ 도심 어르신 — 좌측 끝 화면 밖 */}
-        <div className="sol-from-left w-[74%] ml-[-12%] mt-[2.6vw]">
+        <div className="sol-from-left w-[55%] ml-[5%] mt-[2.6vw]">
           <Image
             src="/images/solution/8_biliny-city-elderly.png"
             alt="도심에서 빌리니를 이용하는 어르신"
@@ -343,7 +328,7 @@ export function SolutionSection() {
       </div>
 
       {/* 하단 여백 */}
-      <div className="h-[10vw]" />
+      <div className="h-[5vw]" />
     </section>
   );
 }

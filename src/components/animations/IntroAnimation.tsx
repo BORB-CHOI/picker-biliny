@@ -3,17 +3,14 @@
 import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { Inter } from "next/font/google";
 import { LeafTopLeft, LeafBottomRight, LogoName } from "@/components/ui/icons";
 import { phase, lockScrollUntilHero } from "@/lib/animationState";
-
-const inter = Inter({ subsets: ["latin"], weight: ["900"] });
 
 const FRAME = 68;
 const LEAF = 58;
 
 /** 개발 중 인트로 스킵 — true로 설정하면 인트로 없이 바로 Header→Hero 시퀀스 시작 */
-const SKIP_INTRO = false;
+const SKIP_INTRO = true;
 
 export function IntroAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -162,7 +159,7 @@ export function IntroAnimation() {
       {/* FIND — starts at center, spreads to upper-left */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <span
-          className={`intro-find text-[#0060EF] text-4xl font-black tracking-tight ${inter.className}`}
+          className="intro-find text-[#0060EF] text-4xl font-black tracking-tight"
           style={{ opacity: 0 }}
         >
           FIND
@@ -172,7 +169,7 @@ export function IntroAnimation() {
       {/* BLIND — stays at center */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <span
-          className={`intro-blind text-[#444] text-4xl font-black tracking-tight ${inter.className}`}
+          className="intro-blind text-[#444] text-4xl font-black tracking-tight"
           style={{ opacity: 0 }}
         >
           BLIND
@@ -182,7 +179,7 @@ export function IntroAnimation() {
       {/* SPOT — starts at center, spreads to lower-right */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <span
-          className={`intro-spot text-[#444] text-4xl font-black tracking-tight ${inter.className}`}
+          className="intro-spot text-[#444] text-4xl font-black tracking-tight"
           style={{ opacity: 0 }}
         >
           SPOT

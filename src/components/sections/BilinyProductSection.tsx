@@ -1,20 +1,112 @@
 'use client';
 
 import { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import { useAutoplayVideo } from '@/hooks/useAutoplayVideo';
 import { useProductAnimations } from '@/hooks/useProductAnimations';
 import { CheckIcon } from '@/components/ui/CheckIcon';
+import { InfinityIcon } from '@/components/ui/icons';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function BilinyProductSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const slideDownRef = useAutoplayVideo();
   const slideUpRef = useAutoplayVideo();
-  const slideUpHumanRef = useAutoplayVideo();
   const approachingRef = useAutoplayVideo();
   const turningRef = useAutoplayVideo();
+  const humanScrollOuterRef = useRef<HTMLDivElement>(null);
+  const humanScrollStickyRef = useRef<HTMLDivElement>(null);
+  const humanVideoRef = useRef<HTMLVideoElement>(null);
 
   useProductAnimations(sectionRef);
+
+  useGSAP(
+    () => {
+      const outer = humanScrollOuterRef.current;
+      const sticky = humanScrollStickyRef.current;
+      const video = humanVideoRef.current;
+      if (!outer || !sticky || !video) return;
+
+      const sit = sticky.querySelector('.biliny-sit-text');
+      const stand = sticky.querySelector('.biliny-stand-text');
+      if (!sit || !stand) return;
+
+      gsap.set([sit, stand], { opacity: 0, y: 24 });
+
+      let scrubTl: gsap.core.Timeline | null = null;
+      const mm = gsap.matchMedia();
+
+      const buildTimeline = () => {
+        if (!video.duration || Number.isNaN(video.duration)) return;
+
+        video.pause();
+        video.currentTime = 0;
+
+        scrubTl?.kill();
+
+        mm.add('(min-width: 1024px)', () => {
+          const playhead = { p: 0 };
+          const duration = video.duration;
+          const frameStep = 1 / 18;
+          let lastSynced = -1;
+
+          scrubTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: outer,
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: 0.35,
+            },
+          });
+
+          scrubTl
+            .to(playhead, {
+              p: 1,
+              ease: 'none',
+              duration: 1,
+              onUpdate: () => {
+                const targetTime = playhead.p * duration;
+                if (Math.abs(targetTime - lastSynced) >= frameStep) {
+                  video.currentTime = targetTime;
+                  lastSynced = targetTime;
+                }
+              },
+            }, 0)
+            .to(sit, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.12 }, 0.08)
+            .to(sit, { opacity: 1, y: 0, duration: 0.18 }, 0.2)
+            .to(sit, { opacity: 0, y: -18, ease: 'power2.in', duration: 0.1 }, 0.38)
+            .to(stand, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.12 }, 0.52)
+            .to(stand, { opacity: 1, y: 0, duration: 0.2 }, 0.66)
+            .to(stand, { opacity: 0, y: 24, ease: 'power2.in', duration: 0.1 }, 0.9);
+        });
+
+        mm.add('(max-width: 1023px)', () => {
+          gsap.set([sit, stand], { clearProps: 'all' });
+        });
+      };
+
+      const onLoadedMetaData = () => {
+        requestAnimationFrame(buildTimeline);
+      };
+
+      if (video.readyState >= 1) {
+        onLoadedMetaData();
+      } else {
+        video.addEventListener('loadedmetadata', onLoadedMetaData, { once: true });
+      }
+
+      return () => {
+        video.removeEventListener('loadedmetadata', onLoadedMetaData);
+        scrubTl?.kill();
+        mm.revert();
+      };
+    },
+    { scope: sectionRef },
+  );
 
   return (
     <section ref={sectionRef} id="biliny" className="relative overflow-x-clip">
@@ -84,13 +176,13 @@ export function BilinyProductSection() {
           </div>
 
           {/* 우측 제품 이미지 — div 래퍼 기준 레이아웃, 이미지 우측 정렬 */}
-          <div className="flex-1 min-w-0 b-from-right lg:-mr-[5rem]">
+          <div className="flex-1 min-w-0 b-from-right ">
             <div className="relative aspect-[4/5]">
               <Image
                 src="/images/biliny/1_lineup-hero.png"
                 alt="빌리니 제품 이미지"
                 fill
-                className="object-contain object-right-bottom"
+                className="object-contain object-right-bottom translate-x-10"
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 priority
               />
@@ -99,27 +191,25 @@ export function BilinyProductSection() {
         </div>
 
         {/* 스펙 — 텍스트와 이미지 경계에 absolute 배치 */}
-        <div className="b-fade hidden lg:flex flex-col absolute left-[40%] top-[75%] -translate-y-1/2">
-          <div className="product-spec-row">
+        <div className="b-fade hidden lg:flex flex-col absolute items-end left-[40%] top-[75%] -translate-y-1/2">
+          <div className="product-spec-row flex items-baseline justify-center">
             <span className="product-spec-label">1회 충전 주행거리</span>
-            <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
-              <span className="product-spec-number">140</span>
-              <span className="product-spec-unit">km</span>
-            </div>
+            <span className="product-spec-number mx-4">140</span>
+            <span className="product-spec-unit">km{"\u00A0"}</span>
           </div>
-          <div className="product-spec-row">
-            <span className="product-spec-label">무료 탑승 횟수</span>
-            <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
-              <span className="product-spec-number">∞</span>
-              <span className="product-spec-unit">회</span>
-            </div>
+          <div className="product-spec-row flex max-h-15 items-center justify-center">
+            <span className="product-spec-label translate-y-1.5">무료 탑승 횟수</span>
+            <InfinityIcon className="inline-block h-[4.5em] w-auto mx-4" fill="#202020" size={72} />
+            <span className="product-spec-unit">
+              회{"\u00A0"}
+              {"\u00A0"}
+              {"\u00A0"}
+            </span>
           </div>
-          <div className="product-spec-row">
+          <div className="product-spec-row items-baseline justify-center">
             <span className="product-spec-label">대당가격</span>
-            <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
-              <span className="product-spec-number">300</span>
-              <span className="product-spec-unit">만원</span>
-            </div>
+            <span className="product-spec-number mx-2.5">300</span>
+            <span className="product-spec-unit">만원</span>
           </div>
         </div>
         {/* 모바일: 스펙 정상 플로우 */}
@@ -134,7 +224,11 @@ export function BilinyProductSection() {
           <div className="product-spec-row">
             <span className="product-spec-label">무료 탑승 횟수</span>
             <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
-              <span className="product-spec-number">∞</span>
+              <InfinityIcon
+                className="inline-block h-[0.72em] w-auto shrink-0 align-[-0.08em]"
+                fill="#202020"
+                size={72}
+              />
               <span className="product-spec-unit">회</span>
             </div>
           </div>
@@ -165,7 +259,7 @@ export function BilinyProductSection() {
             />
           </div>
           {/* 텍스트 — 우측 하단, 왼쪽 정렬 */}
-          <div className="lg:absolute lg:right-[5%] lg:bottom-[30%] mt-[clamp(16px,2.2vw,32px)] lg:mt-0 text-left">
+          <div className="lg:absolute lg:right-[15%] lg:bottom-[40%] mt-[clamp(16px,2.2vw,32px)] lg:mt-0 text-left">
             <h3 className="b-reveal product-heading">위에서 아래로,</h3>
             <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
               스스로 이동할땐 부담없는 크기로
@@ -180,7 +274,7 @@ export function BilinyProductSection() {
       <div className="mt-[clamp(30px,4.2vw,60px)]">
         <div className="product-container relative">
           {/* 텍스트 — 좌측 상단, 오른쪽 정렬 */}
-          <div className="lg:absolute z-10 lg:left-[5%] lg:top-[10%] mb-[clamp(16px,2.2vw,32px)] lg:mb-0 text-right">
+          <div className="lg:absolute z-10 lg:left-[15%] mb-[clamp(16px,2.2vw,32px)] lg:mb-0 text-right">
             <h3 className="b-reveal product-heading">아래에서 위로,</h3>
             <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
               안전을 위해 누구에게나 눈에 띄도록
@@ -203,39 +297,34 @@ export function BilinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 2-3: Design — 앉아서 / 서서
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="mt-[clamp(60px,8.3vw,120px)]">
-        <div className="product-container relative">
+      <div ref={humanScrollOuterRef} className="mt-[clamp(60px,8.3vw,120px)] h-[220vh] lg:h-[260vh]">
+        <div
+          ref={humanScrollStickyRef}
+          className="product-container sticky top-0 h-screen flex items-center justify-center"
+        >
           {/* 비디오 — 우측 65% */}
-          <div className="b-from-right lg:w-[65%] lg:m-auto">
+          <div className="lg:w-[65%] lg:m-auto">
             <video
-              ref={slideUpHumanRef}
+              ref={humanVideoRef}
               src="/videos/biliny/slide-up-human.mp4"
               muted
-              loop
               playsInline
+              preload="metadata"
               className="w-full h-auto"
             />
           </div>
-          <div className="absolute lg:left-[10%] top-[8%] flex flex-col gap-[clamp(100px,14vw,200px)] mb-[clamp(16px,2.2vw,32px)] lg:mb-0">
-            {/* "앉아서" — 좌측 상단에 absolute */}
-            <div className="z-10 lg:mt-0 text-right">
-              <div className="b-from-left">
-                <h3 className="biliny-video-heading-sm">앉아서</h3>
-                <p className="biliny-video-sub-sm mt-[clamp(8px,1.1vw,16px)]">
-                  천천히 뛰는 속도에서
-                </p>
-                <p className="biliny-video-speed-sm mt-[clamp(4px,0.5vw,8px)]">최대시속 13km</p>
-              </div>
+          <div className="absolute lg:left-[10%] top-[18%] mb-[clamp(16px,2.2vw,32px)] lg:mb-0">
+            {/* "앉아서" — 1단계 */}
+            <div className="biliny-sit-text z-10 lg:mt-0 text-right">
+              <h3 className="biliny-video-heading-sm">앉아서</h3>
+              <p className="biliny-video-sub-sm mt-[clamp(8px,1.1vw,16px)]">천천히 뛰는 속도에서</p>
+              <p className="biliny-video-speed-sm mt-[clamp(4px,0.5vw,8px)]">최대시속 13km</p>
             </div>
-            {/* "서서" — 좌측 하단에 absolute */}
-            <div className="z-10 lg:mt-0 text-right">
-              <div className="b-from-left">
-                <h3 className="biliny-video-heading-sm">서서</h3>
-                <p className="biliny-video-sub-sm mt-[clamp(8px,1.1vw,16px)]">
-                  빠르게 달리는 속도까지
-                </p>
-                <p className="biliny-video-speed-sm mt-[clamp(4px,0.5vw,8px)]">최대시속 25km</p>
-              </div>
+            {/* "서서" — 2단계 */}
+            <div className="biliny-stand-text z-10 lg:mt-0 text-right mt-[clamp(100px,14vw,200px)]">
+              <h3 className="biliny-video-heading-sm">서서</h3>
+              <p className="biliny-video-sub-sm mt-[clamp(8px,1.1vw,16px)]">빠르게 달리는 속도까지</p>
+              <p className="biliny-video-speed-sm mt-[clamp(4px,0.5vw,8px)]">최대시속 25km</p>
             </div>
           </div>
         </div>
@@ -305,17 +394,15 @@ export function BilinyProductSection() {
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="mt-[clamp(60px,8.3vw,120px)]">
         <div className="product-container text-center">
-          <h3 className="b-reveal product-heading">
-            엘레베이터에 들어갈 수 있는 사이즈
-          </h3>
+          <h3 className="b-reveal product-heading">엘레베이터에 들어갈 수 있는 사이즈</h3>
           <div className="b-from-left mt-[clamp(32px,6.4vw,124px)]">
             <Image
               src="/images/biliny/3_elevator.png"
               alt="엘레베이터에 들어가는 빌리니"
               width={2160}
               height={1410}
-              className="w-[200%] max-w-none h-auto -translate-x-1/4"
-              sizes="130vw"
+              className="w-full h-auto"
+              sizes="100vw"
             />
           </div>
         </div>
@@ -344,9 +431,7 @@ export function BilinyProductSection() {
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="mt-[clamp(60px,8.3vw,120px)]">
         <div className="product-container text-center">
-          <h3 className="b-reveal product-heading">
-            충전은 가로등 옆 어디서나
-          </h3>
+          <h3 className="b-reveal product-heading">충전은 가로등 옆 어디서나</h3>
           <div className="b-scale mt-[clamp(32px,4.4vw,64px)] max-w-[clamp(500px,55vw,820px)] mx-auto">
             <Image
               src="/images/biliny/5_charger-streetlamp.png"
@@ -365,9 +450,7 @@ export function BilinyProductSection() {
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="mt-[clamp(40px,5.5vw,80px)]">
         <div className="product-container text-center">
-          <h3 className="b-reveal product-heading">
-            무선으로 자유롭게
-          </h3>
+          <h3 className="b-reveal product-heading">무선으로 자유롭게</h3>
           <div className="b-scale mt-[clamp(32px,4.4vw,64px)]">
             <Image
               src="/images/biliny/6_charger-wireless.png"

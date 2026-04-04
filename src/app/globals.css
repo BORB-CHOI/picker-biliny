@@ -25,8 +25,8 @@
 @theme inline {
   --color-background: var(--color-bg);
   --color-foreground: var(--color-text);
-  --font-display: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-body: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --color-hero-title: #192746;
   --color-accent-dark: #0060EF;
   --color-text-desc: #8287A2;
@@ -38,16 +38,10 @@
   --color-text-light: #414141;
 }
 
-@font-face {
-  font-family: "Pretendard Variable";
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-  src: url("/fonts/PretendardVariable.subset.woff2") format("woff2-variations");
-}
-
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
 }
 
 body {
@@ -116,14 +110,14 @@ body {
 }
 
 .story-text {
-  font-size: clamp(14px, 1.7vw, 30px);
-  letter-spacing: 0.23em;
+  font-size: clamp(14px, 1.5vw, 30px);
+  letter-spacing: 11%;
   @apply font-medium text-[var(--color-text-secondary)];
 }
 
 .story-year {
-  font-size: clamp(24px, 2.9vw, 42px);
-  letter-spacing: 0.32em;
+  font-size: clamp(14px, 2vw, 30px);
+  letter-spacing: 11%;
   @apply font-bold text-[var(--color-text-light)];
 }
 
@@ -139,7 +133,7 @@ body {
 }
 
 .story-data-number {
-  font-size: clamp(36px, 3.3vw, 76px);
+  font-size: 2rem;
   @apply font-bold text-[#515151] leading-tight;
 }
 
@@ -214,14 +208,14 @@ body {
 
 /* 아이콘 그룹 라벨 (26.526px 기준) */
 .biz-icon-label {
-  font-size: clamp(14px, 1.84vw, 27px);
+  font-size: 1.3rem;
   letter-spacing: 0.11em;
   @apply font-bold text-white;
 }
 
 /* 비용 숫자 (26.526px 기준) */
 .biz-cost-number {
-  font-size: clamp(14px, 1.84vw, 27px);
+  font-size: 2rem;
   letter-spacing: 0.11em;
   @apply font-bold text-white;
 }
@@ -270,7 +264,7 @@ body {
 /* 1/5 강조 숫자 */
 .biz-fraction {
   font-size: clamp(20px, 2.74vw, 40px);
-  @apply font-bold text-white;
+  @apply font-bold ;
 }
 
 /* ── 교통 복지 예산 10% 섹션 ── */
@@ -438,19 +432,19 @@ body {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .solution-heading {
-  font-size: clamp(20px, 2.6vw, 42px);
+  font-size: 2rem;
   letter-spacing: 0.11em;
   @apply font-bold text-[var(--color-text)];
 }
 
 .solution-title {
-  font-size: clamp(20px, 2.6vw, 42px);
+  font-size: 2rem;
   letter-spacing: 0.11em;
   @apply font-extrabold text-[var(--color-primary)];
 }
 
 .solution-desc {
-  font-size: clamp(13px, 1.66vw, 27px);
+  font-size: 1.25rem;
   letter-spacing: 0.11em;
   line-height: 1.29;
   @apply text-[var(--color-text-secondary)];
@@ -552,7 +546,7 @@ body {
 
 /* ── 스펙 행 ── */
 .product-spec-row {
-  @apply flex items-baseline gap-[clamp(8px,1.1vw,16px)];
+  @apply flex gap-1;
 }
 
 /* ── 스펙 라벨 (14px, 한글 자간) ── */

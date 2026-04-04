@@ -3,12 +3,9 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { Inter } from "next/font/google";
 import { Logo } from "@/components/ui/Logo";
 import { WordmarkLogo } from "@/components/ui/icons";
 import { phase } from "@/lib/animationState";
-
-const inter = Inter({ subsets: ["latin"], weight: ["500"] });
 
 const NAV_LEFT = [
   { label: "STORY", href: "#story", bars: 1 },
@@ -54,7 +51,7 @@ export function Header() {
       style={{ opacity: 0 }}
     >
       <nav
-        className={`max-w-350 mx-auto flex items-center px-5 py-4 md:py-5 ${inter.className}`}
+        className="max-w-350 mx-auto flex items-center px-5 py-4 md:py-5"
       >
         {NAV_LEFT.map((item) => (
           <a

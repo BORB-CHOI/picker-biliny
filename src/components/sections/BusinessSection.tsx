@@ -358,7 +358,7 @@ export function BusinessSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 1: 과연 현실적일까요?
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="bg-white text-center pt-[clamp(60px,8.3vw,120px)] pb-[clamp(24px,3.3vw,48px)]">
+      <div className="bg-white text-center py-50">
         <h2 className="b-fade biz-title">과연 현실적일까요?</h2>
       </div>
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -392,7 +392,7 @@ export function BusinessSection() {
             </div>
 
             {/* Icon Groups */}
-            <div className="b-fade flex flex-col md:flex-row items-center justify-center gap-[clamp(24px,3.3vw,48px)] mt-[clamp(40px,5.5vw,80px)]">
+            <div className="b-fade flex flex-col md:flex-row items-center justify-center gap-20 mt-[clamp(40px,5.5vw,80px)]">
               {/* 복지버스/택시 */}
               <div className="flex flex-col items-center gap-[clamp(8px,1vw,14px)]">
                 <div className="flex items-center gap-[clamp(16px,2.2vw,32px)]">
@@ -458,7 +458,7 @@ export function BusinessSection() {
               기존 복지버스/무료 택시는 연간 150억원을 투입하지만,
             </p>
             <p className="b-fade biz-body-dark">
-              실제 이용률은 <span className="font-bold text-white">대도심 대중교통 대비</span>{" "}
+              실제 이용률은 <span className="font-bold">대도심 대중교통 대비</span>{" "}
               <span className="biz-fraction">1/5</span> 에 불과합니다.
             </p>
 
