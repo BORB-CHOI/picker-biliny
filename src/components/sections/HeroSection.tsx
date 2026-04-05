@@ -128,7 +128,9 @@ export function HeroSection() {
       gsap.set(canvas, { opacity: 0 });
 
       // ② 헤더 완료 후 콘텐츠 + 자동재생 시작
+      let heroRafId: number;
       const cleanup = phase.header.on(() => {
+        heroRafId = requestAnimationFrame(() => {
         // 콘텐츠 슬라이드업
         gsap.to(inner, {
           y: 0,
@@ -197,10 +199,12 @@ export function HeroSection() {
             drawFrame(self.progress * (FRAME_COUNT - 1));
           },
         });
+        }); // rAF 끝
       });
 
       return () => {
         cleanup();
+        cancelAnimationFrame(heroRafId);
         window.removeEventListener("resize", resizeCanvas);
       };
     },

@@ -161,10 +161,13 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
       <div className="relative mt-[clamp(12px,1.7vw,24px)] w-full max-w-[clamp(240px,26vw,380px)]">
         <div className="rounded-[clamp(20px,2.6vw,38px)] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] backdrop-blur-sm px-[clamp(10px,1.4vw,20px)] py-[clamp(8px,1.1vw,16px)]">
           {/* 투자 / 감축·수익 테이블 */}
-          <div className="grid grid-cols-2 gap-x-[clamp(8px,1.1vw,16px)]">
+          <div className="grid grid-cols-[52%_1fr] gap-x-2">
             <div className="flex flex-col gap-[clamp(1px,0.2vw,3px)]">
               {p.finance.left.map((item) => (
-                <div key={item.label} className="flex items-baseline justify-between">
+                <div
+                  key={item.label}
+                  className="grid grid-cols-[1fr_auto_auto] gap-1 items-baseline justify-between"
+                >
                   <span className="biz-fin-label">{item.label}</span>
                   <span className="biz-fin-value">{item.value}</span>
                   <span className="biz-fin-label text-[clamp(5px,0.56vw,8px)]">{item.tag}</span>
@@ -173,7 +176,10 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
             </div>
             <div className="flex flex-col gap-[clamp(1px,0.2vw,3px)]">
               {p.finance.right.map((item) => (
-                <div key={item.label} className="flex items-baseline justify-between">
+                <div
+                  key={item.label}
+                  className="grid grid-cols-[1fr_auto_auto] gap-1 items-baseline justify-between"
+                >
                   <span className="biz-fin-label">{item.label}</span>
                   <span className="biz-fin-value">{item.value}</span>
                   <span className="biz-fin-label text-[clamp(5px,0.56vw,8px)]">{item.tag}</span>
@@ -292,7 +298,7 @@ function ExpansionPinSection() {
   );
 
   return (
-    <div ref={outerRef} className="relative bg-white" style={{ height: '300vh' }}>
+    <div ref={outerRef} className="relative bg-white" style={{ height: '200vh' }}>
       <div
         ref={stickyRef}
         className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden"
@@ -717,11 +723,9 @@ export function BusinessSection() {
               <p className="biz-revenue-label">중단거리 출퇴근 / 학교·학원 등하교</p>
 
               <div className="relative w-full h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)]">
-                <p className="biz-revenue-detail absolute top-0 left-[clamp(8px,1vw,16px)] z-2">
-                  *50대 운영기준
-                </p>
+                <p className="biz-revenue-detail absolute -top-3 left-10 z-2">*50대 운영기준</p>
                 {/* Image 9 — 좌상단, 원본 비율 */}
-                <div className="absolute left-0 top-[8%] w-[60%]">
+                <div className="absolute left-0 top-[3%] w-[70%]">
                   <Image
                     src="/images/busniess/9_elderly-commute.png"
                     alt="출퇴근 보조"
@@ -745,7 +749,7 @@ export function BusinessSection() {
               </div>
 
               <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4vw,20px)]">
-                <span className="biz-revenue-label">연</span>
+                <span className="biz-revenue-unit">연</span>
                 <span className="biz-revenue-annual">2.7</span>
                 <span className="biz-revenue-unit">억 원</span>
               </div>
@@ -772,7 +776,7 @@ export function BusinessSection() {
               </div>
 
               <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4vw,20px)]">
-                <span className="biz-revenue-label">연</span>
+                <span className="biz-revenue-unit">연</span>
                 <span className="biz-revenue-annual">5</span>
                 <span className="biz-revenue-unit">억 원</span>
               </div>
@@ -798,7 +802,7 @@ export function BusinessSection() {
               </div>
 
               <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4vw,20px)]">
-                <span className="biz-revenue-label">연</span>
+                <span className="biz-revenue-unit">연</span>
                 <span className="biz-revenue-annual">1.1</span>
                 <span className="biz-revenue-unit">억 원</span>
               </div>

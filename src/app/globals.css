@@ -315,7 +315,7 @@ body {
 
 /* 글래스 카드 설명 */
 .biz-card-desc {
-  font-size: clamp(9px, 1vw, 14px);
+  font-size: 0.75rem;
   @apply font-normal text-[var(--color-text-tertiary)];
 }
 
@@ -329,32 +329,32 @@ body {
 
 /* 수익 카드 라벨 */
 .biz-revenue-label {
-  font-size: clamp(11px, 1.21vw, 18px);
+  font-size: 1rem;
   @apply font-bold text-[#363636];
 }
 
 /* 수익 카드 세부 */
 .biz-revenue-detail {
-  font-size: clamp(9px, 0.97vw, 14px);
+  font-size: 0.75rem;
   @apply font-normal text-[#929292];
 }
 
 /* 수익 금액 - 일 */
 .biz-revenue-daily {
-  font-size: clamp(9px, 0.97vw, 14px);
+  font-size: 0.75rem;
   @apply font-bold text-[#929292];
 }
 
 /* 수익 금액 - 연 (파란색 큰 숫자) */
 .biz-revenue-annual {
-  font-size: clamp(18px, 2.37vw, 34px);
+  font-size: 1.8rem;
   @apply font-bold text-[var(--color-blue)];
 }
 
 /* 수익 금액 - 연 뒤 "억 원" */
 .biz-revenue-unit {
-  font-size: clamp(14px, 1.82vw, 26px);
-  @apply font-medium text-[var(--color-text-tertiary)];
+  font-size: 1.25rem;    
+  @apply font-bold ;
 }
 
 /* "시티 케어 솔루션" 강조 */
@@ -380,7 +380,7 @@ body {
 
 /* 페이즈 설명 */
 .biz-phase-desc {
-  font-size: clamp(13px, 1.39vw, 20px);
+  font-size: 1.2rem;
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
@@ -392,26 +392,28 @@ body {
 
 /* 재정 카드 라벨 */
 .biz-fin-label {
-  font-size: clamp(7px, 0.76vw, 11px);
-  @apply font-medium;
+  font-size: 0.5rem;
+  @apply font-bold;
   color: rgba(49, 49, 49, 0.68);
 }
 
 /* 재정 카드 값 */
 .biz-fin-value {
-  font-size: clamp(9px, 1.04vw, 15px);
+  font-size: 0.85rem;
+  @apply font-bold text-end;
   color: rgba(49, 49, 49, 0.68);
 }
 
 /* 재정 카드 토탈 (파란색) */
 .biz-fin-total {
-  font-size: clamp(12px, 1.46vw, 21px);
+  font-size: 0.9rem;
   @apply font-bold text-[var(--color-blue)];
 }
 
 /* 재정 카드 주석 */
 .biz-fin-note {
-  font-size: clamp(7px, 0.76vw, 11px);
+  font-size: 0.5rem;
+  white-space: nowrap;
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
@@ -578,46 +580,13 @@ body {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Biliny 전용 — 속도 표기, 모바일 축소 변형
+   Biliny 전용 — 속도 표기
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .biliny-video-speed {
   font-size: clamp(11px, 1.25vw, 18px);
   letter-spacing: 0.05em;
   color: #838383;
-}
-
-/* ── 모바일 축소 변형 (앉아서/서서용) ── */
-.biliny-video-heading-sm {
-  font-size: 12px;
-  letter-spacing: 0.11em;
-  @apply font-bold text-(--color-text);
-}
-
-.biliny-video-sub-sm {
-  font-size: 10px;
-  letter-spacing: 0.11em;
-  @apply font-medium text-(--color-text-secondary);
-}
-
-.biliny-video-speed-sm {
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  color: #838383;
-}
-
-@media (min-width: 768px) {
-  .biliny-video-heading-sm {
-    font-size: clamp(18px, 2.1vw, 30px);
-  }
-
-  .biliny-video-sub-sm {
-    font-size: clamp(12px, 1.39vw, 20px);
-  }
-
-  .biliny-video-speed-sm {
-    font-size: clamp(11px, 1.25vw, 18px);
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   * {

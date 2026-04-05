@@ -60,7 +60,7 @@ export function useProductAnimations(
               opacity: 1,
               duration: 1.2,
               ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 88%' },
+              scrollTrigger: { trigger: el, start: 'top 50%' },
             });
           });
 
@@ -71,7 +71,7 @@ export function useProductAnimations(
               opacity: 1,
               duration: 1,
               ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top 90%' },
+              scrollTrigger: { trigger: el, start: 'top 50%' },
             });
           });
 
@@ -84,7 +84,7 @@ export function useProductAnimations(
                 opacity: 1,
                 duration: 1.2,
                 ease: 'power3.out',
-                scrollTrigger: { trigger: el, start: 'top 92%' },
+                scrollTrigger: { trigger: el, start: 'top 50%' },
               });
               gsap.to(el, {
                 yPercent: -4,
@@ -107,7 +107,7 @@ export function useProductAnimations(
                 opacity: 1,
                 duration: 1.2,
                 ease: 'power3.out',
-                scrollTrigger: { trigger: el, start: 'top 92%' },
+                scrollTrigger: { trigger: el, start: 'top 50%' },
               });
               gsap.to(el, {
                 yPercent: -4,
@@ -128,7 +128,7 @@ export function useProductAnimations(
               opacity: 1,
               duration: 1.2,
               ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top 90%' },
+              scrollTrigger: { trigger: el, start: 'top 50%' },
             });
           });
 
@@ -145,7 +145,7 @@ export function useProductAnimations(
               ease: 'power2.out',
               scrollTrigger: {
                 trigger: staggerItems[0],
-                start: 'top 90%',
+                start: 'top 50%',
               },
             });
           }

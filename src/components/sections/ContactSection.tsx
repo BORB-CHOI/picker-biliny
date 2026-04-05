@@ -73,7 +73,7 @@ export function ContactSection() {
               opacity: 1,
               duration: 1,
               ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top 90%' },
+              scrollTrigger: { trigger: el, start: 'top 50%' },
             });
           });
         });

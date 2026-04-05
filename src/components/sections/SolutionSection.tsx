@@ -51,7 +51,7 @@ export function SolutionSection() {
               opacity: 1,
               duration: 1.2,
               ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 85%' },
+              scrollTrigger: { trigger: el, start: 'top 50%' },
             });
           });
 
@@ -62,7 +62,7 @@ export function SolutionSection() {
               opacity: 1,
               duration: 1,
               ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top 88%' },
+              scrollTrigger: { trigger: el, start: 'top 50%' },
             });
           });
 
@@ -73,7 +73,7 @@ export function SolutionSection() {
               opacity: 1,
               duration: 1.2,
               ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 92%' },
+              scrollTrigger: { trigger: el, start: 'top 50%' },
             });
             gsap.to(el, {
               yPercent: -4,
@@ -94,7 +94,7 @@ export function SolutionSection() {
               opacity: 1,
               duration: 1.2,
               ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 92%' },
+              scrollTrigger: { trigger: el, start: 'top 50%' },
             });
             gsap.to(el, {
               yPercent: -4,

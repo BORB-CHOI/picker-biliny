@@ -1,3 +1,5 @@
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 /**
  * 전역 애니메이션 시퀀스 관리
  *
@@ -47,10 +49,26 @@ export const phase = {
 /**
  * 인트로~히어로 진입 전까지 스크롤 잠금
  * 클라이언트 컴포넌트의 useEffect에서 호출해야 hydration mismatch 방지
+ *
+ * - scrollTo(0,0): 브라우저 스크롤 복원(F5 새로고침 시)을 무력화
+ * - scrollRestoration: 히스토리 API 수준에서 복원 차단
+ * - phase.header 후 ScrollTrigger.refresh(): 모든 섹션의 ScrollTrigger가
+ *   rAF에서 생성된 후(double-rAF) 위치를 재계산하여 조기 발동 방지
  */
 export function lockScrollUntilHero() {
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+  window.scrollTo(0, 0);
   document.body.style.overflow = "hidden";
   phase.header.on(() => {
     document.body.style.overflow = "";
+    // double-rAF: 모든 섹션이 첫 rAF에서 ScrollTrigger를 생성한 뒤,
+    // 두 번째 rAF에서 refresh하여 pin spacer 포함 위치를 재계산
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+    });
   });
 }

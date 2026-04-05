@@ -12,7 +12,7 @@ export const VIDEOS = {
     approaching2: '/videos/biliny/approaching-2.mp4',
     slideDown: '/videos/biliny/slide-down.mp4',
     slideUp: '/videos/biliny/slide-up.mp4',
-    slideUpHuman: '/videos/biliny/slide-up-human.mp4',
+    slideUpHuman: '/videos/biliny/slide-up-human-webp/frame-001.webp',
     turning: '/videos/biliny/turning.mp4',
   },
   triny: {
