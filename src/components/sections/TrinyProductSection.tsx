@@ -373,7 +373,7 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 10: 단지 내 모든 길을 돌아다닐 수 있는 사이즈
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="w-[80%] mx-auto mt-[20vw] overflow-hidden">
+      <div className="w-[60%] mx-auto mt-[20vw] overflow-hidden">
         <div className="product-container text-center">
           <h3 className="b-reveal product-heading">단지 내 모든 길을 돌아다닐 수 있는 사이즈</h3>
         </div>

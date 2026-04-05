@@ -298,7 +298,7 @@ export function BilinyProductSection() {
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="mt-[clamp(60px,8.3vw,120px)] relative">
         {/* 영상 — 화면 끝까지 */}
-        <div className="b-scale w-[80vw] mx-auto">
+        <div className="b-scale w-[60%] mx-auto">
           <video
             ref={approachingRef}
             src="/videos/biliny/approaching-biliny-2.mp4"

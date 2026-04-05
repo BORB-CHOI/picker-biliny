@@ -10,7 +10,7 @@ const FRAME = 68;
 const LEAF = 58;
 
 /** 개발 중 인트로 스킵 — true로 설정하면 인트로 없이 바로 Header→Hero 시퀀스 시작 */
-const SKIP_INTRO = true;
+const SKIP_INTRO = false;
 
 export function IntroAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -73,7 +73,7 @@ export function IntroAnimation() {
       .to(leafElements, {
         opacity: 1,
         duration: 0.6,
-        ease: "power2.in",
+        ease: "power1.in",
       })
       .to({}, { duration: 0.3 })
 
@@ -81,31 +81,27 @@ export function IntroAnimation() {
       .to(".intro-leaf-lt", {
         x: ltMoveX,
         y: ltMoveY,
-        duration: 1.2,
-        ease: "slow",
+        duration: 2,
+        ease: "power1.in",
       })
-      .to(
-        ".intro-leaf-rb",
-        { x: rbMoveX, y: rbMoveY, duration: 1.2, ease: "slow" },
-        "<",
-      )
+      .to(".intro-leaf-rb", { x: rbMoveX, y: rbMoveY, duration: 2, ease: "power1.in" }, "<")
       // Texts appear as leaves start moving, spreading along the diagonal
       .fromTo(
         ".intro-find",
         { opacity: 0, x: 0, y: 0 },
-        { opacity: 1, x: findMoveX, y: findMoveY, duration: 1.2, ease: "slow" },
+        { opacity: 1, x: findMoveX, y: findMoveY, duration: 2, ease: "power1.in" },
         "<",
       )
       .fromTo(
         ".intro-blind",
         { opacity: 0 },
-        { opacity: 1, duration: 0.8, ease: "power2.out" },
+        { opacity: 1, duration: 1.5, ease: "power2.out" },
         "<",
       )
       .fromTo(
         ".intro-spot",
         { opacity: 0, x: 0, y: 0 },
-        { opacity: 1, x: spotMoveX, y: spotMoveY, duration: 1.2, ease: "slow" },
+        { opacity: 1, x: spotMoveX, y: spotMoveY, duration: 2, ease: "power1.in" },
         "<",
       )
 
@@ -114,22 +110,10 @@ export function IntroAnimation() {
 
       // 3. Collapse back — leaves return, texts fade out as collapse begins
       .to(".intro-leaf-lt", { x: 0, y: 0, duration: 0.6, ease: "power2.in" })
-      .to(
-        ".intro-leaf-rb",
-        { x: 0, y: 0, duration: 0.6, ease: "power2.in" },
-        "<",
-      )
-      .to(
-        ".intro-find",
-        { x: 0, y: 0, opacity: 0, duration: 0.6, ease: "power2.in" },
-        "<",
-      )
+      .to(".intro-leaf-rb", { x: 0, y: 0, duration: 0.6, ease: "power2.in" }, "<")
+      .to(".intro-find", { x: 0, y: 0, opacity: 0, duration: 0.6, ease: "power2.in" }, "<")
       .to(".intro-blind", { opacity: 0, duration: 0.6, ease: "power2.in" }, "<")
-      .to(
-        ".intro-spot",
-        { x: 0, y: 0, opacity: 0, duration: 0.6, ease: "power2.in" },
-        "<",
-      )
+      .to(".intro-spot", { x: 0, y: 0, opacity: 0, duration: 0.6, ease: "power2.in" }, "<")
       .to({}, { duration: 0.5 })
 
       // 4. Logo name dissolves in (leaves still visible at center)
