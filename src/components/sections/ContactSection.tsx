@@ -6,11 +6,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LogoName } from '@/components/ui/icons';
 import { onMainContentReady } from '@/lib/animationState';
-import { isScrollMarkerEnabled, resolveVisualTrigger } from '@/lib/scrollTriggerUtils';
+import {
+  buildViewportEntryStart,
+  isScrollMarkerEnabled,
+  resolveAnimationTrigger,
+} from '@/lib/scrollTriggerUtils';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CONTACT_ANIM_START = 'top 88%';
+const CONTACT_ANIM_START = buildViewportEntryStart();
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Contact Section + Footer
@@ -76,7 +80,7 @@ export function ContactSection() {
         firstRafId = requestAnimationFrame(() => {
           secondRafId = requestAnimationFrame(() => {
           section.querySelectorAll<HTMLElement>('.ct-anim').forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const animation = gsap.to(el, {
               y: 0,
               opacity: 1,

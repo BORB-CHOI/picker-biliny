@@ -5,12 +5,16 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
+import { onMainContentReady } from '@/lib/animationState';
 import { useAutoplayVideo } from '@/hooks/useAutoplayVideo';
 import { useProductAnimations } from '@/hooks/useProductAnimations';
 import { CheckIcon } from '@/components/ui/CheckIcon';
 import { InfinityIcon } from '@/components/ui/icons';
+import { buildViewportEntryStart, isScrollMarkerEnabled } from '@/lib/scrollTriggerUtils';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const HUMAN_VIDEO_START = buildViewportEntryStart();
 
 export function BilinyProductSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -23,12 +27,13 @@ export function BilinyProductSection() {
 
   useProductAnimations(sectionRef);
 
-  /* ── 앉아서 / 서서 — 화면 중앙 도달 시 영상 1회 재생 ── */
+  /* ── 앉아서 / 서서 — viewport entry 시 영상 1회 재생 ── */
   useGSAP(
     () => {
       const video = humanVideoRef.current;
       const wrap = humanWrapRef.current;
       if (!video || !wrap) return;
+      const showMarkers = isScrollMarkerEnabled();
 
       const sit = wrap.querySelector<HTMLElement>('.biliny-sit-text');
       const stand = wrap.querySelector<HTMLElement>('.biliny-stand-text');
@@ -36,8 +41,11 @@ export function BilinyProductSection() {
 
       gsap.set([sit, stand], { opacity: 0, y: 24 });
 
-      let started = false;
       let textSwitched = false;
+      let playbackStarted = false;
+      let playbackTrigger: ScrollTrigger | null = null;
+      let firstRafId: number;
+      let secondRafId: number;
 
       const handleTime = () => {
         if (!textSwitched && video.currentTime >= video.duration * 0.45) {
@@ -47,31 +55,48 @@ export function BilinyProductSection() {
         }
       };
 
-      // 영상 중앙이 화면 중앙에 도달하면 재생
-      const check = () => {
-        if (started) return;
-        const rect = video.getBoundingClientRect();
-        if (rect.top + rect.height / 2 > window.innerHeight / 2) return;
-
-        started = true;
-        window.removeEventListener('scroll', check);
-
+      const startPlayback = () => {
+        if (playbackStarted) return;
+        playbackStarted = true;
         gsap.to(sit, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
         video.currentTime = 0;
-        video.play();
+        void video.play().catch(() => {});
 
         video.addEventListener('timeupdate', handleTime);
-        video.addEventListener('ended', () => {
-          video.removeEventListener('timeupdate', handleTime);
-        }, { once: true });
       };
 
-      window.addEventListener('scroll', check, { passive: true });
-      check();
+      const handleEnded = () => {
+        video.removeEventListener('timeupdate', handleTime);
+      };
+
+      video.addEventListener('ended', handleEnded);
+
+      const unsubscribe = onMainContentReady(() => {
+        firstRafId = requestAnimationFrame(() => {
+          secondRafId = requestAnimationFrame(() => {
+            playbackTrigger = ScrollTrigger.create({
+              trigger: video,
+              start: HUMAN_VIDEO_START,
+              markers: showMarkers,
+              onEnter: startPlayback,
+            });
+
+            const rect = video.getBoundingClientRect();
+            if (rect.top <= window.innerHeight * 0.96 && rect.bottom >= 0) {
+              startPlayback();
+            }
+          });
+        });
+      });
 
       return () => {
-        window.removeEventListener('scroll', check);
+        unsubscribe();
+        playbackTrigger?.kill();
+        cancelAnimationFrame(firstRafId);
+        cancelAnimationFrame(secondRafId);
+        video.pause();
         video.removeEventListener('timeupdate', handleTime);
+        video.removeEventListener('ended', handleEnded);
       };
     },
     { scope: sectionRef },
@@ -279,7 +304,7 @@ export function BilinyProductSection() {
               <p className="biliny-video-speed mt-[clamp(4px,0.5vw,8px)]">최대시속 25km</p>
             </div>
           </div>
-          {/* 영상 — 화면 중앙 도달 시 1회 재생 */}
+          {/* 영상 — viewport entry 시 1회 재생 */}
           <div className="lg:w-[65%] lg:ml-auto">
             <video
               ref={humanVideoRef}

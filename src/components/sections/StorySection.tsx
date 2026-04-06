@@ -6,11 +6,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import { onMainContentReady } from '@/lib/animationState';
-import { buildEnterStart, isScrollMarkerEnabled, resolveVisualTrigger } from '@/lib/scrollTriggerUtils';
+import {
+  buildViewportEntryStart,
+  isScrollMarkerEnabled,
+  resolveAnimationTrigger,
+} from '@/lib/scrollTriggerUtils';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const STORY_ANIM_START = buildEnterStart(0.05);
+const STORY_ANIM_START = buildViewportEntryStart();
 
 export function StorySection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -45,7 +49,7 @@ export function StorySection() {
           secondRafId = requestAnimationFrame(() => {
           /* 텍스트: clip-path reveal (아래→위 마스크) */
           section.querySelectorAll<HTMLElement>('.s-reveal').forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const animation = gsap.to(el, {
               clipPath: 'inset(0% 0% 0% 0%)',
               opacity: 1,
@@ -58,7 +62,7 @@ export function StorySection() {
 
           /* 이미지: parallax + scale + fade */
           section.querySelectorAll<HTMLElement>('.s-img').forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const revealAnimation = gsap.to(el, {
               y: 0,
               opacity: 1,
@@ -74,7 +78,7 @@ export function StorySection() {
               yPercent: -6,
               ease: 'none',
               scrollTrigger: {
-                trigger: el,
+                trigger: triggerEl,
                 start: STORY_ANIM_START,
                 end: 'bottom top',
                 markers: showMarkers,
@@ -86,7 +90,7 @@ export function StorySection() {
 
           /* 단순 fade up */
           section.querySelectorAll<HTMLElement>('.s-fade').forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const animation = gsap.to(el, {
               y: 0,
               opacity: 1,
@@ -99,7 +103,7 @@ export function StorySection() {
 
           /* countUp 애니메이션 */
           section.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const target = Number(el.dataset.count);
             const suffix = el.dataset.suffix ?? '';
             const obj = { val: 0 };

@@ -1,31 +1,46 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import { createViewportEntryObserverOptions } from '@/lib/scrollTriggerUtils';
+
+type AutoplayVideoOptions = {
+  once?: boolean;
+};
 
 /**
- * IntersectionObserver 기반 자동재생 비디오 훅.
- * 뷰포트에 30% 이상 진입하면 play, 벗어나면 pause.
+ * viewport entry 기준 자동재생 비디오 훅.
+ * 요소가 하단 96% 진입선에 닿으면 play, 벗어나면 pause한다.
  */
-export function useAutoplayVideo() {
+export function useAutoplayVideo(options: AutoplayVideoOptions = {}) {
+  const { once = false } = options;
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
 
+    let started = false;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => {});
-        } else {
+          if (once && started) {
+            return;
+          }
+          started = true;
+          void video.play().catch(() => {});
+          if (once) {
+            observer.disconnect();
+          }
+        } else if (!once) {
           video.pause();
         }
       },
-      { threshold: 0.3 },
+      createViewportEntryObserverOptions(),
     );
     observer.observe(video);
     return () => observer.disconnect();
-  }, []);
+  }, [once]);
 
   return ref;
 }

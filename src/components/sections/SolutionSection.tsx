@@ -6,11 +6,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import { onMainContentReady } from '@/lib/animationState';
-import { buildEnterStart, isScrollMarkerEnabled, resolveVisualTrigger } from '@/lib/scrollTriggerUtils';
+import {
+  buildViewportEntryStart,
+  isScrollMarkerEnabled,
+  resolveAnimationTrigger,
+} from '@/lib/scrollTriggerUtils';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SOLUTION_ANIM_START = buildEnterStart(0.05);
+const SOLUTION_ANIM_START = buildViewportEntryStart();
 
 export function SolutionSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -51,7 +55,7 @@ export function SolutionSection() {
           secondRafId = requestAnimationFrame(() => {
           /* 텍스트: clip-path reveal (아래→위 마스크) */
           section.querySelectorAll<HTMLElement>('.sol-reveal').forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const animation = gsap.to(el, {
               clipPath: 'inset(0% 0% 0% 0%)',
               opacity: 1,
@@ -64,7 +68,7 @@ export function SolutionSection() {
 
           /* 단순 fade up */
           section.querySelectorAll<HTMLElement>('.sol-fade').forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const animation = gsap.to(el, {
               y: 0,
               opacity: 1,
@@ -77,7 +81,7 @@ export function SolutionSection() {
 
           /* 이미지: 좌측에서 슬라이드 인 + 패럴랙스 */
           section.querySelectorAll<HTMLElement>('.sol-from-left').forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const revealAnimation = gsap.to(el, {
               xPercent: 0,
               opacity: 1,
@@ -91,7 +95,7 @@ export function SolutionSection() {
               yPercent: -4,
               ease: 'none',
               scrollTrigger: {
-                trigger: el,
+                trigger: triggerEl,
                 start: SOLUTION_ANIM_START,
                 end: 'bottom top',
                 markers: showMarkers,
@@ -103,7 +107,7 @@ export function SolutionSection() {
 
           /* 이미지: 우측에서 슬라이드 인 + 패럴랙스 */
           section.querySelectorAll<HTMLElement>('.sol-from-right').forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const revealAnimation = gsap.to(el, {
               xPercent: 0,
               opacity: 1,
@@ -117,7 +121,7 @@ export function SolutionSection() {
               yPercent: -4,
               ease: 'none',
               scrollTrigger: {
-                trigger: el,
+                trigger: triggerEl,
                 start: SOLUTION_ANIM_START,
                 end: 'bottom top',
                 markers: showMarkers,

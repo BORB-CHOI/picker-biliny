@@ -6,15 +6,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { onMainContentReady } from '@/lib/animationState';
 import {
-  buildEnterStart,
+  buildViewportEntryStart,
   isScrollMarkerEnabled,
   resolveAnimationTargets,
-  resolveVisualTrigger,
+  resolveAnimationTrigger,
 } from '@/lib/scrollTriggerUtils';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const DEFAULT_PRODUCT_ANIM_START = buildEnterStart(0.05);
+const DEFAULT_PRODUCT_ANIM_START = buildViewportEntryStart();
 
 type ProductAnimationOptions = {
   start?: string;
@@ -27,10 +27,12 @@ type ProductAnimationOptions = {
  * `.b-fade`   — 단순 fade up
  * `.b-from-left` / `.b-from-right` — 좌우 슬라이드인 + 패럴랙스
  * `.b-scale`  — 스케일 등장
- * `.b-stagger` — 순차 등장 (feature 목록)
+ * `.b-stagger` — 개별 진입 기준 fade up
  *
  * 메인 콘텐츠 준비(onMainContentReady) 이후 double-rAF에서 ScrollTrigger를 생성하여
  * Hero pin 유무와 무관하게 위치 계산을 안정화한다.
+ * Hero frame pin / Business sticky timeline은 별도 예외로 유지하고,
+ * 여기서는 viewport entry reveal 계층만 통일한다.
  */
 export function useProductAnimations(
   sectionRef: RefObject<HTMLElement | null>,
@@ -72,6 +74,10 @@ export function useProductAnimations(
         scale: 0.92,
         opacity: 0,
       });
+      gsap.set(staggerTargets, {
+        y: 20,
+        opacity: 0,
+      });
 
       const animations: gsap.core.Animation[] = [];
       let firstRafId: number;
@@ -82,7 +88,7 @@ export function useProductAnimations(
           secondRafId = requestAnimationFrame(() => {
           /* ── 텍스트 clip-path 리빌 ── */
           revealTargets.forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const animation = gsap.to(el, {
               clipPath: 'inset(0% 0% 0% 0%)',
               opacity: 1,
@@ -95,7 +101,7 @@ export function useProductAnimations(
 
           /* ── 단순 fade up ── */
           fadeTargets.forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const animation = gsap.to(el, {
               y: 0,
               opacity: 1,
@@ -108,7 +114,7 @@ export function useProductAnimations(
 
           /* ── 좌측 슬라이드인 + 패럴랙스 ── */
           fromLeftTargets.forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const revealAnimation = gsap.to(el, {
               xPercent: 0,
               opacity: 1,
@@ -122,7 +128,7 @@ export function useProductAnimations(
               yPercent: -4,
               ease: 'none',
               scrollTrigger: {
-                trigger: el,
+                trigger: triggerEl,
                 start,
                 end: 'bottom top',
                 markers: showMarkers,
@@ -134,7 +140,7 @@ export function useProductAnimations(
 
           /* ── 우측 슬라이드인 + 패럴랙스 ── */
           fromRightTargets.forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const revealAnimation = gsap.to(el, {
               xPercent: 0,
               opacity: 1,
@@ -148,7 +154,7 @@ export function useProductAnimations(
               yPercent: -4,
               ease: 'none',
               scrollTrigger: {
-                trigger: el,
+                trigger: triggerEl,
                 start,
                 end: 'bottom top',
                 markers: showMarkers,
@@ -160,7 +166,7 @@ export function useProductAnimations(
 
           /* ── 스케일 등장 (이미지/비디오) ── */
           scaleTargets.forEach((el) => {
-            const triggerEl = resolveVisualTrigger(el);
+            const triggerEl = resolveAnimationTrigger(el);
             const animation = gsap.to(el, {
               scale: 1,
               opacity: 1,
@@ -171,23 +177,22 @@ export function useProductAnimations(
             animations.push(animation);
           });
 
-          /* ── 스태거 (feature 목록) ── */
-          if (staggerTargets.length > 0) {
-            gsap.set(staggerTargets, { y: 20, opacity: 0 });
-            const staggerAnimation = gsap.to(staggerTargets, {
+          /* ── 개별 진입 fade up (feature 목록) ── */
+          staggerTargets.forEach((el) => {
+            const triggerEl = resolveAnimationTrigger(el);
+            const animation = gsap.to(el, {
               y: 0,
               opacity: 1,
               duration: 0.6,
-              stagger: 0.12,
               ease: 'power2.out',
               scrollTrigger: {
-                trigger: resolveVisualTrigger(staggerTargets[0]),
+                trigger: triggerEl,
                 start,
                 markers: showMarkers,
               },
             });
-            animations.push(staggerAnimation);
-          }
+            animations.push(animation);
+          });
           });
         });
       });
