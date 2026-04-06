@@ -5,9 +5,12 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LogoName } from '@/components/ui/icons';
-import { phase } from '@/lib/animationState';
+import { onMainContentReady } from '@/lib/animationState';
+import { isScrollMarkerEnabled, resolveVisualTrigger } from '@/lib/scrollTriggerUtils';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const CONTACT_ANIM_START = 'top 88%';
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Contact Section + Footer
@@ -62,24 +65,37 @@ export function ContactSection() {
     () => {
       const section = sectionRef.current;
       if (!section) return;
-
+      const showMarkers = isScrollMarkerEnabled();
+      const animations: gsap.core.Animation[] = [];
       gsap.set(section.querySelectorAll('.ct-anim'), { y: 40, opacity: 0 });
 
-      const unsubscribe = phase.header.on(() => {
-        requestAnimationFrame(() => {
+      let firstRafId: number;
+      let secondRafId: number;
+
+      const unsubscribe = onMainContentReady(() => {
+        firstRafId = requestAnimationFrame(() => {
+          secondRafId = requestAnimationFrame(() => {
           section.querySelectorAll<HTMLElement>('.ct-anim').forEach((el) => {
-            gsap.to(el, {
+            const triggerEl = resolveVisualTrigger(el);
+            const animation = gsap.to(el, {
               y: 0,
               opacity: 1,
               duration: 1,
               ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top 50%' },
+              scrollTrigger: { trigger: triggerEl, start: CONTACT_ANIM_START, markers: showMarkers },
             });
+            animations.push(animation);
+          });
           });
         });
       });
 
-      return () => { unsubscribe(); };
+      return () => {
+        unsubscribe();
+        animations.forEach((animation) => animation.kill());
+        cancelAnimationFrame(firstRafId);
+        cancelAnimationFrame(secondRafId);
+      };
     },
     { scope: sectionRef },
   );

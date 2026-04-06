@@ -268,12 +268,12 @@ export function BilinyProductSection() {
         <div className="product-container relative">
           {/* 텍스트 — 좌측 (동시 노출 없음, JS로 전환) */}
           <div className="lg:absolute z-10 lg:left-[33%] lg:top-[28%]">
-            <div className="biliny-sit-text text-right absolute top-70 -right-50 whitespace-nowrap">
+            <div className="biliny-sit-text text-right relative whitespace-nowrap lg:absolute lg:top-70 lg:-right-50">
               <h3 className="product-heading">앉아서</h3>
               <p className="product-sub mt-[clamp(8px,1.1vw,16px)]">천천히 뛰는 속도에서</p>
               <p className="biliny-video-speed mt-[clamp(4px,0.5vw,8px)]">최대시속 13km</p>
             </div>
-            <div className="biliny-stand-text text-right absolute -top-10 -right-50 whitespace-nowrap">
+            <div className="biliny-stand-text text-right relative mt-[clamp(24px,3vw,40px)] whitespace-nowrap lg:absolute lg:-top-10 lg:-right-50 lg:mt-0">
               <h3 className="product-heading">서서</h3>
               <p className="product-sub mt-[clamp(8px,1.1vw,16px)]">빠르게 달리는 속도까지</p>
               <p className="biliny-video-speed mt-[clamp(4px,0.5vw,8px)]">최대시속 25km</p>

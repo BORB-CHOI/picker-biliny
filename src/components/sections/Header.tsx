@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Logo } from "@/components/ui/Logo";
 import { WordmarkLogo } from "@/components/ui/icons";
-import { phase } from "@/lib/animationState";
+import { onIntroReady, phase } from "@/lib/animationState";
 
 const NAV_LEFT = [
   { label: "STORY", href: "#story", bars: 1 },
@@ -34,14 +34,20 @@ export function Header() {
   const headerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const cleanup = phase.intro.on(() => {
-      gsap.fromTo(
+    let headerTween: gsap.core.Tween | null = null;
+
+    const cleanup = onIntroReady(() => {
+      headerTween = gsap.fromTo(
         headerRef.current,
         { y: -80, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", onComplete: phase.header.emit },
       );
     });
-    return cleanup;
+
+    return () => {
+      cleanup();
+      headerTween?.kill();
+    };
   }, { scope: headerRef });
 
   return (

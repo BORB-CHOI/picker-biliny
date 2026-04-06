@@ -5,7 +5,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { phase } from '@/lib/animationState';
+import { onMainContentReady } from '@/lib/animationState';
 import { useProductAnimations } from '@/hooks/useProductAnimations';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -242,33 +242,41 @@ function ExpansionPinSection() {
       gsap.set(sticky.querySelectorAll('.exp-col'), { opacity: 0, y: 30 });
       gsap.set(sticky.querySelectorAll('.exp-connector'), { opacity: 0, scaleX: 0 });
 
-      let rafId: number;
+      let timeline: gsap.core.Timeline | null = null;
+      let firstRafId: number;
+      let secondRafId: number;
 
-      const unsubscribe = phase.header.on(() => {
-        rafId = requestAnimationFrame(() => {
+      const unsubscribe = onMainContentReady(() => {
+        firstRafId = requestAnimationFrame(() => {
+          secondRafId = requestAnimationFrame(() => {
           const cols = sticky.querySelectorAll<HTMLElement>('.exp-col');
           const connectors = sticky.querySelectorAll<HTMLElement>('.exp-connector');
           const titles = sticky.querySelectorAll<HTMLElement>('.exp-title');
-          if (cols.length < 3) return;
+          if (cols.length < 3) {
+            gsap.set(titles, { y: 0, opacity: 1 });
+            gsap.set(cols, { y: 0, opacity: 1 });
+            gsap.set(connectors, { opacity: 1, scaleX: 1 });
+            return;
+          }
 
           /*
            * CSS sticky + ScrollTrigger scrub (pin: false)
-           * 외부 div가 충분한 높이(300vh)를 가지고,
+           * 외부 div가 충분한 높이(180vh)를 가지고,
            * 내부 sticky div가 화면에 고정됨.
            * ScrollTrigger는 외부 div의 스크롤 진행도에 따라 애니메이션만 제어.
            * → GSAP pin 없음 → position:fixed 전환 없음 → 튕김 없음
            */
-          const tl = gsap.timeline({
+          timeline = gsap.timeline({
             scrollTrigger: {
               trigger: outer,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 1,
+              scrub: 0.65,
             },
           });
 
           /* Step 0: 제목 등장 */
-          tl.to(titles, { y: 0, opacity: 1, duration: 0.3, stagger: 0.1, ease: 'power2.out' })
+          timeline.to(titles, { y: 0, opacity: 1, duration: 0.3, stagger: 0.1, ease: 'power2.out' })
             .to({}, { duration: 0.15 })
 
           /* Step 1: 2027 등장 */
@@ -286,22 +294,25 @@ function ExpansionPinSection() {
 
           /* Step 4: 최종 유지 */
             .to({}, { duration: 0.3 });
+          });
         });
       });
 
       return () => {
         unsubscribe();
-        cancelAnimationFrame(rafId);
+        timeline?.kill();
+        cancelAnimationFrame(firstRafId);
+        cancelAnimationFrame(secondRafId);
       };
     },
     { scope: outerRef },
   );
 
   return (
-    <div ref={outerRef} className="relative bg-white" style={{ height: '200vh' }}>
+    <div ref={outerRef} className="relative bg-white h-[150vh] md:h-[165vh]">
       <div
         ref={stickyRef}
-        className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden"
+        className="sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-center overflow-hidden"
       >
         {/* 제목 */}
         <div className="product-container text-center mb-8 md:mb-12">
@@ -355,7 +366,6 @@ function ExpansionPinSection() {
 
 export function BusinessSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
 
   useProductAnimations(sectionRef);
 
@@ -387,18 +397,24 @@ export function BusinessSection() {
           {/* ── 사회적 비용 ── */}
           <div className="product-container text-center pt-[clamp(200px,27vw,400px)] pb-[clamp(40px,5.5vw,80px)]">
             <h3 className="b-reveal biz-heading-lg">이동권 박탈로 인해 발생하는 사회적 비용</h3>
-            <div className="b-fade mt-[clamp(20px,2.8vw,40px)] flex flex-col inline-block">
-              <span className="biz-big-prefix">
+            <div
+              className="b-fade mt-[clamp(20px,2.8vw,40px)] flex flex-col"
+              data-anim-split="children"
+            >
+              <span className="biz-big-prefix" data-anim-item>
                 중소도시 당 연간{" "}
                 <span className="biz-big-number">
                   310<span className="biz-big-prefix">억</span>
                 </span>
               </span>
-              <p className="b-fade biz-small text-start ml-2">인구 10만명 미만기준</p>
+              <p className="biz-small text-start ml-2" data-anim-item>인구 10만명 미만기준</p>
             </div>
 
             {/* Icon Groups */}
-            <div className="b-fade flex flex-col md:flex-row items-center justify-center gap-20 mt-[clamp(40px,5.5vw,80px)]">
+            <div
+              className="b-fade flex flex-col md:flex-row items-center justify-center gap-20 mt-[clamp(40px,5.5vw,80px)]"
+              data-anim-split="children"
+            >
               {/* 복지버스/택시 */}
               <div className="flex flex-col items-center gap-[clamp(8px,1vw,14px)]">
                 <div className="flex items-center gap-[clamp(16px,2.2vw,32px)]">
@@ -469,7 +485,10 @@ export function BusinessSection() {
             </p>
 
             {/* Three Info Cards — Figma 4142:26 */}
-            <div className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(12px,1.7vw,24px)] mt-[clamp(40px,5.5vw,80px)]">
+            <div
+              className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(12px,1.7vw,24px)] mt-[clamp(40px,5.5vw,80px)]"
+              data-anim-split="children"
+            >
               {[
                 {
                   icon: (
@@ -553,6 +572,7 @@ export function BusinessSection() {
                 <div
                   key={card.title}
                   className="rounded-[clamp(12px,1.1vw,16px)] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] p-[clamp(20px,2.2vw,32px)] text-left"
+                  data-anim-item
                 >
                   <div className="w-[clamp(20px,1.8vw,26px)] h-[clamp(20px,1.8vw,26px)] mb-[clamp(16px,2vw,28px)]">
                     {card.icon}
@@ -590,8 +610,11 @@ export function BusinessSection() {
           <h3 className="b-reveal biz-title">
             교통 복지 예산의 <span className="biz-highlight-blue">10%</span>만으로
           </h3>
-          <div className="b-fade mt-[clamp(16px,2.2vw,32px)] mb-[clamp(40px,5.5vw,80px)]">
-            <p className="biz-desc">
+          <div
+            className="b-fade mt-[clamp(16px,2.2vw,32px)] mb-[clamp(40px,5.5vw,80px)]"
+            data-anim-split="children"
+          >
+            <p className="biz-desc" data-anim-item>
               <span className="relative inline-block">
                 1년 교통 복지 <span className="font-bold">예산</span>
                 <span className="absolute left-0 right-0 top-full flex flex-col items-center mt-[clamp(2px,0.3vw,4px)]">
@@ -609,13 +632,16 @@ export function BusinessSection() {
               <span className="font-bold text-(--color-blue)">10%</span>만으로 고령자 생활에 맞춘{" "}
               <span className="font-bold">새로운 이동수단 대안을 제공</span>할 수 있습니다.
             </p>
-            <p className="biz-note mt-2">
+            <p className="biz-note mt-2" data-anim-item>
               홍성읍 중심지 600m 반경 고령자 1300명을 대상, 초기 서비스 도입 시뮬레이션
             </p>
           </div>
 
           {/* 3 Product Cards — 이미지 위 + 카드 아래 */}
-          <div className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]">
+          <div
+            className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]"
+            data-anim-split="children"
+          >
             {[
               {
                 src: "/images/busniess/6_biliny-pm.png",
@@ -667,7 +693,7 @@ export function BusinessSection() {
                 desc2: <>119 자동 신고 기능, 컨디션 맞춤 목적지 제안 기능</>,
               },
             ].map((card) => (
-              <div key={card.title} className="flex flex-col items-center">
+              <div key={card.title} className="flex flex-col items-center" data-anim-item>
                 {/* 제품 이미지 (카드 바깥) */}
                 <div
                   className={`relative overflow-hidden h-[clamp(160px,18vw,260px)] ${card.wide ? "w-[clamp(280px,34vw,500px)]" : "w-[clamp(160px,18vw,260px)]"} mb-[clamp(12px,1.4vw,20px)]`}
@@ -717,9 +743,12 @@ export function BusinessSection() {
           <p className="b-fade biz-city-care mt-[clamp(4px,0.5vw,8px)]">시티 케어 솔루션</p>
 
           {/* Revenue Cards */}
-          <div className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]">
+          <div
+            className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]"
+            data-anim-split="children"
+          >
             {/* Card 1: 9번+10번 겹침 — 배경 없이 이미지만 */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center" data-anim-item>
               <p className="biz-revenue-label">중단거리 출퇴근 / 학교·학원 등하교</p>
 
               <div className="relative w-full h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)]">
@@ -760,7 +789,7 @@ export function BusinessSection() {
             </div>
 
             {/* Card 2 */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center" data-anim-item>
               <p className="biz-revenue-label">점심시간 단거리 이동 / 퀵 배달 · 배송서비스</p>
 
               <div className="h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)] flex items-center justify-center">
@@ -787,7 +816,7 @@ export function BusinessSection() {
             </div>
 
             {/* Card 3 — 배경 없이 이미지만 */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center" data-anim-item>
               <p className="biz-revenue-label">대리 기사 복귀 이동수단 / 야간 순찰</p>
 
               <div className="w-full h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)] flex items-center justify-center">

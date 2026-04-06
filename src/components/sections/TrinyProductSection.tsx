@@ -81,7 +81,7 @@ export function TrinyProductSection() {
                 src="/images/triny/1_lineup-hero.png"
                 alt="트리니 제품 이미지"
                 fill
-                className="object-contain object-right-bottom translate-x-50 translate-y-40"
+                className="object-contain object-right-bottom lg:translate-x-50 lg:translate-y-40"
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 priority
               />

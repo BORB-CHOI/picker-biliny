@@ -4,19 +4,32 @@ import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { LeafTopLeft, LeafBottomRight, LogoName } from "@/components/ui/icons";
-import { phase, lockScrollUntilHero } from "@/lib/animationState";
+import { phase, lockScrollUntilHero, resetPhaseSequence } from "@/lib/animationState";
+import { preloadVideoSources } from '@/lib/videoPreload';
 
 const FRAME = 68;
 const LEAF = 58;
 
+const PRELOAD_VIDEO_SOURCES = [
+  '/videos/biliny/slide-down.mp4',
+  '/videos/biliny/slide-up.mp4',
+  '/videos/biliny/slide-up-human.mp4',
+  '/videos/biliny/approaching-biliny-2.mp4',
+  '/videos/biliny/turning.mp4',
+  '/videos/triny/turning.mp4',
+] as const;
+
 /** 개발 중 인트로 스킵 — true로 설정하면 인트로 없이 바로 Header→Hero 시퀀스 시작 */
-const SKIP_INTRO = false;
+const SKIP_INTRO = true;
 
 export function IntroAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hidden, setHidden] = useState(false);
 
   useGSAP(() => {
+    resetPhaseSequence();
+    preloadVideoSources(PRELOAD_VIDEO_SOURCES);
+
     // 스크롤 잠금 — 위치 계산 전에 실행해야 스크롤바 제거 후 정확한 viewport 크기 사용
     lockScrollUntilHero();
 

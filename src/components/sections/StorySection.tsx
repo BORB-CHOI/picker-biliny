@@ -5,9 +5,12 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { phase } from '@/lib/animationState';
+import { onMainContentReady } from '@/lib/animationState';
+import { buildEnterStart, isScrollMarkerEnabled, resolveVisualTrigger } from '@/lib/scrollTriggerUtils';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const STORY_ANIM_START = buildEnterStart(0.05);
 
 export function StorySection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -16,7 +19,7 @@ export function StorySection() {
     () => {
       const section = sectionRef.current;
       if (!section) return;
-
+      const showMarkers = isScrollMarkerEnabled();
       /* ── 초기 상태: 보이기 전 숨김 ── */
       gsap.set(section.querySelectorAll('.s-reveal'), {
         clipPath: 'inset(100% 0% 0% 0%)',
@@ -32,76 +35,94 @@ export function StorySection() {
         opacity: 0,
       });
 
-      let rafId: number;
-      /* phase.header가 fire된 후에만 ScrollTrigger 생성 — .claude/rules 준수 */
-      const unsubscribe = phase.header.on(() => {
-        rafId = requestAnimationFrame(() => {
+      const animations: gsap.core.Animation[] = [];
+      let firstRafId: number;
+      let secondRafId: number;
+
+      /* Hero 존재 여부에 따라 준비 phase를 분기한 뒤 생성 */
+      const unsubscribe = onMainContentReady(() => {
+        firstRafId = requestAnimationFrame(() => {
+          secondRafId = requestAnimationFrame(() => {
           /* 텍스트: clip-path reveal (아래→위 마스크) */
           section.querySelectorAll<HTMLElement>('.s-reveal').forEach((el) => {
-            gsap.to(el, {
+            const triggerEl = resolveVisualTrigger(el);
+            const animation = gsap.to(el, {
               clipPath: 'inset(0% 0% 0% 0%)',
               opacity: 1,
               duration: 1.2,
               ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top bottom' },
+              scrollTrigger: { trigger: triggerEl, start: STORY_ANIM_START, markers: showMarkers },
             });
+            animations.push(animation);
           });
 
           /* 이미지: parallax + scale + fade */
           section.querySelectorAll<HTMLElement>('.s-img').forEach((el) => {
-            gsap.to(el, {
+            const triggerEl = resolveVisualTrigger(el);
+            const revealAnimation = gsap.to(el, {
               y: 0,
               opacity: 1,
               scale: 1,
               duration: 1.4,
               ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top bottom' },
+              scrollTrigger: { trigger: triggerEl, start: STORY_ANIM_START, markers: showMarkers },
             });
+            animations.push(revealAnimation);
+
             /* 스크롤 연동 미세 패럴랙스 */
-            gsap.to(el, {
+            const parallaxAnimation = gsap.to(el, {
               yPercent: -6,
               ease: 'none',
               scrollTrigger: {
                 trigger: el,
-                start: 'top bottom',
+                start: STORY_ANIM_START,
                 end: 'bottom top',
+                markers: showMarkers,
                 scrub: true,
               },
             });
+            animations.push(parallaxAnimation);
           });
 
           /* 단순 fade up */
           section.querySelectorAll<HTMLElement>('.s-fade').forEach((el) => {
-            gsap.to(el, {
+            const triggerEl = resolveVisualTrigger(el);
+            const animation = gsap.to(el, {
               y: 0,
               opacity: 1,
               duration: 1,
               ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top bottom' },
+              scrollTrigger: { trigger: triggerEl, start: STORY_ANIM_START, markers: showMarkers },
             });
+            animations.push(animation);
           });
 
           /* countUp 애니메이션 */
           section.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
+            const triggerEl = resolveVisualTrigger(el);
             const target = Number(el.dataset.count);
             const suffix = el.dataset.suffix ?? '';
             const obj = { val: 0 };
-            gsap.to(obj, {
+            const animation = gsap.to(obj, {
               val: target,
               duration: 1.8,
               ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top bottom' },
+              scrollTrigger: { trigger: triggerEl, start: STORY_ANIM_START, markers: showMarkers },
               onUpdate() {
                 el.textContent = `${Math.round(obj.val).toLocaleString()}${suffix}`;
               },
             });
+            animations.push(animation);
+          });
           });
         });
       });
 
       return () => {
         unsubscribe();
-        cancelAnimationFrame(rafId);
+        animations.forEach((animation) => animation.kill());
+        cancelAnimationFrame(firstRafId);
+        cancelAnimationFrame(secondRafId);
       };
     },
     { scope: sectionRef },

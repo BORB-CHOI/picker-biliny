@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { WordmarkLogoHorizon } from "@/components/ui/icons";
-import { phase } from "@/lib/animationState";
+import { onHeaderReady, phase } from "@/lib/animationState";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -128,18 +128,21 @@ export function HeroSection() {
       gsap.set(canvas, { opacity: 0 });
 
       // ② 헤더 완료 후 콘텐츠 + 자동재생 시작
+      const animations: gsap.core.Animation[] = [];
+      let heroScrollTrigger: ScrollTrigger | null = null;
+      let autoplayTween: gsap.core.Tween | null = null;
       let heroRafId: number;
-      const cleanup = phase.header.on(() => {
+      const cleanup = onHeaderReady(() => {
         heroRafId = requestAnimationFrame(() => {
         // 콘텐츠 슬라이드업
-        gsap.to(inner, {
+        const contentIntro = gsap.to(inner, {
           y: 0,
           opacity: 1,
           duration: 1.4,
           ease: "power4.out",
           onComplete: () => {
             // 스크롤 시 콘텐츠 fade-out (entry 완료 후 생성)
-            gsap.to(inner, {
+            const contentFade = gsap.to(inner, {
               scrollTrigger: {
                 trigger: sectionRef.current,
                 start: "top top",
@@ -149,29 +152,39 @@ export function HeroSection() {
               y: -80,
               opacity: 0,
             });
+            animations.push(contentFade);
           },
         });
+        animations.push(contentIntro);
 
         // ③ canvas 자동재생 (0 → AUTOPLAY_STOP_FRAME, ~4초)
         drawFrame(0);
-        gsap.to(canvas, { opacity: 1, duration: 0.6, ease: "power2.out" });
+        const canvasFade = gsap.to(canvas, { opacity: 1, duration: 0.6, ease: "power2.out" });
+        animations.push(canvasFade);
 
         let autoplayStopped = false;
         const tracker = { frame: 0 };
 
-        const autoplayTween = gsap.to(tracker, {
+        autoplayTween = gsap.to(tracker, {
           frame: AUTOPLAY_STOP_FRAME,
           duration: AUTOPLAY_STOP_FRAME / AUTOPLAY_FPS,
           ease: "none",
           onUpdate: () => drawFrame(tracker.frame),
         });
+        animations.push(autoplayTween);
 
         // ④ 스크롤 scrub — 전체 0→199 프레임을 스크롤로 제어
         //    자동재생 중 스크롤 시 → 자동재생 중단, 스크롤 위치를 현재 프레임에 동기화
         //    pin 상태라 스크롤 점프해도 화면은 안 움직임 → 이후 전 구간 자유 탐색
         let scrollJumping = false;
 
-        ScrollTrigger.create({
+        let heroPhaseEmitted = false;
+        const emitHeroPhase = () => {
+          if (heroPhaseEmitted) return;
+          heroPhaseEmitted = true;
+          phase.hero.emit();
+        };
+        heroScrollTrigger = ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "top top",
           end: "+=800",
@@ -183,7 +196,7 @@ export function HeroSection() {
             if (!autoplayStopped) {
               if (self.progress > 0.005) {
                 autoplayStopped = true;
-                autoplayTween.kill();
+                autoplayTween?.kill();
                 // CSS scroll-behavior: smooth를 무시하고 즉시 점프
                 scrollJumping = true;
                 const targetPos =
@@ -198,12 +211,18 @@ export function HeroSection() {
             }
             drawFrame(self.progress * (FRAME_COUNT - 1));
           },
+          onLeave: () => {
+            emitHeroPhase();
+          },
         });
         }); // rAF 끝
       });
 
       return () => {
         cleanup();
+        heroScrollTrigger?.kill();
+        autoplayTween?.kill();
+        animations.forEach((animation) => animation.kill());
         cancelAnimationFrame(heroRafId);
         window.removeEventListener("resize", resizeCanvas);
       };

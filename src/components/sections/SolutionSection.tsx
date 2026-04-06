@@ -5,9 +5,12 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { phase } from '@/lib/animationState';
+import { onMainContentReady } from '@/lib/animationState';
+import { buildEnterStart, isScrollMarkerEnabled, resolveVisualTrigger } from '@/lib/scrollTriggerUtils';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const SOLUTION_ANIM_START = buildEnterStart(0.05);
 
 export function SolutionSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -16,7 +19,7 @@ export function SolutionSection() {
     () => {
       const section = sectionRef.current;
       if (!section) return;
-
+      const showMarkers = isScrollMarkerEnabled();
       /* ── 초기 상태: 즉시 숨김 ── */
       gsap.set(section.querySelectorAll('.sol-reveal'), {
         clipPath: 'inset(100% 0% 0% 0%)',
@@ -35,84 +38,103 @@ export function SolutionSection() {
         opacity: 0,
       });
 
-      let rafId: number;
+      const animations: gsap.core.Animation[] = [];
+      let firstRafId: number;
+      let secondRafId: number;
 
       /*
-       * HeroSection이 phase.header.on() 안에서 pin ScrollTrigger를 생성하므로,
-       * SolutionSection도 같은 시점 이후에 생성해야 position 계산이 정확함.
-       * StorySection과 동일한 패턴.
+       * Hero pin 유무와 무관하게 위치 계산을 안정화하기 위해
+       * onMainContentReady 이후 double-rAF 시점에 ScrollTrigger를 생성한다.
        */
-      const unsubscribe = phase.header.on(() => {
-        rafId = requestAnimationFrame(() => {
+      const unsubscribe = onMainContentReady(() => {
+        firstRafId = requestAnimationFrame(() => {
+          secondRafId = requestAnimationFrame(() => {
           /* 텍스트: clip-path reveal (아래→위 마스크) */
           section.querySelectorAll<HTMLElement>('.sol-reveal').forEach((el) => {
-            gsap.to(el, {
+            const triggerEl = resolveVisualTrigger(el);
+            const animation = gsap.to(el, {
               clipPath: 'inset(0% 0% 0% 0%)',
               opacity: 1,
               duration: 1.2,
               ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 50%' },
+              scrollTrigger: { trigger: triggerEl, start: SOLUTION_ANIM_START, markers: showMarkers },
             });
+            animations.push(animation);
           });
 
           /* 단순 fade up */
           section.querySelectorAll<HTMLElement>('.sol-fade').forEach((el) => {
-            gsap.to(el, {
+            const triggerEl = resolveVisualTrigger(el);
+            const animation = gsap.to(el, {
               y: 0,
               opacity: 1,
               duration: 1,
               ease: 'power2.out',
-              scrollTrigger: { trigger: el, start: 'top 50%' },
+              scrollTrigger: { trigger: triggerEl, start: SOLUTION_ANIM_START, markers: showMarkers },
             });
+            animations.push(animation);
           });
 
           /* 이미지: 좌측에서 슬라이드 인 + 패럴랙스 */
           section.querySelectorAll<HTMLElement>('.sol-from-left').forEach((el) => {
-            gsap.to(el, {
+            const triggerEl = resolveVisualTrigger(el);
+            const revealAnimation = gsap.to(el, {
               xPercent: 0,
               opacity: 1,
               duration: 1.2,
               ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 50%' },
+              scrollTrigger: { trigger: triggerEl, start: SOLUTION_ANIM_START, markers: showMarkers },
             });
-            gsap.to(el, {
+            animations.push(revealAnimation);
+
+            const parallaxAnimation = gsap.to(el, {
               yPercent: -4,
               ease: 'none',
               scrollTrigger: {
                 trigger: el,
-                start: 'top bottom',
+                start: SOLUTION_ANIM_START,
                 end: 'bottom top',
+                markers: showMarkers,
                 scrub: true,
               },
             });
+            animations.push(parallaxAnimation);
           });
 
           /* 이미지: 우측에서 슬라이드 인 + 패럴랙스 */
           section.querySelectorAll<HTMLElement>('.sol-from-right').forEach((el) => {
-            gsap.to(el, {
+            const triggerEl = resolveVisualTrigger(el);
+            const revealAnimation = gsap.to(el, {
               xPercent: 0,
               opacity: 1,
               duration: 1.2,
               ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 50%' },
+              scrollTrigger: { trigger: triggerEl, start: SOLUTION_ANIM_START, markers: showMarkers },
             });
-            gsap.to(el, {
+            animations.push(revealAnimation);
+
+            const parallaxAnimation = gsap.to(el, {
               yPercent: -4,
               ease: 'none',
               scrollTrigger: {
                 trigger: el,
-                start: 'top bottom',
+                start: SOLUTION_ANIM_START,
                 end: 'bottom top',
+                markers: showMarkers,
                 scrub: true,
               },
             });
+            animations.push(parallaxAnimation);
+          });
           });
         });
       });
 
       return () => {
         unsubscribe();
-        cancelAnimationFrame(rafId);
+        animations.forEach((animation) => animation.kill());
+        cancelAnimationFrame(firstRafId);
+        cancelAnimationFrame(secondRafId);
       };
     },
     { scope: sectionRef },

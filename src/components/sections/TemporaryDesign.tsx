@@ -7,7 +7,7 @@ export function TemporaryDesign() {
         alt="BILINY 디자인 시안"
         loading="lazy"
         decoding="async"
-        className="w-full sm:max-w-[100vw] md:max-w-[80vw] lg:max-w-[60vw] h-auto"
+        className="w-full max-w-full md:max-w-[80vw] lg:max-w-[60vw] h-auto"
       />
     </div>
   );

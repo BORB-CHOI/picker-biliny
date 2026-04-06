@@ -24,7 +24,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  width: 1440,
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -37,7 +38,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: `window.history.scrollRestoration = "manual"; window.scrollTo(0, 0);` }} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col overflow-x-clip">{children}</body>
     </html>
   );
 }
