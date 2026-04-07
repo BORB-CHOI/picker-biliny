@@ -1,4 +1,5 @@
 import { IntroAnimation } from "@/components/animations/IntroAnimation";
+import { ScrollTriggerRefreshController } from "@/components/animations/ScrollTriggerRefreshController";
 import { Header } from "@/components/sections/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StorySection } from "@/components/sections/StorySection";
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <>
       <IntroAnimation />
+      <ScrollTriggerRefreshController />
       <Header />
       <main>
         {/* 1. 메인 온보딩 — 배경 영상 + 히어로 텍스트 */}

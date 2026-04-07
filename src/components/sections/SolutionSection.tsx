@@ -153,8 +153,8 @@ export function SolutionSection() {
         <Image
           src="/images/solution/1_biliny-silhouette.png"
           alt=""
-          width={1446}
-          height={421}
+          width={2894}
+          height={842}
           className="w-full h-auto"
           sizes="100vw"
           priority
@@ -199,8 +199,8 @@ export function SolutionSection() {
         <Image
           src="/images/solution/2_biliny-doorstep.png"
           alt="빌리니가 집 앞까지 찾아오는 모습"
-          width={1574}
-          height={707}
+          width={2938}
+          height={1414}
           className="solution-img"
           sizes="100vw"
         />
@@ -236,8 +236,8 @@ export function SolutionSection() {
         <Image
           src="/images/solution/3_smartlane-night.png"
           alt="야간 도로 위 빌리니 안내길 시스템"
-          width={1464}
-          height={756}
+          width={2929}
+          height={1513}
           className="solution-img"
           sizes="92vw"
         />
@@ -273,25 +273,25 @@ export function SolutionSection() {
       <div className="relative mt-[3.4vw]">
         {/* 4_ 케어워치 — 좌측 끝 화면 밖, 위쪽에 위치, z-10 */}
         <div className="sol-from-left w-[48%] ml-[5%] relative z-10">
-          <Image
-            src="/images/solution/4_carewatch-wrist.png"
-            alt="돌봄이 손목 디바이스를 착용한 어르신"
-            width={1049}
-            height={499}
-            className="solution-img"
-            sizes="66vw"
-          />
+        <Image
+          src="/images/solution/4_carewatch-wrist.png"
+          alt="돌봄이 손목 디바이스를 착용한 어르신"
+          width={1675}
+          height={998}
+          className="solution-img"
+          sizes="66vw"
+        />
         </div>
         {/* 5_ 가디언 대시보드 — 우측 끝, 4_와 겹치며 아래 배치 */}
         <div className="sol-from-right w-[70%] ml-auto mr-[5%] mt-[-18vw]">
-          <Image
-            src="/images/solution/5_guardian-dashboard.png"
-            alt="PICKER 가디언 관제 시스템 2.0 대시보드"
-            width={1232}
-            height={507}
-            className="solution-img-sm"
-            sizes="82vw"
-          />
+        <Image
+          src="/images/solution/5_guardian-dashboard.png"
+          alt="PICKER 가디언 관제 시스템 2.0 대시보드"
+          width={2465}
+          height={1015}
+          className="solution-img-sm"
+          sizes="82vw"
+        />
         </div>
       </div>
 
@@ -318,38 +318,38 @@ export function SolutionSection() {
       <div className="mt-[6.75vw]">
         {/* 6_ 학생들 — 좌측 끝 화면 밖 */}
         <div className="sol-from-left w-[50%] ml-[5%]">
-          <Image
-            src="/images/solution/6_biliny-students.png"
-            alt="빌리니를 이용하는 학생들"
-            width={1017}
-            height={344}
-            className="solution-img"
-            sizes="64vw"
-          />
+        <Image
+          src="/images/solution/6_biliny-students.png"
+          alt="빌리니를 이용하는 학생들"
+          width={1770}
+          height={688}
+          className="solution-img"
+          sizes="64vw"
+        />
         </div>
 
         {/* 7_ 출퇴근 — 우측 끝 화면 밖 */}
         <div className="sol-from-right w-[55%] ml-auto mr-[5%] mt-[1.9vw]">
-          <Image
-            src="/images/solution/7_biliny-commute.png"
-            alt="빌리니와 함께하는 출퇴근"
-            width={1213}
-            height={445}
-            className="solution-img"
-            sizes="80vw"
-          />
+        <Image
+          src="/images/solution/7_biliny-commute.png"
+          alt="빌리니와 함께하는 출퇴근"
+          width={2018}
+          height={890}
+          className="solution-img"
+          sizes="80vw"
+        />
         </div>
 
         {/* 8_ 도심 어르신 — 좌측 끝 화면 밖 */}
         <div className="sol-from-left w-[55%] ml-[5%] mt-[2.6vw]">
-          <Image
-            src="/images/solution/8_biliny-city-elderly.png"
-            alt="도심에서 빌리니를 이용하는 어르신"
-            width={1185}
-            height={537}
-            className="solution-img"
-            sizes="74vw"
-          />
+        <Image
+          src="/images/solution/8_biliny-city-elderly.png"
+          alt="도심에서 빌리니를 이용하는 어르신"
+          width={2005}
+          height={1075}
+          className="solution-img"
+          sizes="74vw"
+        />
         </div>
       </div>
 

@@ -168,8 +168,8 @@ export function StorySection() {
             <Image
               src="/images/story/1_grandfather-driving.png"
               alt="젊은 시절 트럭을 운전하는 할아버지"
-              width={1432}
-              height={799}
+              width={2786}
+              height={1598}
               className="story-img"
               sizes="(max-width: 768px) 100vw, 70vw"
             />
@@ -188,8 +188,8 @@ export function StorySection() {
             <Image
               src="/images/story/2_grandfather-bench.png"
               alt="벤치에 앉아 지팡이를 짚고 있는 할아버지"
-              width={497}
-              height={891}
+              width={1721}
+              height={1494}
               className="story-img"
               sizes="w-full"
             />
@@ -210,8 +210,8 @@ export function StorySection() {
             <Image
               src="/images/story/3_grandmother-walking.png"
               alt="힘차게 걷는 젊은 시절의 할머니"
-              width={690}
-              height={855}
+              width={995}
+              height={1782}
               className="story-img md:translate-x-[-50%]"
               sizes="w-full"
             />
@@ -230,8 +230,8 @@ export function StorySection() {
             <Image
               src="/images/story/4_grandmother-walker.png"
               alt="보행보조기에 의지하여 걷는 할머니"
-              width={688}
-              height={855}
+              width={1377}
+              height={1709}
               className="story-img md:translate-x-[50%]"
               sizes="(max-width: 768px) 65vw, 48vw"
             />
@@ -258,8 +258,8 @@ export function StorySection() {
             <Image
               src="/images/story/5_scooter-riding.png"
               alt="전동스쿠터를 타는 어르신"
-              width={751}
-              height={599}
+              width={1542}
+              height={1306}
               className="story-img translate-x-[-10%]"
               sizes="(max-width: 768px) 80vw, 52vw"
             />
@@ -275,8 +275,8 @@ export function StorySection() {
             <Image
               src="/images/story/6_scooter-rain.png"
               alt="비를 맞으며 전동스쿠터를 타는 어르신"
-              width={744}
-              height={599}
+              width={1584}
+              height={1370}
               className="story-img"
               sizes="(max-width: 768px) 80vw, 52vw"
             />
@@ -292,8 +292,8 @@ export function StorySection() {
             <Image
               src="/images/story/7_scooter-lost.png"
               alt="길을 잃어 당황하는 어르신"
-              width={744}
-              height={599}
+              width={1565}
+              height={1307}
               className="story-img"
               sizes="(max-width: 768px) 80vw, 52vw"
             />
@@ -309,8 +309,8 @@ export function StorySection() {
             <Image
               src="/images/story/8_scooter-accident.png"
               alt="전동스쿠터 전복 사고"
-              width={864}
-              height={645}
+              width={1838}
+              height={1481}
               className="story-img"
               sizes="(max-width: 768px) 80vw, 60vw"
             />
@@ -329,8 +329,8 @@ export function StorySection() {
             <Image
               src="/images/story/9_scooter-breakdown.png"
               alt="전동스쿠터 고장"
-              width={864}
-              height={645}
+              width={1728}
+              height={1291}
               className="story-img"
               sizes="(max-width: 768px) 80vw, 60vw"
             />
@@ -353,8 +353,8 @@ export function StorySection() {
             <Image
               src="/images/story/10_bus-dreaming.png"
               alt="버스를 타고 싶어하는 어르신"
-              width={580}
-              height={940}
+              width={1601}
+              height={2036}
               className="story-img translate-x-[12%]"
               sizes="(max-width: 768px) 50vw, 35vw"
             />
@@ -372,8 +372,8 @@ export function StorySection() {
             <Image
               src="/images/story/11_busstop-faraway.png"
               alt="먼 거리의 정류장"
-              width={884}
-              height={493}
+              width={1768}
+              height={987}
               className="story-img-wide rounded-full "
               sizes="(max-width: 768px) 90vw, 62vw"
             />
@@ -395,8 +395,8 @@ export function StorySection() {
             <Image
               src="/images/story/12_busstop-waiting.png"
               alt="정류장에서 기다리는 어르신"
-              width={888}
-              height={496}
+              width={1777}
+              height={992}
               className="story-img-wide"
               sizes="(max-width: 768px) 90vw, 62vw"
             />
@@ -417,8 +417,8 @@ export function StorySection() {
             <Image
               src="/images/story/13_bus-long-wait.png"
               alt="끝없이 버스를 기다리는 어르신"
-              width={887}
-              height={496}
+              width={1774}
+              height={993}
               className="story-img-wide"
               sizes="(max-width: 768px) 90vw, 62vw"
             />
@@ -440,14 +440,14 @@ export function StorySection() {
           <p className="s-reveal story-text text-center font-bold!">결국 포기하고 돌아갑니다.</p>
           <div className="flex flex-col md:flex-row items-center justify-center gap-[3vw] w-full md:w-[80%] mx-auto">
             <div className="s-img relative w-[90%] md:w-[90%] overflow-hidden rounded-full">
-              <Image
-                src="/images/story/14_bus-giving-up.png"
-                alt="결국 포기하고 돌아가는 어르신"
-                width={925}
-                height={568}
-                className="story-img-wide"
-                sizes="(max-width: 768px) 90vw, 52vw"
-              />
+            <Image
+              src="/images/story/14_bus-giving-up.png"
+              alt="결국 포기하고 돌아가는 어르신"
+              width={1851}
+              height={1137}
+              className="story-img-wide"
+              sizes="(max-width: 768px) 90vw, 52vw"
+            />
               <div className="s-reveal absolute right-[10%] top-[20%] text-center md:text-left">
                 <p className="story-data-label">대기로 인한</p>
                 <p className="story-data-label">이동 포기율</p>
@@ -472,14 +472,14 @@ export function StorySection() {
           </p>
           <div className="flex flex-col items-center w-[80%] mx-auto">
             <div className="s-img relative w-full mt-5">
-              <Image
-                src="/images/story/15_taxi-expensive.png"
-                alt="택시 비용에 놀라는 어르신"
-                width={1032}
-                height={831}
-                className="story-img"
-                sizes="(max-width: 768px) 90vw, 48vw"
-              />
+            <Image
+              src="/images/story/15_taxi-expensive.png"
+              alt="택시 비용에 놀라는 어르신"
+              width={2064}
+              height={1310}
+              className="story-img"
+              sizes="(max-width: 768px) 90vw, 48vw"
+            />
               <div className="s-reveal absolute left-[50%] top-[0%] text-center">
                 <p className="story-data-label">왕복 평균</p>
                 <div className="flex items-baseline gap-1 mt-1">
@@ -504,14 +504,14 @@ export function StorySection() {
           </p>
           <div className="flex relative flex-col items-center mt-[10%] w-[80%] mx-auto">
             <div className="s-img w-[40%]">
-              <Image
-                src="/images/story/16_taxi-burden.png"
-                alt="택시 비용에 괴로워하는 어르신"
-                width={461}
-                height={640}
-                className="story-img translate-x-[-50%]"
-                sizes="(max-width: 768px) 50vw, 28vw"
-              />
+            <Image
+              src="/images/story/16_taxi-burden.png"
+              alt="택시 비용에 괴로워하는 어르신"
+              width={923}
+              height={1281}
+              className="story-img translate-x-[-50%]"
+              sizes="(max-width: 768px) 50vw, 28vw"
+            />
               <div className="s-reveal absolute -right-[10%] top-[0%] text-left">
                 <p className="story-data-label">비용으로 인한</p>
                 <p className="story-data-label">이동 포기율</p>
@@ -550,14 +550,14 @@ export function StorySection() {
           {/* 고립 이미지 */}
           <div className="mt-[6vw] flex flex-col items-center">
             <div className="s-img relative w-[90%] mx-auto">
-              <Image
-                src="/images/story/17_isolation.png"
-                alt="주저앉은 어르신의 뒷모습"
-                width={857}
-                height={755}
-                className="story-img"
-                sizes="(max-width: 768px) 60vw, 40vw"
-              />
+            <Image
+              src="/images/story/17_isolation.png"
+              alt="주저앉은 어르신의 뒷모습"
+              width={1248}
+              height={2142}
+              className="story-img"
+              sizes="(max-width: 768px) 60vw, 40vw"
+            />
               <div className="s-reveal absolute text-left z-10 top-[50%] -right-[50%]">
                 <p className="story-conclusion-quote">&ldquo;집에 있을래.&rdquo;</p>
                 <p className="story-conclusion-quote mt-2">고립 우울 가속화</p>

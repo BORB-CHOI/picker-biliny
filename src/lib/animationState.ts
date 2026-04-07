@@ -1,5 +1,22 @@
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+function scheduleScrollTriggerRefresh(frameCount: number = 2) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  const tick = (remainingFrames: number) => {
+    if (remainingFrames <= 0) {
+      ScrollTrigger.refresh();
+      return;
+    }
+
+    requestAnimationFrame(() => tick(remainingFrames - 1));
+  };
+
+  tick(frameCount);
+}
+
 /**
  * 전역 애니메이션 시퀀스 관리
  *
@@ -167,22 +184,14 @@ export function lockScrollUntilHero() {
   document.body.style.overflow = "hidden";
   onHeaderReady(() => {
     document.body.style.overflow = "";
-    // double-rAF: 모든 섹션이 첫 rAF에서 ScrollTrigger를 생성한 뒤,
-    // 두 번째 rAF에서 refresh하여 pin spacer 포함 위치를 재계산
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
-    });
+    // downstream trigger 생성이 double-rAF를 쓰므로 한 프레임 더 대기해
+    // 실제 trigger 생성 이후 refresh가 실행되도록 맞춘다.
+    scheduleScrollTriggerRefresh(3);
   });
 
   // Hero scrub pin 종료 시점에 한 번 더 refresh하여
-  // 후속 섹션 위치 오차를 줄인다.
+  // hero pin 정리 + downstream trigger 생성 완료 이후 위치를 다시 맞춘다.
   phase.hero.on(() => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
-    });
+    scheduleScrollTriggerRefresh(3);
   });
 }
