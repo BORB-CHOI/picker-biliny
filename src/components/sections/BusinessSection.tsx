@@ -312,7 +312,7 @@ function ExpansionPinSection() {
     <div ref={outerRef} className="relative bg-white h-[165vh]">
       <div
         ref={stickyRef}
-        className="sticky top-1/2 -translate-y-1/2 flex flex-col justify-center overflow-hidden"
+        className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden"
       >
         {/* 제목 */}
         <div className="product-container text-center mb-12">
