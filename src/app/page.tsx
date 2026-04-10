@@ -4,7 +4,7 @@ import { Header } from "@/components/sections/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StorySection } from "@/components/sections/StorySection";
 import { SolutionSection } from "@/components/sections/SolutionSection";
-import { BusinessSection } from "@/components/sections/BusinessSection";
+import { BusinessSection, ExpansionPinSection } from "@/components/sections/BusinessSection";
 import { BilinyProductSection } from "@/components/sections/BilinyProductSection";
 import { TrinyProductSection } from "@/components/sections/TrinyProductSection";
 import { ContactSection } from "@/components/sections/ContactSection";
@@ -29,7 +29,14 @@ export default function Home() {
 
           {/* 6. 사업성 — 돌봄이, 사회적 비용, 예산, 수익 모델 */}
           <BusinessSection />
+        </main>
+      </ScaleWrapper>
 
+      {/* 6-2. 글로벌 확장 — sticky pin 섹션 (ScaleWrapper 외부) */}
+      <ExpansionPinSection />
+
+      <ScaleWrapper>
+        <main>
           {/* 7. 빌리니 제품 — 스펙, 디자인 영상, 360°, 도면, 충전 */}
           <BilinyProductSection />
 

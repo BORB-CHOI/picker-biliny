@@ -227,7 +227,7 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
   );
 }
 
-function ExpansionPinSection() {
+export function ExpansionPinSection() {
   const outerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
 
@@ -846,9 +846,8 @@ export function BusinessSection() {
       </div>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-         Part 7: 로컬 실증에서 글로벌 확장까지 (GSAP Pin)
+         Part 7: 로컬 실증에서 글로벌 확장까지 (별도 ScaleWrapper에서 렌더링)
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <ExpansionPinSection />
     </section>
   );
 }
