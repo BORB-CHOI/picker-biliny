@@ -5,6 +5,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { StorySection } from "@/components/sections/StorySection";
 import { SolutionSection } from "@/components/sections/SolutionSection";
 import { BusinessSection, ExpansionPinSection } from "@/components/sections/BusinessSection";
+import { ZoomWrapper } from "@/components/layout/ZoomWrapper";
 import { BilinyProductSection } from "@/components/sections/BilinyProductSection";
 import { TrinyProductSection } from "@/components/sections/TrinyProductSection";
 import { ContactSection } from "@/components/sections/ContactSection";
@@ -32,8 +33,10 @@ export default function Home() {
         </main>
       </ScaleWrapper>
 
-      {/* 6-2. 글로벌 확장 — sticky pin 섹션 (ScaleWrapper 외부) */}
-      <ExpansionPinSection />
+      {/* 6-2. 글로벌 확장 — sticky pin 섹션 (ScaleWrapper 외부, zoom 축소) */}
+      <ZoomWrapper>
+        <ExpansionPinSection />
+      </ZoomWrapper>
 
       <ScaleWrapper>
         <main>
