@@ -134,7 +134,7 @@ export function StorySection() {
 
   return (
     <section ref={sectionRef} id="story" className="relative bg-white overflow-hidden">
-      <div className="w-full max-w-[94%] md:max-w-[80%] mx-auto px-5 md:px-[5%]">
+      <div className="w-full max-w-[80%] mx-auto px-[5%]">
         {/* ═══════════════════════════════════════
             STORY 헤더
         ═══════════════════════════════════════ */}
@@ -173,7 +173,7 @@ export function StorySection() {
               className="story-img"
               sizes="(max-width: 768px) 100vw, 70vw"
             />
-            <p className="s-reveal story-text text-center mt-[4vw] md:mt-0 md:absolute md:right-[-4%] md:top-[30%]">
+            <p className="s-reveal story-text text-center absolute right-[-4%] top-[30%]">
               젊은시절, 차량으로 어디든 돌아다니시던 할아버지
             </p>
           </div>
@@ -182,9 +182,9 @@ export function StorySection() {
         {/* ────────────────────────────────────
             2026 할아버지 — 벤치
         ──────────────────────────────────── */}
-        <div className="mt-[12vw] relative flex flex-col items-center md:items-end">
+        <div className="mt-[12vw] relative flex flex-col items-end">
           <h2 className="s-fade w-full absolute story-year text-center z-10 -top-10">2026</h2>
-          <div className="s-img relative w-[72%] md:w-[50%]">
+          <div className="s-img relative w-[50%]">
             <Image
               src="/images/story/2_grandfather-bench.png"
               alt="벤치에 앉아 지팡이를 짚고 있는 할아버지"
@@ -193,7 +193,7 @@ export function StorySection() {
               className="story-img"
               sizes="w-full"
             />
-            <p className="s-reveal story-text text-center mt-[4vw] md:mt-0 md:absolute md:left-[-90%] md:top-[50%]">
+            <p className="s-reveal story-text text-center absolute left-[-90%] top-[50%]">
               이젠 할아버지의 <span className="font-bold">두다리</span>는 밴치에 묶였습니다.
             </p>
           </div>
@@ -206,16 +206,16 @@ export function StorySection() {
           <h2 className="s-fade w-full absolute story-year text-center z-10 -translate-y-full">
             1970
           </h2>
-          <div className="s-img relative w-[70%] md:w-[30%]">
+          <div className="s-img relative w-[30%]">
             <Image
               src="/images/story/3_grandmother-walking.png"
               alt="힘차게 걷는 젊은 시절의 할머니"
               width={995}
               height={1782}
-              className="story-img md:translate-x-[-50%]"
+              className="story-img translate-x-[-50%]"
               sizes="w-full"
             />
-            <p className="s-reveal story-text text-center mt-[4vw] md:mt-0 md:absolute md:right-[-90%] md:top-[50%] md:w-max md:whitespace-nowrap">
+            <p className="s-reveal story-text text-center absolute right-[-90%] top-[50%] w-max whitespace-nowrap">
               어디든지 힘차게 다닐 수 있던 <span className="font-bold">두다리</span>는
             </p>
           </div>
@@ -232,10 +232,10 @@ export function StorySection() {
               alt="보행보조기에 의지하여 걷는 할머니"
               width={1377}
               height={1709}
-              className="story-img md:translate-x-[50%]"
+              className="story-img translate-x-[50%]"
               sizes="(max-width: 768px) 65vw, 48vw"
             />
-            <p className="s-reveal story-text text-center absolute top-[50%] -left-[55%] w-max md:whitespace-nowrap">
+            <p className="s-reveal story-text text-center absolute top-[50%] -left-[55%] w-max whitespace-nowrap">
               이젠 보조바퀴가 없으면 쉽게 다니기 어렵습니다.
             </p>
           </div>
@@ -263,7 +263,7 @@ export function StorySection() {
               className="story-img translate-x-[-10%]"
               sizes="(max-width: 768px) 80vw, 52vw"
             />
-            <p className="s-reveal story-text text-center absolute top-[45%] -left-[80%] w-max md:whitespace-nowrap z-10">
+            <p className="s-reveal story-text text-center absolute top-[45%] -left-[80%] w-max whitespace-nowrap z-10">
               <span className="font-bold">전동스쿠터</span>는 어디든지 다니기 쉽지만
             </p>
           </div>
@@ -413,7 +413,7 @@ export function StorySection() {
             <span className="font-bold">언제올지 모르는 버스</span>를 하염없이{" "}
             <span className="font-bold">기다리기만 합니다.</span>
           </p>
-          <div className="s-img relative w-[90%] md:w-[80%] overflow-hidden rounded-full">
+          <div className="s-img relative w-[80%] overflow-hidden rounded-full">
             <Image
               src="/images/story/13_bus-long-wait.png"
               alt="끝없이 버스를 기다리는 어르신"
@@ -438,8 +438,8 @@ export function StorySection() {
         {/* 36% 포기율 */}
         <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
           <p className="s-reveal story-text text-center font-bold!">결국 포기하고 돌아갑니다.</p>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-[3vw] w-full md:w-[80%] mx-auto">
-            <div className="s-img relative w-[90%] md:w-[90%] overflow-hidden rounded-full">
+          <div className="flex flex-row items-center justify-center gap-[3vw] w-[80%] mx-auto">
+            <div className="s-img relative w-[90%] overflow-hidden rounded-full">
             <Image
               src="/images/story/14_bus-giving-up.png"
               alt="결국 포기하고 돌아가는 어르신"
@@ -448,7 +448,7 @@ export function StorySection() {
               className="story-img-wide"
               sizes="(max-width: 768px) 90vw, 52vw"
             />
-              <div className="s-reveal absolute right-[10%] top-[20%] text-center md:text-left">
+              <div className="s-reveal absolute right-[10%] top-[20%] text-center text-left">
                 <p className="story-data-label">대기로 인한</p>
                 <p className="story-data-label">이동 포기율</p>
                 <p className="story-data-number mt-1 text-[4rem]!" data-count="36" data-suffix="%">

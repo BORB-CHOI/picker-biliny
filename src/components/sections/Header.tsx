@@ -57,7 +57,7 @@ export function Header() {
       style={{ opacity: 0 }}
     >
       <nav
-        className="max-w-350 mx-auto flex items-center px-5 py-4 md:py-5"
+        className="max-w-350 mx-auto flex items-center px-5 py-5"
       >
         {NAV_LEFT.map((item) => (
           <a
@@ -66,7 +66,7 @@ export function Header() {
             className="flex-1 group flex flex-col items-center gap-1.5 text-(--color-nav-text) hover:text-(--color-primary) transition-colors duration-200"
           >
             <NavBars count={item.bars} />
-            <span className="text-xs md:text-sm font-medium tracking-[0.06em]">
+            <span className="text-sm font-medium tracking-[0.06em]">
               {item.label}
             </span>
           </a>
@@ -94,7 +94,7 @@ export function Header() {
             className="flex-1 group flex flex-col items-center gap-1.5 text-(--color-nav-text) hover:text-(--color-primary) transition-colors duration-200"
           >
             <NavBars count={item.bars} />
-            <span className="text-xs md:text-sm font-medium tracking-[0.06em]">
+            <span className="text-sm font-medium tracking-[0.06em]">
               {item.label}
             </span>
           </a>

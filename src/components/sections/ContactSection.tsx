@@ -25,7 +25,7 @@ function BarIndicator({ count }: { count: number }) {
   return (
     <span className="inline-flex gap-0.5">
       {Array.from({ length: count }, (_, i) => (
-        <span key={i} className="w-[3px] h-6 md:h-8 bg-[#3a3a3a] rounded-full" />
+        <span key={i} className="w-[3px] h-8 bg-[#3a3a3a] rounded-full" />
       ))}
     </span>
   );
@@ -48,7 +48,7 @@ function ContactInfoRow({
       </div>
       <div>
         <p className="text-white/70 text-xs">{label}</p>
-        <p className="text-white font-bold text-sm md:text-base">{value}</p>
+        <p className="text-white font-bold text-base">{value}</p>
       </div>
     </div>
   );
@@ -118,9 +118,9 @@ export function ContactSection() {
   return (
     <section ref={sectionRef} id="contact" className="relative">
       {/* ── 섹션 타이틀 ── */}
-      <div className="ct-anim flex items-center justify-center gap-3 pt-20 md:pt-28 pb-6 md:pb-8">
+      <div className="ct-anim flex items-center justify-center gap-3 pt-28 pb-8">
         <BarIndicator count={4} />
-        <h2 className="text-3xl md:text-[43px] font-bold text-[#3a3a3a] tracking-wide">
+        <h2 className="text-[43px] font-bold text-[#3a3a3a] tracking-wide">
           CONTACT
         </h2>
       </div>
@@ -129,21 +129,21 @@ export function ContactSection() {
       <div className="ct-anim w-full h-px bg-[#e0e0e0]" />
 
       {/* ── 본문: 좌 파란카드 + 우 폼 ── */}
-      <div className="ct-anim bg-[#f5f6fa] py-12 md:py-20">
-        <div className="max-w-[1200px] mx-auto px-5 md:px-12 lg:px-20">
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+      <div className="ct-anim bg-[#f5f6fa] py-20">
+        <div className="max-w-[1200px] mx-auto px-20">
+          <div className="flex flex-row gap-12">
             {/* 좌측: 파란 배경 카드 */}
-            <div className="relative lg:w-[45%] rounded-3xl overflow-hidden bg-linear-to-br from-[#2675FF] to-[#0050D0] p-8 md:p-12 flex flex-col justify-between min-h-100">
+            <div className="relative w-[45%] rounded-3xl overflow-hidden bg-linear-to-br from-[#2675FF] to-[#0050D0] p-12 flex flex-col justify-between min-h-100">
               {/* 좌상단 원형 장식 */}
               <div className="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-white/10" />
 
               <div className="relative z-10">
-                <h3 className="text-white text-2xl md:text-3xl font-black leading-tight">
+                <h3 className="text-white text-3xl font-black leading-tight">
                   당신의 도시에
                   <br />
                   이동의 자유를 더하세요.
                 </h3>
-                <p className="text-white/80 text-sm md:text-[15px] mt-6 leading-relaxed">
+                <p className="text-white/80 text-[15px] mt-6 leading-relaxed">
                   빌리니 도입은 단순한 기기 구매가 아닙니다. 이동 데이터 기반의 환경 설계부터 운영까지 최적화된 솔루션을 제안합니다.
                 </p>
               </div>
@@ -182,7 +182,7 @@ export function ContactSection() {
             </div>
 
             {/* 우측: 문의 폼 */}
-            <div className="lg:w-[55%]">
+            <div className="w-[55%]">
               {submitted ? (
                 <div className="flex flex-col items-center justify-center h-full text-center gap-4">
                   <div className="w-16 h-16 rounded-full bg-(--color-primary) flex items-center justify-center">
@@ -198,7 +198,7 @@ export function ContactSection() {
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   {/* 이름 + 연락처 */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-bold text-foreground mb-2">
                         이름/담당자명
@@ -284,8 +284,8 @@ export function ContactSection() {
       </div>
 
       {/* ── Footer ── */}
-      <footer className="ct-anim bg-white py-8 md:py-10">
-        <div className="max-w-[1200px] mx-auto px-5 md:px-12 lg:px-20 flex flex-col md:flex-row items-center justify-between gap-4">
+      <footer className="ct-anim bg-white py-10">
+        <div className="max-w-[1200px] mx-auto px-20 flex flex-row items-center justify-between gap-4">
           {/* 로고 */}
           <LogoName width={150} />
 

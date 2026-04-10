@@ -95,8 +95,21 @@ export function HeroSection() {
       let ch = 0;
 
       function resizeCanvas() {
-        cw = window.innerWidth;
-        ch = window.innerHeight;
+        // CSS 변수 --scale-factor 읽기 (useViewportScale 훅이 :root에 설정)
+        const scaleFactor = parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue('--scale-factor'),
+        ) || 1;
+
+        if (scaleFactor < 1.0) {
+          // scale-wrapper 내부: canvas 좌표계를 1440px 기준으로 보정
+          // scale(factor) 적용 후 시각적으로 실제 뷰포트를 채우도록 역보정
+          cw = 1440;
+          ch = window.innerHeight / scaleFactor;
+        } else {
+          cw = window.innerWidth;
+          ch = window.innerHeight;
+        }
+
         canvas!.width = cw * dpr;
         canvas!.height = ch * dpr;
         ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -234,7 +247,7 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full h-screen flex flex-col justify-end bg-background pt-16 md:pt-18"
+      className="relative w-full h-screen flex flex-col justify-end bg-background pt-18"
     >
       {/* 배경 canvas — 이미지 시퀀스 스크롤 scrub */}
       <canvas
@@ -245,15 +258,15 @@ export function HeroSection() {
 
       <div
         ref={innerRef}
-        className="hero-inner relative z-10 px-6 md:px-12 lg:px-20 pb-16 md:pb-24 lg:pb-32 w-full max-w-380 mx-auto"
+        className="hero-inner relative z-10 px-20 pb-32 w-full max-w-380 mx-auto"
       >
         {/* PICKER PROJECT wordmark */}
-        <div className="flex items-center gap-2 mb-6 md:mb-7 ml-1">
+        <div className="flex items-center gap-2 mb-7 ml-1">
           <WordmarkLogoHorizon width={240} fill="#192746" />
         </div>
 
         {/* Main heading */}
-        <h1 className="mb-6 md:mb-7">
+        <h1 className="mb-7">
           <span className="block text-5xl font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight">
             중소도시의 이동권을
           </span>
@@ -263,10 +276,10 @@ export function HeroSection() {
         </h1>
 
         {/* Horizontal decorative line */}
-        <div className="h-px bg-[#D8D8D8] w-full max-w-100 md:max-w-130 mb-6 md:mb-7" />
+        <div className="h-px bg-[#D8D8D8] w-full max-w-130 mb-7" />
 
         {/* Description */}
-        <p className="text-[14px] md:text-[16px] lg:text-[18px] text-(--color-text-desc) leading-[1.85] max-w-95 md:max-w-115 mb-10 md:mb-12">
+        <p className="text-[18px] text-(--color-text-desc) leading-[1.85] max-w-115 mb-12">
           피커 프로젝트 &lsquo;빌리니(BILINY)&rsquo; 는 일상 속<br />
           <strong className="font-extrabold">
             이동의 비효율 사각지대를 해결
@@ -280,14 +293,14 @@ export function HeroSection() {
         <div className="flex gap-3.5">
           <a
             href="#story"
-            className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#4B4B4B] text-white text-[12px] md:text-[14px] font-bold rounded-[11px] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
+            className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#4B4B4B] text-white text-[14px] font-bold rounded-[11px] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
           >
             <BarIndicator count={1} />
             빌리니 스토리 →
           </a>
           <a
             href="#biliny"
-            className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#2675FF] text-white text-[12px] md:text-[14px] font-bold rounded-[11px] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
+            className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#2675FF] text-white text-[14px] font-bold rounded-[11px] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
           >
             <BarIndicator count={2} />
             빌리니 둘러보기 →

@@ -31,9 +31,9 @@ export function TrinyProductSection() {
          Part 1: LINE-UP 스펙 소개
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="product-container relative">
-        <div className="flex flex-col lg:flex-row gap-[clamp(24px,3.3vw,48px)] items-start">
+        <div className="flex flex-row gap-[clamp(24px,3.3vw,48px)] items-start">
           {/* 좌측 텍스트 — Figma 기준 아래로 내려옴 */}
-          <div className="lg:w-[38%] min-w-0 shrink-0 lg:pt-[clamp(160px,20vw,290px)]">
+          <div className="w-[38%] min-w-0 shrink-0 pt-[clamp(160px,20vw,290px)]">
             <p className="b-fade product-label text-(--color-primary)">LINE-UP</p>
             <p className="b-reveal product-sub-heading mt-[clamp(8px,0.7vw,10px)]">
               이동의 자유를 나누는

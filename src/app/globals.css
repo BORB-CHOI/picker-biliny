@@ -468,24 +468,10 @@ body {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .product-container {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
   max-width: 1200px;
   margin-inline: auto;
-}
-
-@media (min-width: 768px) {
-  .product-container {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .product-container {
-    padding-left: 5rem;
-    padding-right: 5rem;
-  }
 }
 
 /* ── 섹션 대제목 (42px, 영어 자간 0) ── */

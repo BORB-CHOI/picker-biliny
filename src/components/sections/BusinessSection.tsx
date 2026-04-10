@@ -309,15 +309,15 @@ function ExpansionPinSection() {
   );
 
   return (
-    <div ref={outerRef} className="relative bg-white h-[150vh] md:h-[165vh]">
+    <div ref={outerRef} className="relative bg-white h-[165vh]">
       <div
         ref={stickyRef}
         className="sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-center overflow-hidden"
       >
         {/* 제목 */}
-        <div className="product-container text-center mb-8 md:mb-12">
+        <div className="product-container text-center mb-12">
           <h3 className="exp-title biz-title">로컬 실증에서 글로벌 확장까지</h3>
-          <p className="exp-title biz-expansion-sub mt-5 md:mt-8">
+          <p className="exp-title biz-expansion-sub mt-8">
             <span className="font-bold text-(--color-blue)">10% </span>
             <span className="font-bold">예산 전환을 시작으로,</span>
             {" "}5년간{" "}
@@ -330,27 +330,27 @@ function ExpansionPinSection() {
         <div className="product-container">
           <div className="flex items-start justify-center">
             <div className="exp-col flex flex-col items-center flex-1 min-w-0">
-              <span className="biz-year-badge mb-3 md:mb-5">2027</span>
+              <span className="biz-year-badge mb-5">2027</span>
               <PhaseColumn p={PHASES[0]} />
             </div>
 
             <div className="exp-connector flex items-center self-start mt-1.5 mx-1 origin-left shrink-0">
-              <span className="block w-12 md:w-20 h-0.5 bg-(--color-blue)" />
-              <span className="block w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-(--color-blue) shrink-0" />
+              <span className="block w-20 h-0.5 bg-(--color-blue)" />
+              <span className="block w-2.5 h-2.5 rounded-full bg-(--color-blue) shrink-0" />
             </div>
 
             <div className="exp-col flex flex-col items-center flex-1 min-w-0">
-              <span className="biz-year-badge mb-3 md:mb-5">2028</span>
+              <span className="biz-year-badge mb-5">2028</span>
               <PhaseColumn p={PHASES[1]} />
             </div>
 
             <div className="exp-connector flex items-center self-start mt-1.5 mx-1 origin-left shrink-0">
-              <span className="block w-12 md:w-20 h-0.5 bg-(--color-blue)" />
-              <span className="block w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-(--color-blue) shrink-0" />
+              <span className="block w-20 h-0.5 bg-(--color-blue)" />
+              <span className="block w-2.5 h-2.5 rounded-full bg-(--color-blue) shrink-0" />
             </div>
 
             <div className="exp-col flex flex-col items-center flex-1 min-w-0">
-              <span className="biz-year-badge mb-3 md:mb-5">2030</span>
+              <span className="biz-year-badge mb-5">2030</span>
               <PhaseColumn p={PHASES[2]} />
             </div>
           </div>
@@ -398,21 +398,22 @@ export function BusinessSection() {
           <div className="product-container text-center pt-[clamp(200px,27vw,400px)] pb-[clamp(40px,5.5vw,80px)]">
             <h3 className="b-reveal biz-heading-lg">이동권 박탈로 인해 발생하는 사회적 비용</h3>
             <div
-              className="b-fade mt-[clamp(20px,2.8vw,40px)] flex flex-col"
+              className="b-fade mt-[clamp(20px,2.8vw,40px)] flex flex-col inline-block"
               data-anim-split="children"
             >
-              <span className="biz-big-prefix" data-anim-item>
-                중소도시 당 연간{" "}
+              <span className="biz-big-prefix relative" data-anim-item>
+                  중소도시 당 연간{" "}
                 <span className="biz-big-number">
                   310<span className="biz-big-prefix">억</span>
                 </span>
+                <p className="absolute biz-small left-0 mt-2 ml-0.5" data-anim-item>인구 10만명 미만기준</p>
               </span>
-              <p className="biz-small text-start ml-2" data-anim-item>인구 10만명 미만기준</p>
+              
             </div>
 
             {/* Icon Groups */}
             <div
-              className="b-fade flex flex-col md:flex-row items-center justify-center gap-20 mt-[clamp(40px,5.5vw,80px)]"
+              className="b-fade flex flex-row items-center justify-center gap-20 mt-[clamp(40px,5.5vw,80px)]"
               data-anim-split="children"
             >
               {/* 복지버스/택시 */}
@@ -486,7 +487,7 @@ export function BusinessSection() {
 
             {/* Three Info Cards — Figma 4142:26 */}
             <div
-              className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(12px,1.7vw,24px)] mt-[clamp(40px,5.5vw,80px)]"
+              className="b-fade grid grid-cols-3 gap-[clamp(12px,1.7vw,24px)] mt-[clamp(40px,5.5vw,80px)]"
               data-anim-split="children"
             >
               {[
@@ -639,7 +640,7 @@ export function BusinessSection() {
 
           {/* 3 Product Cards — 이미지 위 + 카드 아래 */}
           <div
-            className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]"
+            className="b-fade grid grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]"
             data-anim-split="children"
           >
             {[
@@ -744,7 +745,7 @@ export function BusinessSection() {
 
           {/* Revenue Cards */}
           <div
-            className="b-fade grid grid-cols-1 md:grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]"
+            className="b-fade grid grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]"
             data-anim-split="children"
           >
             {/* Card 1: 9번+10번 겹침 — 배경 없이 이미지만 */}
