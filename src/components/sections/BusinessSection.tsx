@@ -134,7 +134,7 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
   return (
     <div className="flex flex-col items-center min-w-0 flex-1">
       {/* 설명 */}
-      <p className="biz-phase-desc text-center mb-[clamp(8px,1.1cqw,16px)]">{p.desc}</p>
+      <p className="biz-phase-desc text-center whitespace-nowrap mb-[clamp(8px,1.1cqw,16px)]">{p.desc}</p>
 
       {/* 지도 + 스탯 가로 배치 */}
       <div className="flex items-start justify-center gap-[clamp(6px,1cqw,16px)]">
@@ -149,7 +149,7 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
         </div>
         <div className="flex flex-col justify-center gap-[clamp(4px,0.7cqw,10px)] pt-[clamp(8px,1cqw,14px)]">
           {p.stats.map((s) => (
-            <p key={s.number} className="biz-phase-stat">
+            <p key={s.number} className="biz-phase-stat whitespace-nowrap">
               <span className="font-bold">{s.number}</span>
               <span className="font-normal">{s.unit}</span>
             </p>
@@ -161,7 +161,7 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
       <div className="relative mt-[clamp(12px,1.7cqw,24px)] w-full max-w-[clamp(240px,26cqw,380px)]">
         <div className="rounded-[clamp(20px,2.6cqw,38px)] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] backdrop-blur-sm px-[clamp(10px,1.4cqw,20px)] py-[clamp(8px,1.1cqw,16px)]">
           {/* 투자 / 감축·수익 테이블 */}
-          <div className="grid grid-cols-[52%_1fr] gap-x-2">
+          <div className="grid grid-cols-[1fr_1fr] gap-x-2">
             <div className="flex flex-col gap-[clamp(1px,0.2cqw,3px)]">
               {p.finance.left.map((item) => (
                 <div
@@ -312,7 +312,7 @@ function ExpansionPinSection() {
     <div ref={outerRef} className="relative bg-white h-[165vh]">
       <div
         ref={stickyRef}
-        className="sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-center overflow-hidden"
+        className="sticky top-1/2 -translate-y-1/2 flex flex-col justify-center overflow-hidden"
       >
         {/* 제목 */}
         <div className="product-container text-center mb-12">
