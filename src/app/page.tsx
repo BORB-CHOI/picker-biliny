@@ -17,11 +17,14 @@ export default function Home() {
       <IntroAnimation />
       <ScrollTriggerRefreshController />
       <Header />
+
+      {/* 1. 메인 온보딩 — GSAP pin 사용, ScaleWrapper 외부 */}
+      <ZoomWrapper>
+        <HeroSection />
+      </ZoomWrapper>
+
       <ScaleWrapper>
         <main>
-          {/* 1. 메인 온보딩 — 배경 영상 + 히어로 텍스트 */}
-          <HeroSection />
-
           {/* 2. 스토리 — 1970↔2026 과거/현재 비교 타임라인 */}
           <StorySection />
 
