@@ -400,7 +400,7 @@ export function StorySection() {
               className="story-img-wide"
               sizes="(max-width: 768px) 90vw, 62vw"
             />
-            <div className="absolute right-[2%] top-[31%] text-left">
+            <div className="absolute right-[7%] top-[31%] text-left">
               <p className="s-reveal story-text">도심 외곽 정류장 평균</p>
               <p className="s-reveal story-data-number mt-1">하루 배차</p>
             </div>

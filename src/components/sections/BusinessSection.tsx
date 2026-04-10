@@ -628,12 +628,12 @@ export function BusinessSection() {
                   <span className="biz-note mt-[clamp(2px,0.3vw,4px)]">(150억)</span>
                 </span>
               </span>
-              <span className="font-bold">의 단</span>
+              <span className="font-bold">의 단</span>{" "}
               <span className="font-bold text-(--color-blue)">10%</span>만으로 고령자 생활에 맞춘{" "}
               <span className="font-bold">새로운 이동수단 대안을 제공</span>할 수 있습니다.
             </p>
             <p className="biz-note mt-2" data-anim-item>
-              홍성읍 중심지 600m 반경 고령자 1300명을 대상, 초기 서비스 도입 시뮬레이션
+              홍성읍 중심지 <span className="font-bold"><span className="font-bold text-(--color-blue)">600m</span> 반경</span> 고령자 1300명을 대상, 초기 서비스 도입 시뮬레이션
             </p>
           </div>
 
