@@ -19,8 +19,11 @@ const PRELOAD_VIDEO_SOURCES = [
   '/videos/triny/turning.mp4',
 ] as const;
 
-/** 개발 중 인트로 스킵 — 프로덕션에서는 항상 false */
-const SKIP_INTRO = process.env.NODE_ENV === 'development';
+/** 개발 중 인트로 스킵 — 프로덕션에서는 항상 false, 개발 중 ?intro=1 으로 강제 재생 */
+const SKIP_INTRO =
+  process.env.NODE_ENV === 'development' &&
+  typeof window !== 'undefined' &&
+  !new URLSearchParams(window.location.search).has('intro');
 
 export function IntroAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
