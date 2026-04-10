@@ -53,7 +53,7 @@ export function useViewportScale(config: ViewportScaleConfig): ViewportScaleResu
     // ── 2.5: GPU 가속 + transform 적용 ──
     if (isScaled) {
       wrapper.style.width = `${baseWidth}px`;
-      wrapper.style.transformOrigin = 'top center';
+      wrapper.style.transformOrigin = 'top left';
       wrapper.style.transform = `scale(${factor})`;
       wrapper.style.willChange = 'transform';
     } else {
