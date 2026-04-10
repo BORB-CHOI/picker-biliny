@@ -258,15 +258,15 @@ export function HeroSection() {
 
       <div
         ref={innerRef}
-        className="hero-inner relative z-10 px-[clamp(12px,1.39cqw,20px)] pb-[clamp(16px,2.22cqw,32px)] w-full max-w-[95rem] mx-auto"
+        className="hero-inner relative z-10 px-[clamp(40px,5.56cqw,80px)] pb-[clamp(48px,6.67cqw,96px)] w-full max-w-[95rem] mx-auto"
       >
         {/* PICKER PROJECT wordmark */}
-        <div className="flex items-center gap-[0.14cqw] mb-[clamp(14px,0.49cqw,28px)] ml-1">
+        <div className="flex items-center gap-[0.56cqw] mb-[clamp(14px,1.94cqw,28px)] ml-1">
           <WordmarkLogoHorizon width={240} fill="#192746" className="w-[clamp(120px,16.67cqw,240px)] h-auto" />
         </div>
 
         {/* Main heading */}
-        <h1 className="mb-[clamp(14px,0.49cqw,28px)]">
+        <h1 className="mb-[clamp(14px,1.94cqw,28px)]">
           <span className="block text-[clamp(24px,3.33cqw,48px)] font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight whitespace-nowrap">
             중소도시의 이동권을
           </span>
@@ -276,10 +276,10 @@ export function HeroSection() {
         </h1>
 
         {/* Horizontal decorative line */}
-        <div className="h-px bg-[#D8D8D8] w-full max-w-[clamp(50px,9.03cqw,130px)] mb-[clamp(14px,0.49cqw,28px)]" />
+        <div className="h-px bg-[#D8D8D8] w-full max-w-[clamp(50px,9.03cqw,130px)] mb-[clamp(14px,1.94cqw,28px)]" />
 
         {/* Description */}
-        <p className="text-[clamp(10px,1.25cqw,18px)] text-(--color-text-desc) leading-[1.85] max-w-[clamp(200px,31.94cqw,460px)] mb-[clamp(20px,0.83cqw,48px)] whitespace-nowrap">
+        <p className="text-[clamp(10px,1.25cqw,18px)] text-(--color-text-desc) leading-[1.85] max-w-[clamp(200px,31.94cqw,460px)] mb-[clamp(24px,3.33cqw,48px)] whitespace-nowrap">
           피커 프로젝트 &lsquo;빌리니(BILINY)&rsquo; 는 일상 속<br />
           <strong className="font-extrabold">
             이동의 비효율 사각지대를 해결
