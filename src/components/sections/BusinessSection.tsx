@@ -134,11 +134,11 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
   return (
     <div className="flex flex-col items-center min-w-0 flex-1">
       {/* 설명 */}
-      <p className="biz-phase-desc text-center mb-[clamp(8px,1.1vw,16px)]">{p.desc}</p>
+      <p className="biz-phase-desc text-center mb-[clamp(8px,1.1cqw,16px)]">{p.desc}</p>
 
       {/* 지도 + 스탯 가로 배치 */}
-      <div className="flex items-start justify-center gap-[clamp(6px,1vw,16px)]">
-        <div className="relative w-[clamp(100px,12vw,180px)] h-[clamp(100px,12vw,180px)] shrink-0">
+      <div className="flex items-start justify-center gap-[clamp(6px,1cqw,16px)]">
+        <div className="relative w-[clamp(100px,12cqw,180px)] h-[clamp(100px,12cqw,180px)] shrink-0">
           <Image
             src={p.map}
             alt={p.mapAlt}
@@ -147,7 +147,7 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
             sizes="12vw"
           />
         </div>
-        <div className="flex flex-col justify-center gap-[clamp(4px,0.7vw,10px)] pt-[clamp(8px,1vw,14px)]">
+        <div className="flex flex-col justify-center gap-[clamp(4px,0.7cqw,10px)] pt-[clamp(8px,1cqw,14px)]">
           {p.stats.map((s) => (
             <p key={s.number} className="biz-phase-stat">
               <span className="font-bold">{s.number}</span>
@@ -158,11 +158,11 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
       </div>
 
       {/* 재정 카드 */}
-      <div className="relative mt-[clamp(12px,1.7vw,24px)] w-full max-w-[clamp(240px,26vw,380px)]">
-        <div className="rounded-[clamp(20px,2.6vw,38px)] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] backdrop-blur-sm px-[clamp(10px,1.4vw,20px)] py-[clamp(8px,1.1vw,16px)]">
+      <div className="relative mt-[clamp(12px,1.7cqw,24px)] w-full max-w-[clamp(240px,26cqw,380px)]">
+        <div className="rounded-[clamp(20px,2.6cqw,38px)] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] backdrop-blur-sm px-[clamp(10px,1.4cqw,20px)] py-[clamp(8px,1.1cqw,16px)]">
           {/* 투자 / 감축·수익 테이블 */}
           <div className="grid grid-cols-[52%_1fr] gap-x-2">
-            <div className="flex flex-col gap-[clamp(1px,0.2vw,3px)]">
+            <div className="flex flex-col gap-[clamp(1px,0.2cqw,3px)]">
               {p.finance.left.map((item) => (
                 <div
                   key={item.label}
@@ -170,11 +170,11 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
                 >
                   <span className="biz-fin-label">{item.label}</span>
                   <span className="biz-fin-value">{item.value}</span>
-                  <span className="biz-fin-label text-[clamp(5px,0.56vw,8px)]">{item.tag}</span>
+                  <span className="biz-fin-label text-[clamp(5px,0.56cqw,8px)]">{item.tag}</span>
                 </div>
               ))}
             </div>
-            <div className="flex flex-col gap-[clamp(1px,0.2vw,3px)]">
+            <div className="flex flex-col gap-[clamp(1px,0.2cqw,3px)]">
               {p.finance.right.map((item) => (
                 <div
                   key={item.label}
@@ -182,22 +182,22 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
                 >
                   <span className="biz-fin-label">{item.label}</span>
                   <span className="biz-fin-value">{item.value}</span>
-                  <span className="biz-fin-label text-[clamp(5px,0.56vw,8px)]">{item.tag}</span>
+                  <span className="biz-fin-label text-[clamp(5px,0.56cqw,8px)]">{item.tag}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* 하단 요약 */}
-          <div className="flex items-center justify-between mt-[clamp(6px,0.8vw,12px)] pt-[clamp(3px,0.4vw,6px)] border-t border-[rgba(0,0,0,0.06)]">
-            <div className="flex items-baseline gap-[clamp(1px,0.2vw,3px)]">
+          <div className="flex items-center justify-between mt-[clamp(6px,0.8cqw,12px)] pt-[clamp(3px,0.4cqw,6px)] border-t border-[rgba(0,0,0,0.06)]">
+            <div className="flex items-baseline gap-[clamp(1px,0.2cqw,3px)]">
               <span className="biz-fin-total">{p.finance.totalLeft}</span>
               <span className="biz-fin-label">{p.finance.totalLeftUnit}</span>
               <span className="biz-fin-note">{p.finance.totalLeftNote}</span>
             </div>
 
             {/* 화살표 */}
-            <div className="relative w-[clamp(14px,1.5vw,22px)] h-[clamp(10px,1.1vw,16px)] mx-[clamp(2px,0.3vw,6px)] shrink-0">
+            <div className="relative w-[clamp(14px,1.5cqw,22px)] h-[clamp(10px,1.1cqw,16px)] mx-[clamp(2px,0.3cqw,6px)] shrink-0">
               <Image
                 src="/images/busniess/16_fin-card-shadow.png"
                 alt=""
@@ -209,12 +209,12 @@ function PhaseColumn({ p }: { p: typeof PHASES[number] }) {
             </div>
 
             <div className="flex flex-col items-end">
-              <div className="flex items-baseline gap-[clamp(1px,0.2vw,3px)]">
+              <div className="flex items-baseline gap-[clamp(1px,0.2cqw,3px)]">
                 <span className="biz-fin-note">{p.finance.totalRightNote}</span>
                 <span className="biz-fin-total">{p.finance.totalRight}</span>
                 <span className="biz-fin-label">{p.finance.totalRightUnit}</span>
               </div>
-              <div className="flex items-baseline gap-[clamp(1px,0.2vw,3px)]">
+              <div className="flex items-baseline gap-[clamp(1px,0.2cqw,3px)]">
                 <span className="biz-fin-label">5년누적</span>
                 <span className="biz-fin-total">{p.finance.cumulative}</span>
                 <span className="biz-fin-label">{p.finance.cumulativeUnit}</span>
@@ -395,10 +395,10 @@ export function BusinessSection() {
         />
         <div className="relative z-1">
           {/* ── 사회적 비용 ── */}
-          <div className="product-container text-center pt-[clamp(200px,27vw,400px)] pb-[clamp(40px,5.5vw,80px)]">
+          <div className="product-container text-center pt-[clamp(200px,27cqw,400px)] pb-[clamp(40px,5.5cqw,80px)]">
             <h3 className="b-reveal biz-heading-lg">이동권 박탈로 인해 발생하는 사회적 비용</h3>
             <div
-              className="b-fade mt-[clamp(20px,2.8vw,40px)] flex flex-col inline-block"
+              className="b-fade mt-[clamp(20px,2.8cqw,40px)] flex flex-col inline-block"
               data-anim-split="children"
             >
               <span className="biz-big-prefix relative" data-anim-item>
@@ -413,13 +413,13 @@ export function BusinessSection() {
 
             {/* Icon Groups */}
             <div
-              className="b-fade flex flex-row items-center justify-center gap-20 mt-[clamp(40px,5.5vw,80px)]"
+              className="b-fade flex flex-row items-center justify-center gap-20 mt-[clamp(40px,5.5cqw,80px)]"
               data-anim-split="children"
             >
               {/* 복지버스/택시 */}
-              <div className="flex flex-col items-center gap-[clamp(8px,1vw,14px)]">
-                <div className="flex items-center gap-[clamp(16px,2.2vw,32px)]">
-                  <div className="relative w-[clamp(48px,5.5vw,80px)] h-[clamp(48px,5.5vw,80px)]">
+              <div className="flex flex-col items-center gap-[clamp(8px,1cqw,14px)]">
+                <div className="flex items-center gap-[clamp(16px,2.2cqw,32px)]">
+                  <div className="relative w-[clamp(48px,5.5cqw,80px)] h-[clamp(48px,5.5cqw,80px)]">
                     <Image
                       src="/images/busniess/1_welfare-bus-icon.png"
                       alt="복지버스"
@@ -428,7 +428,7 @@ export function BusinessSection() {
                       sizes="5.5vw"
                     />
                   </div>
-                  <div className="relative w-[clamp(48px,5.5vw,80px)] h-[clamp(48px,5.5vw,80px)]">
+                  <div className="relative w-[clamp(48px,5.5cqw,80px)] h-[clamp(48px,5.5cqw,80px)]">
                     <Image
                       src="/images/busniess/2_welfare-taxi-icon.png"
                       alt="복지택시"
@@ -445,9 +445,9 @@ export function BusinessSection() {
               <span className="biz-plus">+</span>
 
               {/* 우울증/요양 */}
-              <div className="flex flex-col items-center gap-[clamp(8px,1vw,14px)]">
-                <div className="flex items-center gap-[clamp(16px,2.2vw,32px)]">
-                  <div className="relative w-[clamp(48px,5.5vw,80px)] h-[clamp(48px,5.5vw,80px)]">
+              <div className="flex flex-col items-center gap-[clamp(8px,1cqw,14px)]">
+                <div className="flex items-center gap-[clamp(16px,2.2cqw,32px)]">
+                  <div className="relative w-[clamp(48px,5.5cqw,80px)] h-[clamp(48px,5.5cqw,80px)]">
                     <Image
                       src="/images/busniess/3_depression-icon.png"
                       alt="우울증"
@@ -456,7 +456,7 @@ export function BusinessSection() {
                       sizes="5.5vw"
                     />
                   </div>
-                  <div className="relative w-[clamp(48px,5.5vw,80px)] h-[clamp(48px,5.5vw,80px)]">
+                  <div className="relative w-[clamp(48px,5.5cqw,80px)] h-[clamp(48px,5.5cqw,80px)]">
                     <Image
                       src="/images/busniess/4_nursing-facility-icon.png"
                       alt="요양시설"
@@ -473,11 +473,11 @@ export function BusinessSection() {
           </div>
 
           {/* ── 막대한 예산 투입 ── */}
-          <div className="product-container text-center pt-[clamp(80px,11vw,160px)]">
+          <div className="product-container text-center pt-[clamp(80px,11cqw,160px)]">
             <h3 className="b-reveal biz-title-white">
               막대한 예산 투입, 그러나 여전한 이동의 고립
             </h3>
-            <p className="b-fade biz-body-dark mt-[clamp(16px,2.2vw,32px)]">
+            <p className="b-fade biz-body-dark mt-[clamp(16px,2.2cqw,32px)]">
               기존 복지버스/무료 택시는 연간 150억원을 투입하지만,
             </p>
             <p className="b-fade biz-body-dark">
@@ -487,7 +487,7 @@ export function BusinessSection() {
 
             {/* Three Info Cards — Figma 4142:26 */}
             <div
-              className="b-fade grid grid-cols-3 gap-[clamp(12px,1.7vw,24px)] mt-[clamp(40px,5.5vw,80px)]"
+              className="b-fade grid grid-cols-3 gap-[clamp(12px,1.7cqw,24px)] mt-[clamp(40px,5.5cqw,80px)]"
               data-anim-split="children"
             >
               {[
@@ -572,25 +572,25 @@ export function BusinessSection() {
               ].map((card) => (
                 <div
                   key={card.title}
-                  className="rounded-[clamp(12px,1.1vw,16px)] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] p-[clamp(20px,2.2vw,32px)] text-left"
+                  className="rounded-[clamp(12px,1.1cqw,16px)] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] p-[clamp(20px,2.2cqw,32px)] text-left"
                   data-anim-item
                 >
-                  <div className="w-[clamp(20px,1.8vw,26px)] h-[clamp(20px,1.8vw,26px)] mb-[clamp(16px,2vw,28px)]">
+                  <div className="w-[clamp(20px,1.8cqw,26px)] h-[clamp(20px,1.8cqw,26px)] mb-[clamp(16px,2cqw,28px)]">
                     {card.icon}
                   </div>
                   <p className="biz-stat-title">{card.title}</p>
-                  <p className="biz-stat-desc font-bold mt-[clamp(4px,0.4vw,6px)]">
+                  <p className="biz-stat-desc font-bold mt-[clamp(4px,0.4cqw,6px)]">
                     {card.subtitle}
                   </p>
-                  <p className="biz-stat-desc mt-[clamp(12px,1.4vw,20px)]">{card.desc}</p>
+                  <p className="biz-stat-desc mt-[clamp(12px,1.4cqw,20px)]">{card.desc}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* ── 전환 화살표 (그라데이션 영역 안) ── */}
-          <div className="b-fade flex justify-center pb-[clamp(30px,4vw,60px)] translate-y-10 -mt-50">
-            <div className="relative w-[clamp(180px,24vw,360px)] aspect-[1/2]">
+          <div className="b-fade flex justify-center pb-[clamp(30px,4cqw,60px)] translate-y-10 -mt-50">
+            <div className="relative w-[clamp(180px,24cqw,360px)] aspect-[1/2]">
               <Image
                 src="/images/busniess/5_transition-arrow.png"
                 alt=""
@@ -607,18 +607,18 @@ export function BusinessSection() {
          Part 5: 교통 복지 예산의 10%만으로
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="bg-white">
-        <div className="product-container text-center py-[clamp(60px,8.3vw,120px)] pt-70">
+        <div className="product-container text-center py-[clamp(60px,8.3cqw,120px)] pt-70">
           <h3 className="b-reveal biz-title">
             교통 복지 예산의 <span className="biz-highlight-blue">10%</span>만으로
           </h3>
           <div
-            className="b-fade mt-[clamp(16px,2.2vw,32px)] mb-[clamp(40px,5.5vw,80px)]"
+            className="b-fade mt-[clamp(16px,2.2cqw,32px)] mb-[clamp(40px,5.5cqw,80px)]"
             data-anim-split="children"
           >
             <p className="biz-desc" data-anim-item>
               <span className="relative inline-block">
                 1년 교통 복지 <span className="font-bold">예산</span>
-                <span className="absolute left-0 right-0 top-full flex flex-col items-center mt-[clamp(2px,0.3vw,4px)]">
+                <span className="absolute left-0 right-0 top-full flex flex-col items-center mt-[clamp(2px,0.3cqw,4px)]">
                   <span
                     className="w-full h-px"
                     style={{
@@ -626,7 +626,7 @@ export function BusinessSection() {
                         "linear-gradient(to right, transparent, #c0c0c0 30%, #c0c0c0 70%, transparent)",
                     }}
                   />
-                  <span className="biz-note mt-[clamp(2px,0.3vw,4px)]">(150억)</span>
+                  <span className="biz-note mt-[clamp(2px,0.3cqw,4px)]">(150억)</span>
                 </span>
               </span>
               <span className="font-bold">의 단</span>{" "}
@@ -640,7 +640,7 @@ export function BusinessSection() {
 
           {/* 3 Product Cards — 이미지 위 + 카드 아래 */}
           <div
-            className="b-fade grid grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]"
+            className="b-fade grid grid-cols-3 gap-[clamp(16px,2.2cqw,32px)] mt-[clamp(40px,5.5cqw,80px)]"
             data-anim-split="children"
           >
             {[
@@ -697,7 +697,7 @@ export function BusinessSection() {
               <div key={card.title} className="flex flex-col items-center" data-anim-item>
                 {/* 제품 이미지 (카드 바깥) */}
                 <div
-                  className={`relative overflow-hidden h-[clamp(160px,18vw,260px)] ${card.wide ? "w-[clamp(280px,34vw,500px)]" : "w-[clamp(160px,18vw,260px)]"} mb-[clamp(12px,1.4vw,20px)]`}
+                  className={`relative overflow-hidden h-[clamp(160px,18cqw,260px)] ${card.wide ? "w-[clamp(280px,34cqw,500px)]" : "w-[clamp(160px,18cqw,260px)]"} mb-[clamp(12px,1.4cqw,20px)]`}
                 >
                   <Image
                     src={card.src}
@@ -708,16 +708,16 @@ export function BusinessSection() {
                   />
                 </div>
                 {/* 카드 */}
-                <div className="w-full rounded-[clamp(16px,1.7vw,24px)] bg-[var(--color-bg-subtle)] border border-[#ebebeb] shadow-[0_4px_32px_rgba(98,98,98,0.15)] px-5 py-5 text-center">
+                <div className="w-full rounded-[clamp(16px,1.7cqw,24px)] bg-[var(--color-bg-subtle)] border border-[#ebebeb] shadow-[0_4px_32px_rgba(98,98,98,0.15)] px-5 py-5 text-center">
                   <p className="biz-card-title">{card.title}</p>
-                  <p className="biz-card-qty mt-[clamp(2px,0.3vw,4px)]">{card.qty}</p>
-                  <p className="biz-card-price mt-[clamp(6px,0.7vw,10px)]">
+                  <p className="biz-card-qty mt-[clamp(2px,0.3cqw,4px)]">{card.qty}</p>
+                  <p className="biz-card-price mt-[clamp(6px,0.7cqw,10px)]">
                     {card.price}
                     <span className="biz-card-qty">억 원</span>
                   </p>
-                  <div className="mt-[clamp(14px,1.7vw,24px)]">
+                  <div className="mt-[clamp(14px,1.7cqw,24px)]">
                     <p className="biz-card-desc">{card.desc1}</p>
-                    <p className="biz-card-desc mt-[clamp(2px,0.3vw,4px)]">{card.desc2}</p>
+                    <p className="biz-card-desc mt-[clamp(2px,0.3cqw,4px)]">{card.desc2}</p>
                   </div>
                 </div>
               </div>
@@ -729,30 +729,30 @@ export function BusinessSection() {
          Part 6: 게다가 자율주행이잖아?
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="bg-white">
-        <div className="product-container text-center py-[clamp(60px,8.3vw,120px)]">
+        <div className="product-container text-center py-[clamp(60px,8.3cqw,120px)]">
           <h3 className="b-reveal biz-revenue-heading">게다가</h3>
-          <h3 className="b-reveal biz-revenue-heading mt-[clamp(12px,1.7vw,24px)]">
+          <h3 className="b-reveal biz-revenue-heading mt-[clamp(12px,1.7cqw,24px)]">
             자율주행이잖아?
           </h3>
-          <p className="b-fade mt-[clamp(24px,3.3vw,48px)] text-[clamp(16px,1.7vw,24px)] tracking-[0.05em] text-[var(--color-text-tertiary)]">
+          <p className="b-fade mt-[clamp(24px,3.3cqw,48px)] text-[clamp(16px,1.7cqw,24px)] tracking-[0.05em] text-[var(--color-text-tertiary)]">
             <span className="font-bold">비활동시간 추가 비즈니스</span>를 통한 부가가치 확장
           </p>
-          <p className="b-fade biz-subtitle mt-[clamp(16px,2.2vw,32px)]">
+          <p className="b-fade biz-subtitle mt-[clamp(16px,2.2cqw,32px)]">
             케어 업무 이외 <span className="font-bold text-(--color-blue)">남는 시간</span>, 도심 속{" "}
             <span className="font-bold text-(--color-blue)">업무 확장</span>이 가능한
           </p>
-          <p className="b-fade biz-city-care mt-[clamp(4px,0.5vw,8px)]">시티 케어 솔루션</p>
+          <p className="b-fade biz-city-care mt-[clamp(4px,0.5cqw,8px)]">시티 케어 솔루션</p>
 
           {/* Revenue Cards */}
           <div
-            className="b-fade grid grid-cols-3 gap-[clamp(16px,2.2vw,32px)] mt-[clamp(40px,5.5vw,80px)]"
+            className="b-fade grid grid-cols-3 gap-[clamp(16px,2.2cqw,32px)] mt-[clamp(40px,5.5cqw,80px)]"
             data-anim-split="children"
           >
             {/* Card 1: 9번+10번 겹침 — 배경 없이 이미지만 */}
             <div className="flex flex-col items-center" data-anim-item>
               <p className="biz-revenue-label">중단거리 출퇴근 / 학교·학원 등하교</p>
 
-              <div className="relative w-full h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)]">
+              <div className="relative w-full h-[clamp(180px,22cqw,300px)] mt-[clamp(8px,1cqw,14px)]">
                 <p className="biz-revenue-detail absolute -top-3 left-10 z-2">*50대 운영기준</p>
                 {/* Image 9 — 좌상단, 원본 비율 */}
                 <div className="absolute left-0 top-[3%] w-[70%]">
@@ -761,7 +761,7 @@ export function BusinessSection() {
                     alt="출퇴근 보조"
                     width={400}
                     height={300}
-                    className="w-full h-auto rounded-[clamp(20px,2.4vw,35px)]"
+                    className="w-full h-auto rounded-[clamp(20px,2.4cqw,35px)]"
                     sizes="15vw"
                   />
                 </div>
@@ -772,55 +772,55 @@ export function BusinessSection() {
                     alt="승하차 보조"
                     width={400}
                     height={300}
-                    className="w-full h-auto rounded-[clamp(20px,2.4vw,35px)]"
+                    className="w-full h-auto rounded-[clamp(20px,2.4cqw,35px)]"
                     sizes="15vw"
                   />
                 </div>
               </div>
 
-              <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4vw,20px)]">
+              <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4cqw,20px)]">
                 <span className="biz-revenue-unit">연</span>
                 <span className="biz-revenue-annual">2.7</span>
                 <span className="biz-revenue-unit">억 원</span>
               </div>
-              <p className="biz-revenue-detail mt-[clamp(4px,0.5vw,8px)]">
+              <p className="biz-revenue-detail mt-[clamp(4px,0.5cqw,8px)]">
                 출/퇴근 이동 3회, 등/하원 3회, 점심시간 단거리 이동 2회
               </p>
-              <p className="biz-revenue-daily mt-[clamp(2px,0.3vw,4px)]">일 1.45만 원</p>
+              <p className="biz-revenue-daily mt-[clamp(2px,0.3cqw,4px)]">일 1.45만 원</p>
             </div>
 
             {/* Card 2 */}
             <div className="flex flex-col items-center" data-anim-item>
               <p className="biz-revenue-label">점심시간 단거리 이동 / 퀵 배달 · 배송서비스</p>
 
-              <div className="h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)] flex items-center justify-center">
+              <div className="h-[clamp(180px,22cqw,300px)] mt-[clamp(8px,1cqw,14px)] flex items-center justify-center">
                 <Image
                   src="/images/busniess/11_delivery-service.png"
                   alt="택배 배송"
                   width={600}
                   height={420}
-                  className="rounded-[clamp(24px,2.8vw,42px)]"
+                  className="rounded-[clamp(24px,2.8cqw,42px)]"
                   style={{ height: "100%", width: "auto", maxWidth: "none" }}
                   sizes="26vw"
                 />
               </div>
 
-              <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4vw,20px)]">
+              <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4cqw,20px)]">
                 <span className="biz-revenue-unit">연</span>
                 <span className="biz-revenue-annual">5</span>
                 <span className="biz-revenue-unit">억 원</span>
               </div>
-              <p className="biz-revenue-detail mt-[clamp(4px,0.5vw,8px)]">
+              <p className="biz-revenue-detail mt-[clamp(4px,0.5cqw,8px)]">
                 퀵 배달 2회, 저녁심야배송 3회
               </p>
-              <p className="biz-revenue-daily mt-[clamp(2px,0.3vw,4px)]">일 2.6만 원</p>
+              <p className="biz-revenue-daily mt-[clamp(2px,0.3cqw,4px)]">일 2.6만 원</p>
             </div>
 
             {/* Card 3 — 배경 없이 이미지만 */}
             <div className="flex flex-col items-center" data-anim-item>
               <p className="biz-revenue-label">대리 기사 복귀 이동수단 / 야간 순찰</p>
 
-              <div className="w-full h-[clamp(180px,22vw,300px)] mt-[clamp(8px,1vw,14px)] flex items-center justify-center">
+              <div className="w-full h-[clamp(180px,22cqw,300px)] mt-[clamp(8px,1cqw,14px)] flex items-center justify-center">
                 <Image
                   src="/images/busniess/12_night-patrol.png"
                   alt="야간 순찰"
@@ -831,15 +831,15 @@ export function BusinessSection() {
                 />
               </div>
 
-              <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4vw,20px)]">
+              <div className="flex items-baseline gap-1 mt-[clamp(12px,1.4cqw,20px)]">
                 <span className="biz-revenue-unit">연</span>
                 <span className="biz-revenue-annual">1.1</span>
                 <span className="biz-revenue-unit">억 원</span>
               </div>
-              <p className="biz-revenue-detail mt-[clamp(4px,0.5vw,8px)]">
+              <p className="biz-revenue-detail mt-[clamp(4px,0.5cqw,8px)]">
                 야간순찰 3시간, 대리기사이송 1회
               </p>
-              <p className="biz-revenue-daily mt-[clamp(2px,0.3vw,4px)]">일 0.6만 원</p>
+              <p className="biz-revenue-daily mt-[clamp(2px,0.3cqw,4px)]">일 0.6만 원</p>
             </div>
           </div>
         </div>

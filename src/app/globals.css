@@ -89,14 +89,14 @@ body {
 
 .section-bar {
   width: 7px;
-  height: clamp(18px, 2.2vw, 30px);
+  height: clamp(18px, 2.2cqw, 30px);
   background: #3a3a3a;
 }
 
 .section-title-row {
   @apply flex items-center justify-center gap-3;
-  padding-top: clamp(40px, 5.5vw, 80px);
-  padding-bottom: clamp(24px, 3.3vw, 48px);
+  padding-top: clamp(40px, 5.5cqw, 80px);
+  padding-bottom: clamp(24px, 3.3cqw, 48px);
 }
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Story Section — vw 기반 (1440px = 100%)
@@ -111,25 +111,25 @@ body {
 }
 
 .story-text {
-  font-size: clamp(14px, 1.5vw, 30px);
+  font-size: clamp(14px, 1.5cqw, 30px);
   letter-spacing: 11%;
   @apply font-medium text-[var(--color-text-secondary)];
 }
 
 .story-year {
-  font-size: clamp(14px, 2vw, 30px);
+  font-size: clamp(14px, 2cqw, 30px);
   letter-spacing: 11%;
   @apply font-bold text-[var(--color-text-light)];
 }
 
 .story-heading {
-  font-size: clamp(24px, 2.9vw, 42px);
+  font-size: clamp(24px, 2.9cqw, 42px);
   letter-spacing: 11%;
   @apply font-black text-[var(--color-text)];
 }
 
 .story-data-label {
-  font-size: clamp(14px, 1.5vw, 30px);
+  font-size: clamp(14px, 1.5cqw, 30px);
   @apply font-bold text-[var(--color-spec-text)] leading-normal;
 }
 
@@ -139,31 +139,31 @@ body {
 }
 
 .story-subtitle {
-  font-size: clamp(20px, 2.6vw, 38px);
+  font-size: clamp(20px, 2.6cqw, 38px);
   letter-spacing: 0.29em;
   @apply font-bold text-[var(--color-text)];
 }
 
 .story-alt-label {
-  font-size: clamp(14px, 2.1vw, 30px);
+  font-size: clamp(14px, 2.1cqw, 30px);
   letter-spacing: 0.23em;
   @apply font-bold text-[#464646];
 }
 
 .story-intro {
-  font-size: clamp(22px, 2.3vw, 42px);
+  font-size: clamp(22px, 2.3cqw, 42px);
   letter-spacing: 11%;
   @apply text-[var(--color-text)];
 }
 
 .story-conclusion-label {
-  font-size: clamp(10px, 1.3vw, 19px);
+  font-size: clamp(10px, 1.3cqw, 19px);
   letter-spacing: 0.15em;
   @apply font-bold text-[#5c5c5c];
 }
 
 .story-conclusion-quote {
-  font-size: clamp(14px, 2.1vw, 30px);
+  font-size: clamp(14px, 2.1cqw, 30px);
   letter-spacing: 0.23em;
   @apply font-bold text-[var(--color-text)];
 }
@@ -175,34 +175,34 @@ body {
 
 /* 섹션 대제목 (41.684px 기준) */
 .biz-title {
-  font-size: clamp(22px, 2.9vw, 42px);
+  font-size: clamp(22px, 2.9cqw, 42px);
   letter-spacing: 0.11em;
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
 /* 섹션 대제목 (다크 배경용, white) */
 .biz-title-white {
-  font-size: clamp(22px, 2.9vw, 42px);
+  font-size: clamp(22px, 2.9cqw, 42px);
   letter-spacing: 0.11em;
   @apply font-black text-white;
 }
 
 /* 중간 제목 (45.474px 기준) */
 .biz-heading-lg {
-  font-size: clamp(24px, 3.16vw, 46px);
+  font-size: clamp(24px, 3.16cqw, 46px);
   letter-spacing: 0.11em;
   @apply font-bold text-white;
 }
 
 /* 소제목/설명 (25-28px 기준) */
 .biz-subtitle {
-  font-size: clamp(15px, 1.8vw, 26px);
+  font-size: clamp(15px, 1.8cqw, 26px);
   @apply text-[var(--color-text-tertiary)];
 }
 
 /* 다크 배경 본문 */
 .biz-body-dark {
-  font-size: clamp(14px, 1.84vw, 27px);
+  font-size: clamp(14px, 1.84cqw, 27px);
   @apply font-normal;
   color: #b3b3c0;
 }
@@ -223,48 +223,48 @@ body {
 
 /* 작은 보조텍스트 */
 .biz-small {
-  font-size: clamp(10px, 1.05vw, 15px);
+  font-size: clamp(10px, 1.05cqw, 15px);
   @apply font-normal;
   color: #b7b0b0;
 }
 
 /* "310억" 같은 큰 숫자 */
 .biz-big-number {
-  font-size: clamp(22px, 2.9vw, 42px);
+  font-size: clamp(22px, 2.9cqw, 42px);
   letter-spacing: 0.1em;
   @apply font-bold text-white;
 }
 
 /* "중소도시 당 연간" 같은 숫자 앞 텍스트 */
 .biz-big-prefix {
-  font-size: clamp(20px, 2.63vw, 38px);
+  font-size: clamp(20px, 2.63cqw, 38px);
   letter-spacing: 0.11em;
   @apply font-normal text-white;
 }
 
 /* "+" 기호 */
 .biz-plus {
-  font-size: clamp(24px, 3.16vw, 46px);
+  font-size: clamp(24px, 3.16cqw, 46px);
   @apply font-bold text-white;
 }
 
 /* 다크 스탯 카드 타이틀 */
 .biz-stat-title {
-  font-size: clamp(14px, 1.6vw, 23px);
+  font-size: clamp(14px, 1.6cqw, 23px);
   letter-spacing: 0.05em;
   @apply font-bold text-white;
 }
 
 /* 다크 스탯 카드 설명 */
 .biz-stat-desc {
-  font-size: clamp(9px, 1vw, 14px);
+  font-size: clamp(9px, 1cqw, 14px);
   @apply font-normal;
   color: #B3B3C0;
 }
 
 /* 1/5 강조 숫자 */
 .biz-fraction {
-  font-size: clamp(20px, 2.74vw, 40px);
+  font-size: clamp(20px, 2.74cqw, 40px);
   @apply font-bold ;
 }
 
@@ -277,20 +277,20 @@ body {
 
 /* 본문 설명 텍스트 (25.737px) */
 .biz-desc {
-  font-size: clamp(14px, 1.79vw, 26px);
+  font-size: clamp(14px, 1.79cqw, 26px);
   @apply text-[var(--color-text-tertiary)];
 }
 
 /* 작은 주석 */
 .biz-note {
-  font-size: clamp(10px, 1.11vw, 16px);
+  font-size: clamp(10px, 1.11cqw, 16px);
   @apply font-normal text-[#6d6d6d];
 }
 
 /* 글래스모피즘 카드 (흰 배경 위) */
 .biz-glass-card {
   @apply relative overflow-hidden;
-  border-radius: clamp(20px, 2.62vw, 38px);
+  border-radius: clamp(20px, 2.62cqw, 38px);
   border: 1px solid rgba(210, 210, 220, 0.5);
   background: rgba(243, 244, 248, 0.9);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
@@ -298,19 +298,19 @@ body {
 
 /* 글래스 카드 제목 (22px) */
 .biz-card-title {
-  font-size: clamp(13px, 1.53vw, 22px);
+  font-size: clamp(13px, 1.53cqw, 22px);
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
 /* 글래스 카드 수량 (18.877px) */
 .biz-card-qty {
-  font-size: clamp(11px, 1.31vw, 19px);
+  font-size: clamp(11px, 1.31cqw, 19px);
   @apply font-medium text-[var(--color-text-tertiary)];
 }
 
 /* 글래스 카드 가격 (23.596px) */
 .biz-card-price {
-  font-size: clamp(14px, 1.64vw, 24px);
+  font-size: clamp(14px, 1.64cqw, 24px);
   @apply font-bold text-[var(--color-blue)];
 }
 
@@ -324,7 +324,7 @@ body {
 
 /* "게다가" 같은 큰 제목 */
 .biz-revenue-heading {
-  font-size: clamp(22px, 2.9vw, 42px);
+  font-size: clamp(22px, 2.9cqw, 42px);
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
@@ -360,7 +360,7 @@ body {
 
 /* "시티 케어 솔루션" 강조 */
 .biz-city-care {
-  font-size: clamp(16px, 2.1vw, 30px);
+  font-size: clamp(16px, 2.1cqw, 30px);
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
@@ -368,11 +368,11 @@ body {
 
 /* 연도 뱃지 */
 .biz-year-badge {
-  font-size: clamp(12px, 1.39vw, 20px);
+  font-size: clamp(12px, 1.39cqw, 20px);
   @apply font-bold text-white inline-flex items-center justify-center;
   background: #2563eb;
-  border-radius: clamp(8px, 0.83vw, 12px);
-  padding: clamp(4px, 0.35vw, 5px) clamp(10px, 1.18vw, 17px);
+  border-radius: clamp(8px, 0.83cqw, 12px);
+  padding: clamp(4px, 0.35cqw, 5px) clamp(10px, 1.18cqw, 17px);
 }
 
 .biz-year-badge-inactive {
@@ -387,7 +387,7 @@ body {
 
 /* 스탯 숫자 (16km, 50대 등) */
 .biz-phase-stat {
-  font-size: clamp(13px, 1.39vw, 20px);
+  font-size: clamp(13px, 1.39cqw, 20px);
   @apply font-bold text-[var(--color-text-tertiary)];
 }
 
@@ -420,13 +420,13 @@ body {
 
 /* "확장성" 부제 (28px) */
 .biz-expansion-sub {
-  font-size: clamp(15px, 1.95vw, 28px);
+  font-size: clamp(15px, 1.95cqw, 28px);
   @apply text-[var(--color-text-tertiary)];
 }
 
 /* 수익 카드 이미지 라운딩 */
 .biz-revenue-img {
-  border-radius: clamp(12px, 1.67vw, 24px);
+  border-radius: clamp(12px, 1.67cqw, 24px);
   @apply w-full h-auto object-cover;
 }
 
@@ -455,12 +455,12 @@ body {
 
 .solution-img {
   @apply w-full h-auto;
-  border-radius: clamp(24px, 5.8vw, 83px);
+  border-radius: clamp(24px, 5.8cqw, 83px);
 }
 
 .solution-img-sm {
   @apply w-full h-auto;
-  border-radius: clamp(16px, 3.6vw, 52px);
+  border-radius: clamp(16px, 3.6cqw, 52px);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -476,40 +476,40 @@ body {
 
 /* ── 섹션 대제목 (42px, 영어 자간 0) ── */
 .product-section-title {
-  font-size: clamp(22px, 2.9vw, 42px);
+  font-size: clamp(22px, 2.9cqw, 42px);
   @apply font-bold text-(--color-text);
 }
 
 /* ── "LINE-UP" 라벨 (19px, 영어 자간 0) ── */
 .product-label {
-  font-size: clamp(12px, 1.32vw, 19px);
+  font-size: clamp(12px, 1.32cqw, 19px);
   @apply font-bold;
 }
 
 /* ── 한글 중간 제목 (24px) ── */
 .product-sub-heading {
-  font-size: clamp(14px, 1.67vw, 24px);
+  font-size: clamp(14px, 1.67cqw, 24px);
   letter-spacing: 0.11em;
   @apply font-bold text-(--color-text);
 }
 
 /* ── 한글 주 제목 / 쇼케이스 제목 (30px) ── */
 .product-heading {
-  font-size: clamp(18px, 2.1vw, 30px);
+  font-size: clamp(18px, 2.1cqw, 30px);
   letter-spacing: 0.11em;
   @apply font-bold text-(--color-text);
 }
 
 /* ── 한글 제품명 (24px) ── */
 .product-name {
-  font-size: clamp(14px, 1.67vw, 24px);
+  font-size: clamp(14px, 1.67cqw, 24px);
   letter-spacing: 0.11em;
   @apply font-bold text-(--color-text);
 }
 
 /* ── 본문 설명 (14px) ── */
 .product-desc {
-  font-size: clamp(10px, 0.97vw, 14px);
+  font-size: clamp(10px, 0.97cqw, 14px);
   line-height: 1.7;
   letter-spacing: 0.11em;
   color: var(--color-feature-text);
@@ -517,20 +517,20 @@ body {
 
 /* ── 특장점 아이템 행 ── */
 .product-feature-item {
-  @apply flex items-center gap-[clamp(6px,0.7vw,10px)];
+  @apply flex items-center gap-[clamp(6px,0.7cqw,10px)];
 }
 
 /* ── 특장점 텍스트 (13px, 한글 자간) ── */
 .product-feature-text {
-  font-size: clamp(9px, 0.9vw, 13px);
+  font-size: clamp(9px, 0.9cqw, 13px);
   letter-spacing: 0.11em;
   color: var(--color-feature-text);
 }
 
 /* ── 체크 아이콘 반응형 ── */
 .product-check-icon {
-  width: clamp(12px, 1.05vw, 15px);
-  height: clamp(12px, 1.05vw, 15px);
+  width: clamp(12px, 1.05cqw, 15px);
+  height: clamp(12px, 1.05cqw, 15px);
 }
 
 /* ── 스펙 행 ── */
@@ -540,20 +540,20 @@ body {
 
 /* ── 스펙 라벨 (14px, 한글 자간) ── */
 .product-spec-label {
-  font-size: clamp(10px, 0.97vw, 14px);
+  font-size: clamp(10px, 0.97cqw, 14px);
   letter-spacing: 0.11em;
   color: #4b4c4e;
 }
 
 /* ── 스펙 숫자 (42px, 숫자 자간 0) ── */
 .product-spec-number {
-  font-size: clamp(24px, 2.9vw, 42px);
+  font-size: clamp(24px, 2.9cqw, 42px);
   @apply font-bold text-(--color-text);
 }
 
 /* ── 스펙 단위 (28px, 한글 자간) ── */
 .product-spec-unit {
-  font-size: clamp(16px, 1.95vw, 28px);
+  font-size: clamp(16px, 1.95cqw, 28px);
   letter-spacing: 0.11em;
   @apply font-bold;
   color: #4e4e4e;
@@ -561,7 +561,7 @@ body {
 
 /* ── 쇼케이스 서브텍스트 (20px, 한글 자간) ── */
 .product-sub {
-  font-size: clamp(12px, 1.39vw, 20px);
+  font-size: clamp(12px, 1.39cqw, 20px);
   letter-spacing: 0.11em;
   @apply font-medium text-(--color-text-secondary);
 }
@@ -571,7 +571,7 @@ body {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .biliny-video-speed {
-  font-size: clamp(11px, 1.25vw, 18px);
+  font-size: clamp(11px, 1.25cqw, 18px);
   letter-spacing: 0.05em;
   color: #838383;
 }

@@ -14,7 +14,7 @@ export function TrinyProductSection() {
   useProductAnimations(sectionRef);
 
   return (
-    <section ref={sectionRef} id="triny" className="relative mt-[16vw]">
+    <section ref={sectionRef} id="triny" className="relative mt-[16cqw]">
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 0: # TRINY 타이틀
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
@@ -31,20 +31,20 @@ export function TrinyProductSection() {
          Part 1: LINE-UP 스펙 소개
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="product-container relative">
-        <div className="flex flex-row gap-[clamp(24px,3.3vw,48px)] items-start">
+        <div className="flex flex-row gap-[clamp(24px,3.3cqw,48px)] items-start">
           {/* 좌측 텍스트 — Figma 기준 아래로 내려옴 */}
-          <div className="w-[38%] min-w-0 shrink-0 pt-[clamp(160px,20vw,290px)]">
+          <div className="w-[38%] min-w-0 shrink-0 pt-[clamp(160px,20cqw,290px)]">
             <p className="b-fade product-label text-(--color-primary)">LINE-UP</p>
-            <p className="b-reveal product-sub-heading mt-[clamp(8px,0.7vw,10px)]">
+            <p className="b-reveal product-sub-heading mt-[clamp(8px,0.7cqw,10px)]">
               이동의 자유를 나누는
             </p>
-            <h3 className="b-reveal product-heading mt-[clamp(4px,0.4vw,6px)]">
+            <h3 className="b-reveal product-heading mt-[clamp(4px,0.4cqw,6px)]">
               스마트 모빌리티 생태계
             </h3>
-            <p className="b-reveal product-name mt-[clamp(16px,2.2vw,32px)]">
+            <p className="b-reveal product-name mt-[clamp(16px,2.2cqw,32px)]">
               다목적 플랫폼 &lsquo;트리니&rsquo;
             </p>
-            <div className="b-fade product-desc mt-[clamp(8px,1.1vw,16px)]">
+            <div className="b-fade product-desc mt-[clamp(8px,1.1cqw,16px)]">
               <p>
                 초소형 다용성 모빌리티 플랫폼으로, 캐빈 결합과 로봇암 장착 등을 통해 도시 관리의
                 모든 수요를 대응합니다.
@@ -52,7 +52,7 @@ export function TrinyProductSection() {
             </div>
 
             {/* 특장점 목록 */}
-            <div className="flex flex-col gap-[clamp(10px,1.3vw,18px)] mt-[clamp(20px,2.8vw,40px)]">
+            <div className="flex flex-col gap-[clamp(10px,1.3cqw,18px)] mt-[clamp(20px,2.8cqw,40px)]">
               <div className="b-stagger product-feature-item">
                 <CheckIcon />
                 <p className="product-feature-text">
@@ -116,13 +116,13 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 2: 모든 면으로 보호
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="mt-[12vw]">
+      <div className="mt-[12cqw]">
         <div className="product-container text-center">
           <h3 className="b-reveal product-heading">모든 면으로 보호</h3>
-          <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
+          <p className="b-fade product-sub mt-[clamp(8px,1.1cqw,16px)]">
             어떤 계절과 상황에도 대응이 강한
           </p>
-          <div className="flex flex-col mt-[clamp(32px,4.4vw,64px)] max-w-[clamp(400px,65vw,940px)] mx-auto">
+          <div className="flex flex-col mt-[clamp(32px,4.4cqw,64px)] max-w-[clamp(400px,65cqw,940px)] mx-auto">
             <div className="b-scale">
               <Image
                 src="/images/triny/2_protect-front.png"
@@ -150,7 +150,7 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 3: 완전한 대칭
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="mt-[2vw]">
+      <div className="mt-[2cqw]">
         <div className="product-container text-center">
           <div className="b-scale relative ">
             <Image
@@ -163,7 +163,7 @@ export function TrinyProductSection() {
             />
             <div className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
               <h3 className="b-reveal product-heading">완전한 대칭</h3>
-              <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">극단적으로 효율적인</p>
+              <p className="b-fade product-sub mt-[clamp(8px,1.1cqw,16px)]">극단적으로 효율적인</p>
             </div>
           </div>
         </div>
@@ -172,9 +172,9 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 4: 쉬운 용도 변경
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="mt-[2vw]">
+      <div className="mt-[2cqw]">
         <div className="product-container text-center">
-          <div className="b-scale relative max-w-[clamp(400px,55vw,800px)] mx-auto">
+          <div className="b-scale relative max-w-[clamp(400px,55cqw,800px)] mx-auto">
             <Image
               src="/images/triny/5_modular.png"
               alt="트리니 용도 변경 — 다목적 플랫폼"
@@ -185,7 +185,7 @@ export function TrinyProductSection() {
             />
             <div className="absolute top-[20%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
               <h3 className="b-reveal product-heading">쉬운 용도 변경</h3>
-              <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
+              <p className="b-fade product-sub mt-[clamp(8px,1.1cqw,16px)]">
                 다양한 목적으로 사용범위가 넓은
               </p>
             </div>
@@ -196,9 +196,9 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 5: 1인승에서 4인승까지
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="-mt-[4vw]">
+      <div className="-mt-[4cqw]">
         <div className="product-container text-center">
-          <div className="b-scale relative max-w-[clamp(400px,55vw,800px)] mx-auto">
+          <div className="b-scale relative max-w-[clamp(400px,55cqw,800px)] mx-auto">
             <Image
               src="/images/triny/6_capacity.png"
               alt="트리니 1인승~4인승 탑승 공간"
@@ -209,7 +209,7 @@ export function TrinyProductSection() {
             />
             <div className="absolute top-[25%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
               <h3 className="b-reveal product-heading">1인승에서 4인승까지</h3>
-              <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
+              <p className="b-fade product-sub mt-[clamp(8px,1.1cqw,16px)]">
                 어린아이부터 고령자까지 모두를 품는
               </p>
             </div>
@@ -220,9 +220,9 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 6: 넉넉한 내부공간
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="mt-[clamp(60px,8.3vw,120px)]">
+      <div className="mt-[clamp(60px,8.3cqw,120px)]">
         <div className="product-container text-center">
-          <div className="b-scale relative mt-[clamp(32px,4.4vw,64px)] max-w-[clamp(400px,55vw,800px)] mx-auto">
+          <div className="b-scale relative mt-[clamp(32px,4.4cqw,64px)] max-w-[clamp(400px,55cqw,800px)] mx-auto">
             <Image
               src="/images/triny/7_interior.png"
               alt="트리니 넉넉한 적재 공간"
@@ -233,7 +233,7 @@ export function TrinyProductSection() {
             />
             <div className="absolute top-[20%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
               <h3 className="b-reveal product-heading">넉넉한 내부공간</h3>
-              <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">여행, 운송도 거뜬한</p>
+              <p className="b-fade product-sub mt-[clamp(8px,1.1cqw,16px)]">여행, 운송도 거뜬한</p>
             </div>
           </div>
         </div>
@@ -242,9 +242,9 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 7: 일까지 잘하는 트리니 플랫폼
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="-mt-[4vw]">
+      <div className="-mt-[4cqw]">
         <div className="product-container text-center">
-          <div className="b-scale relative max-w-[clamp(400px,55vw,800px)] mx-auto">
+          <div className="b-scale relative max-w-[clamp(400px,55cqw,800px)] mx-auto">
             <Image
               src="/images/triny/8_platform.png"
               alt="트리니 플랫폼 — 캐빈 없이 프레임만"
@@ -257,7 +257,7 @@ export function TrinyProductSection() {
               <h3 className="b-reveal product-heading whitespace-nowrap">
                 일까지 잘하는 트리니 플랫폼
               </h3>
-              <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
+              <p className="b-fade product-sub mt-[clamp(8px,1.1cqw,16px)]">
                 무엇을 붙여도 그에 맞게 일을 수행하는
               </p>
             </div>
@@ -268,10 +268,10 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 8: 인프라를 자동 관리하는 솔루션
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="mt-[clamp(60px,8.3vw,120px)]">
+      <div className="mt-[clamp(60px,8.3cqw,120px)]">
         <div className="product-container text-center"></div>
         <div className="product-container">
-          <div className="flex flex-col mt-[clamp(32px,4.4vw,64px)] max-w-[clamp(400px,65vw,940px)] mx-auto">
+          <div className="flex flex-col mt-[clamp(32px,4.4cqw,64px)] max-w-[clamp(400px,65cqw,940px)] mx-auto">
             <div className="b-scale relative">
               <Image
                 src="/images/triny/9_road-marking.png"
@@ -283,7 +283,7 @@ export function TrinyProductSection() {
               />
               <div className="absolute top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                 <h3 className="b-reveal product-heading">인프라를 자동 관리하는 솔루션</h3>
-                <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)] text-center">
+                <p className="b-fade product-sub mt-[clamp(8px,1.1cqw,16px)] text-center">
                   도로선 보수, 청소, 도로 검사까지
                 </p>
               </div>
@@ -317,13 +317,13 @@ export function TrinyProductSection() {
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="-mt-70">
         <div className="relative product-container text-center">
-          <div className="relative b-fade z-10 mx-auto w-fit mb-[clamp(-40px,-4.5vw,-60px)]">
+          <div className="relative b-fade z-10 mx-auto w-fit mb-[clamp(-40px,-4.5cqw,-60px)]">
             <Image
               src="/images/biliny/2_360-orbit.png"
               alt=""
               width={618}
               height={100}
-              className="w-[clamp(15px,43vw,618px)] h-auto mx-auto translate-y-1/2"
+              className="w-[clamp(15px,43cqw,618px)] h-auto mx-auto translate-y-1/2"
               sizes="(max-width: 768px) 80vw, 43vw"
               aria-hidden="true"
             />
@@ -349,17 +349,17 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 10: 단지 내 모든 길을 돌아다닐 수 있는 사이즈
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="w-[60%] mx-auto mt-[20vw] overflow-hidden">
+      <div className="w-[60%] mx-auto mt-[20cqw] overflow-hidden">
         <div className="product-container text-center">
           <h3 className="b-reveal product-heading">단지 내 모든 길을 돌아다닐 수 있는 사이즈</h3>
         </div>
-        <div className="b-scale mt-[clamp(32px,4.4vw,64px)]">
+        <div className="b-scale mt-[clamp(32px,4.4cqw,64px)]">
           <Image
             src="/images/triny/12_scene-complex.png"
             alt="단지 내 트리니 주행 장면"
             width={800}
             height={1000}
-            className="w-[120vw] h-auto mx-auto"
+            className="w-[120cqw] h-auto mx-auto"
             sizes="120vw"
           />
         </div>
@@ -368,7 +368,7 @@ export function TrinyProductSection() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 11: 도면/치수
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="mt-[clamp(60px,8.3vw,120px)] pb-[clamp(60px,8.3vw,120px)]">
+      <div className="mt-[clamp(60px,8.3cqw,120px)] pb-[clamp(60px,8.3cqw,120px)]">
         <div className="product-container">
           <div className="b-scale">
             <Image

@@ -26,7 +26,7 @@ export function ScaleWrapper({ children }: ScaleWrapperProps) {
 
   return (
     <div className="relative w-full overflow-x-clip">
-      <div ref={wrapperRef}>
+      <div ref={wrapperRef} style={{ containerType: 'inline-size' }}>
         {children}
       </div>
     </div>

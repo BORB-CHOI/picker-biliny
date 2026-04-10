@@ -140,23 +140,23 @@ export function StorySection() {
         ═══════════════════════════════════════ */}
         <div className="s-fade section-title-row">
           <div className="section-bar" />
-          <span className="text-[clamp(24px,3vw,43px)] font-bold text-[#3a3a3a]">STORY</span>
+          <span className="text-[clamp(24px,3cqw,43px)] font-bold text-[#3a3a3a]">STORY</span>
         </div>
 
         {/* ═══════════════════════════════════════
             인트로 텍스트
         ═══════════════════════════════════════ */}
-        <div className="mt-[6vw] flex flex-col items-center translate-x-1">
+        <div className="mt-[6cqw] flex flex-col items-center translate-x-1">
           <p className="s-reveal story-intro">
             인구감소
             <br />
             중소도시,
           </p>
         </div>
-        <p className="s-reveal story-intro font-bold text-center mt-[3vw]">
+        <p className="s-reveal story-intro font-bold text-center mt-[3cqw]">
           박탈된 고령자의 이동권
         </p>
-        <h2 className="s-reveal story-heading mt-[5vw] text-center ">빼앗긴 두 다리</h2>
+        <h2 className="s-reveal story-heading mt-[5cqw] text-center ">빼앗긴 두 다리</h2>
 
         {/* ────────────────────────────────────
             1970 할아버지 — 트럭 운전
@@ -182,7 +182,7 @@ export function StorySection() {
         {/* ────────────────────────────────────
             2026 할아버지 — 벤치
         ──────────────────────────────────── */}
-        <div className="mt-[12vw] relative flex flex-col items-end">
+        <div className="mt-[12cqw] relative flex flex-col items-end">
           <h2 className="s-fade w-full absolute story-year text-center z-10 -top-10">2026</h2>
           <div className="s-img relative w-[50%]">
             <Image
@@ -202,7 +202,7 @@ export function StorySection() {
         {/* ────────────────────────────────────
             1970 할머니 — 힘차게 걸음
         ──────────────────────────────────── */}
-        <div className="mt-[12vw] relative flex flex-col items-center">
+        <div className="mt-[12cqw] relative flex flex-col items-center">
           <h2 className="s-fade w-full absolute story-year text-center z-10 -translate-y-full">
             1970
           </h2>
@@ -224,7 +224,7 @@ export function StorySection() {
         {/* ────────────────────────────────────
             2026 할머니 — 보행보조기
         ──────────────────────────────────── */}
-        <div className="mt-[12vw] relative flex flex-col items-center">
+        <div className="mt-[12cqw] relative flex flex-col items-center">
           <p className="s-fade w-full absolute story-year text-center z-10">2026</p>
           <div className="s-img relative w-[43%]">
             <Image
@@ -244,16 +244,16 @@ export function StorySection() {
         {/* ═══════════════════════════════════════
             불편한 대안들
         ═══════════════════════════════════════ */}
-        <h2 className="s-reveal story-heading mt-[18vw] text-center ">불편한 대안들</h2>
+        <h2 className="s-reveal story-heading mt-[18cqw] text-center ">불편한 대안들</h2>
 
         {/* ── 대안 Ⅰ: 전동스쿠터 ── */}
-        <div className="mt-[4vw] flex flex-col items-center">
+        <div className="mt-[4cqw] flex flex-col items-center">
           <p className="s-fade story-alt-label">대안 Ⅰ</p>
           <p className="s-reveal story-subtitle mt-2">전동스쿠터</p>
         </div>
 
         {/* 스쿠터 1 — 어디든지 다니기 쉽지만 */}
-        <div className="mt-[12vw] flex items-center flex-row-reverse">
+        <div className="mt-[12cqw] flex items-center flex-row-reverse">
           <div className="s-img relative w-[50%]">
             <Image
               src="/images/story/5_scooter-riding.png"
@@ -270,7 +270,7 @@ export function StorySection() {
         </div>
 
         {/* 스쿠터 2 — 비가 올 땐 무방비 */}
-        <div className="mt-[8vw] flex flex-row items-center justify-center">
+        <div className="mt-[8cqw] flex flex-row items-center justify-center">
           <div className="s-img relative w-[50%]">
             <Image
               src="/images/story/6_scooter-rain.png"
@@ -287,7 +287,7 @@ export function StorySection() {
         </div>
 
         {/* 스쿠터 3 — 길을 잃으면 */}
-        <div className="mt-[8vw] flex flex-row items-center">
+        <div className="mt-[8cqw] flex flex-row items-center">
           <div className="s-img relative w-[50%] ">
             <Image
               src="/images/story/7_scooter-lost.png"
@@ -304,7 +304,7 @@ export function StorySection() {
         </div>
 
         {/* 스쿠터 4 — 긴급 상황 */}
-        <div className="mt-[8vw] flex flex-row-reverse items-center">
+        <div className="mt-[8cqw] flex flex-row-reverse items-center">
           <div className="s-img relative w-[60%]">
             <Image
               src="/images/story/8_scooter-accident.png"
@@ -324,7 +324,7 @@ export function StorySection() {
         </div>
 
         {/* 스쿠터 5 — 고장 */}
-        <div className="mt-[8vw] flex flex-row items-center gap-[3vw]">
+        <div className="mt-[8cqw] flex flex-row items-center gap-[3cqw]">
           <div className="s-img relative w-[60%]">
             <Image
               src="/images/story/9_scooter-breakdown.png"
@@ -342,13 +342,13 @@ export function StorySection() {
         </div>
 
         {/* ── 대안 Ⅱ: 버스 ── */}
-        <div className="mt-[18vw] flex flex-col items-center">
+        <div className="mt-[18cqw] flex flex-col items-center">
           <p className="s-fade story-alt-label">대안 Ⅱ</p>
           <p className="s-reveal story-subtitle mt-2">버스</p>
         </div>
 
         {/* 버스를 타고 싶지만 */}
-        <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
+        <div className="mt-[8cqw] flex flex-col items-center gap-[2cqw]">
           <div className="s-img relative w-[55%]">
             <Image
               src="/images/story/10_bus-dreaming.png"
@@ -363,7 +363,7 @@ export function StorySection() {
         </div>
 
         {/* 정류장까지 거리 — 800m */}
-        <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
+        <div className="mt-[8cqw] flex flex-col items-center gap-[2cqw]">
           <p className="s-reveal story-text text-center">
             <span className="font-bold">정류장</span>까지 거리가{" "}
             <span className="font-bold">너무 멉니다.</span>
@@ -387,7 +387,7 @@ export function StorySection() {
         </div>
 
         {/* 하루 배차 */}
-        <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
+        <div className="mt-[8cqw] flex flex-col items-center gap-[2cqw]">
           <p className="s-reveal story-text text-center">
             먼거리를 감수하고 <span className="font-bold">정류장에 도착</span>했지만
           </p>
@@ -408,7 +408,7 @@ export function StorySection() {
         </div>
 
         {/* 4대 — 기다림 */}
-        <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
+        <div className="mt-[8cqw] flex flex-col items-center gap-[2cqw]">
           <p className="s-reveal story-text text-center">
             <span className="font-bold">언제올지 모르는 버스</span>를 하염없이{" "}
             <span className="font-bold">기다리기만 합니다.</span>
@@ -436,9 +436,9 @@ export function StorySection() {
         </div>
 
         {/* 36% 포기율 */}
-        <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
+        <div className="mt-[8cqw] flex flex-col items-center gap-[2cqw]">
           <p className="s-reveal story-text text-center font-bold!">결국 포기하고 돌아갑니다.</p>
-          <div className="flex flex-row items-center justify-center gap-[3vw] w-[80%] mx-auto">
+          <div className="flex flex-row items-center justify-center gap-[3cqw] w-[80%] mx-auto">
             <div className="s-img relative w-[90%] overflow-hidden rounded-full">
             <Image
               src="/images/story/14_bus-giving-up.png"
@@ -460,13 +460,13 @@ export function StorySection() {
         </div>
 
         {/* ── 대안 Ⅲ: 택시 ── */}
-        <div className="mt-[12vw] flex flex-col items-center">
+        <div className="mt-[12cqw] flex flex-col items-center">
           <p className="s-fade story-alt-label">대안 Ⅲ</p>
           <p className="s-reveal story-subtitle mt-2">택시</p>
         </div>
 
         {/* 택시 — 30,000원 */}
-        <div className="mt-[6vw] flex flex-col items-center gap-[2vw]">
+        <div className="mt-[6cqw] flex flex-col items-center gap-[2cqw]">
           <p className="s-reveal story-text text-center">
             1달에 두번정도 이용할 수 있는 택시는 매우 비쌉니다.
           </p>
@@ -498,7 +498,7 @@ export function StorySection() {
         </div>
 
         {/* 택시 — 35% 포기율 */}
-        <div className="mt-[8vw] flex flex-col items-center gap-[2vw]">
+        <div className="mt-[8cqw] flex flex-col items-center gap-[2cqw]">
           <p className="s-reveal story-text text-center">
             간단한 외출을 하기 위해 택시를 타는 것은 너무 큰 부담입니다
           </p>
@@ -526,13 +526,13 @@ export function StorySection() {
         {/* ═══════════════════════════════════════
             결론: 두다리가 얼어붙으신 어르신
         ═══════════════════════════════════════ */}
-        <div className="mt-[12vw] flex flex-col items-center">
-          <h2 className="s-reveal text-[clamp(18px,2.4vw,34px)] font-bold text-[var(--color-text)] tracking-wider text-center">
+        <div className="mt-[12cqw] flex flex-col items-center">
+          <h2 className="s-reveal text-[clamp(18px,2.4cqw,34px)] font-bold text-[var(--color-text)] tracking-wider text-center">
             결국, 두다리가 얼어붙으신 어르신
           </h2>
 
           {/* 3열 그리드 */}
-          <div className="s-fade grid grid-cols-3 w-full mt-[6vw] gap-4">
+          <div className="s-fade grid grid-cols-3 w-full mt-[6cqw] gap-4">
             <div className="text-center">
               <p className="story-conclusion-label">전동스쿠터</p>
               <p className="story-conclusion-quote mt-1">&ldquo;불안해&rdquo;</p>
@@ -548,7 +548,7 @@ export function StorySection() {
           </div>
 
           {/* 고립 이미지 */}
-          <div className="mt-[6vw] flex flex-col items-center">
+          <div className="mt-[6cqw] flex flex-col items-center">
             <div className="s-img relative w-[90%] mx-auto">
             <Image
               src="/images/story/17_isolation.png"
