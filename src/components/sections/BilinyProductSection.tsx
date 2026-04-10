@@ -267,7 +267,7 @@ export function BilinyProductSection() {
       <div className="mt-[clamp(30px,4.2vw,60px)]">
         <div className="product-container relative">
           {/* 텍스트 — 좌측 상단, 오른쪽 정렬 */}
-          <div className="lg:absolute z-10 lg:left-[15%] mb-[clamp(16px,2.2vw,32px)] lg:mb-0 text-right">
+          <div className="lg:absolute z-10 lg:left-[20%] top-15 mb-[clamp(16px,2.2vw,32px)] lg:mb-0 text-right">
             <h3 className="b-reveal product-heading">아래에서 위로,</h3>
             <p className="b-fade product-sub mt-[clamp(8px,1.1vw,16px)]">
               안전을 위해 누구에게나 눈에 띄도록
@@ -348,7 +348,7 @@ export function BilinyProductSection() {
       <div className="mt-[clamp(60px,8.3vw,120px)]">
         <div className="relative product-container text-center">
           {/* 궤도 이미지 + 텍스트 — 비디오 위에 겹침 */}
-          <div className="relative b-fade z-10 mx-auto w-fit mb-[clamp(-40px,-4.5vw,-60px)]">
+          <div className="absolute inset-x-0 b-fade z-10">
             <Image
               src="/images/biliny/2_360-orbit.png"
               alt=""
@@ -364,7 +364,7 @@ export function BilinyProductSection() {
               <h3 className="product-heading">빌리니 둘러보기</h3>
             </div>
           </div>
-          <div className="b-scale max-w-[clamp(400px,60vw,900px)] mx-auto">
+          <div className="b-scale w-full mx-auto">
             <video
               ref={turningRef}
               src="/videos/biliny/turning.mp4"

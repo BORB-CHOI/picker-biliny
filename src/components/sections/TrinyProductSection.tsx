@@ -81,7 +81,7 @@ export function TrinyProductSection() {
                 src="/images/triny/1_lineup-hero.png"
                 alt="트리니 제품 이미지"
                 fill
-                className="object-contain object-right-bottom lg:translate-x-50 lg:translate-y-40"
+                className="object-contain object-right-bottom translate-x-50 translate-y-35"
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 priority
               />
@@ -90,7 +90,7 @@ export function TrinyProductSection() {
         </div>
 
         {/* 스펙 — desktop absolute */}
-        <div className="b-fade hidden lg:flex flex-col absolute items-end left-[39%] top-[82%] -translate-y-1/2">
+        <div className="b-fade flex flex-col absolute items-end left-[39%] top-[70%] -translate-y-1/2">
           <div className="product-spec-row flex items-baseline justify-center">
             <span className="product-spec-label">1회 충전 주행거리</span>
             <span className="product-spec-number mx-4">250</span>
@@ -110,31 +110,7 @@ export function TrinyProductSection() {
             <span className="product-spec-number mx-2.5">500</span>
             <span className="product-spec-unit">만원</span>
           </div>
-        </div>
-        {/* 모바일 스펙 */}
-        <div className="b-fade flex lg:hidden flex-col gap-[clamp(8px,1.1vw,16px)] mt-[clamp(20px,2.8vw,40px)]">
-          <div className="product-spec-row">
-            <span className="product-spec-label">1회 충전 주행거리</span>
-            <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
-              <span className="product-spec-number">250</span>
-              <span className="product-spec-unit">km</span>
-            </div>
-          </div>
-          <div className="product-spec-row">
-            <span className="product-spec-label">무료 탑승 횟수</span>
-            <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
-              <span className="product-spec-number">∞</span>
-              <span className="product-spec-unit">회</span>
-            </div>
-          </div>
-          <div className="product-spec-row">
-            <span className="product-spec-label">대당가격</span>
-            <div className="flex items-baseline gap-[clamp(4px,0.4vw,6px)]">
-              <span className="product-spec-number">500</span>
-              <span className="product-spec-unit">만원</span>
-            </div>
-          </div>
-        </div>
+        </div>        
       </div>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -357,7 +333,7 @@ export function TrinyProductSection() {
               <h3 className="product-heading">트리니 둘러보기</h3>
             </div>
           </div>
-          <div className="b-scale max-w-[clamp(400px,60vw,900px)] mx-auto">
+          <div className="b-scale w-[120%] -ml-[10%]">
             <video
               ref={turningRef}
               src="/videos/triny/turning.mp4"
