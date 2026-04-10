@@ -258,28 +258,28 @@ export function HeroSection() {
 
       <div
         ref={innerRef}
-        className="hero-inner relative z-10 px-[clamp(40px,5.56cqw,80px)] pb-[clamp(48px,6.67cqw,96px)] w-full max-w-[95rem] mx-auto"
+        className="hero-inner relative z-10 px-[clamp(40px,5.56vw,80px)] pb-[clamp(48px,6.67vw,96px)] w-full max-w-[95rem] mx-auto"
       >
         {/* PICKER PROJECT wordmark */}
-        <div className="flex items-center gap-[0.56cqw] mb-[clamp(14px,1.94cqw,28px)] ml-1">
-          <WordmarkLogoHorizon width={240} fill="#192746" className="w-[clamp(120px,16.67cqw,240px)] h-auto" />
+        <div className="flex items-center gap-[0.56vw] mb-[clamp(14px,1.94vw,28px)] ml-1">
+          <WordmarkLogoHorizon width={240} fill="#192746" className="w-[clamp(120px,16.67vw,240px)] h-auto" />
         </div>
 
         {/* Main heading */}
-        <h1 className="mb-[clamp(14px,1.94cqw,28px)]">
-          <span className="block text-[clamp(24px,3.33cqw,48px)] font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight whitespace-nowrap">
+        <h1 className="mb-[clamp(14px,1.94vw,28px)]">
+          <span className="block text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight whitespace-nowrap">
             중소도시의 이동권을
           </span>
-          <span className="block text-[clamp(24px,3.33cqw,48px)] font-bold tracking-[0.06em] text-(--color-primary) leading-tight mt-1 whitespace-nowrap">
+          <span className="block text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-primary) leading-tight mt-1 whitespace-nowrap">
             다시 설계합니다.
           </span>
         </h1>
 
         {/* Horizontal decorative line */}
-        <div className="h-px bg-[#D8D8D8] w-full max-w-[clamp(50px,9.03cqw,130px)] mb-[clamp(14px,1.94cqw,28px)]" />
+        <div className="h-px bg-[#D8D8D8] w-full max-w-[clamp(50px,9.03vw,130px)] mb-[clamp(14px,1.94vw,28px)]" />
 
         {/* Description */}
-        <p className="text-[clamp(10px,1.25cqw,18px)] text-(--color-text-desc) leading-[1.85] max-w-[clamp(200px,31.94cqw,460px)] mb-[clamp(24px,3.33cqw,48px)] whitespace-nowrap">
+        <p className="text-[clamp(10px,1.25vw,18px)] text-(--color-text-desc) leading-[1.85] max-w-[clamp(200px,31.94vw,460px)] mb-[clamp(24px,3.33vw,48px)] whitespace-nowrap">
           피커 프로젝트 &lsquo;빌리니(BILINY)&rsquo; 는 일상 속<br />
           <strong className="font-extrabold">
             이동의 비효율 사각지대를 해결
@@ -290,17 +290,17 @@ export function HeroSection() {
         </p>
 
         {/* CTA buttons */}
-        <div className="flex gap-[clamp(7px,0.97cqw,14px)]">
+        <div className="flex gap-[clamp(7px,0.97vw,14px)]">
           <a
             href="#story"
-            className="inline-flex items-center whitespace-nowrap gap-[clamp(5px,0.69cqw,10px)] px-[clamp(12px,1.67cqw,24px)] py-[clamp(6px,0.83cqw,12px)] bg-[#4B4B4B] text-white text-[clamp(8px,0.97cqw,14px)] font-bold rounded-[clamp(6px,0.76cqw,11px)] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
+            className="inline-flex items-center whitespace-nowrap gap-[clamp(5px,0.69vw,10px)] px-[clamp(12px,1.67vw,24px)] py-[clamp(6px,0.83vw,12px)] bg-[#4B4B4B] text-white text-[clamp(8px,0.97vw,14px)] font-bold rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
           >
             <BarIndicator count={1} />
             빌리니 스토리 →
           </a>
           <a
             href="#biliny"
-            className="inline-flex items-center whitespace-nowrap gap-[clamp(5px,0.69cqw,10px)] px-[clamp(12px,1.67cqw,24px)] py-[clamp(6px,0.83cqw,12px)] bg-[#2675FF] text-white text-[clamp(8px,0.97cqw,14px)] font-bold rounded-[clamp(6px,0.76cqw,11px)] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
+            className="inline-flex items-center whitespace-nowrap gap-[clamp(5px,0.69vw,10px)] px-[clamp(12px,1.67vw,24px)] py-[clamp(6px,0.83vw,12px)] bg-[#2675FF] text-white text-[clamp(8px,0.97vw,14px)] font-bold rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
           >
             <BarIndicator count={2} />
             빌리니 둘러보기 →

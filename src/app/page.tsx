@@ -18,10 +18,8 @@ export default function Home() {
       <ScrollTriggerRefreshController />
       <Header />
 
-      {/* 1. 메인 온보딩 — GSAP pin 사용, ZoomWrapper로 비례 축소 */}
-      <ZoomWrapper>
-        <HeroSection />
-      </ZoomWrapper>
+      {/* 1. 메인 온보딩 — 전체화면 + GSAP pin, 축소 없이 원본 */}
+      <HeroSection />
 
       <ScaleWrapper>
         <main>
