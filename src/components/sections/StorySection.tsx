@@ -558,7 +558,7 @@ export function StorySection() {
               className="story-img"
               sizes="(max-width: 768px) 60vw, 40vw"
             />
-              <div className="s-reveal absolute text-left z-10 top-[50%] -right-[50%]">
+              <div className="s-reveal absolute text-left z-10 top-[35%] -right-[50%]">
                 <p className="story-conclusion-quote">&ldquo;집에 있을래.&rdquo;</p>
                 <p className="story-conclusion-quote mt-2">고립 우울 가속화</p>
                 <p className="story-data-number mt-3 text-[4rem]!">1.5배</p>
