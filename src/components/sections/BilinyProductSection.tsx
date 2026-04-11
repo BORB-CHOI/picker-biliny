@@ -183,16 +183,7 @@ export function BilinyProductSection() {
           </div>
 
           {/* 우측 제품 이미지 — div 래퍼 기준 레이아웃, 이미지 우측 정렬 */}
-          <div className="flex-1 min-w-0 b-from-right relative">
-            {/* 제품 전환 탭 */}
-            <div className="absolute top-[clamp(140px,17cqw,250px)] right-0 z-20 flex gap-2 bg-[#f0f1f5] rounded-full p-1">
-              <span className="px-[clamp(12px,1.4cqw,20px)] py-[clamp(4px,0.5cqw,8px)] rounded-full bg-white text-[clamp(10px,0.97cqw,14px)] font-bold text-(--color-primary) shadow-sm">
-                BILINY (케어형)
-              </span>
-              <a href="#triny" className="px-[clamp(12px,1.4cqw,20px)] py-[clamp(4px,0.5cqw,8px)] rounded-full text-[clamp(10px,0.97cqw,14px)] font-medium text-[#8a8a9a] hover:text-(--color-text) transition-colors">
-                TRINY (플랫폼)
-              </a>
-            </div>
+          <div className="flex-1 min-w-0 b-from-right">
             <div className="relative aspect-[4/5]">
               <Image
                 src="/images/biliny/1_lineup-hero.png"
@@ -204,6 +195,16 @@ export function BilinyProductSection() {
               />
             </div>
           </div>
+        </div>
+
+        {/* 제품 전환 탭 — product-container 기준 absolute */}
+        <div className="absolute top-[clamp(140px,17cqw,250px)] right-[5rem] z-20 flex gap-2 bg-[#f0f1f5] rounded-full p-1">
+          <span className="px-[clamp(12px,1.4cqw,20px)] py-[clamp(4px,0.5cqw,8px)] rounded-full bg-white text-[clamp(10px,0.97cqw,14px)] font-bold text-(--color-primary) shadow-sm">
+            BILINY (케어형)
+          </span>
+          <a href="#triny" className="px-[clamp(12px,1.4cqw,20px)] py-[clamp(4px,0.5cqw,8px)] rounded-full text-[clamp(10px,0.97cqw,14px)] font-medium text-[#8a8a9a] hover:text-(--color-text) transition-colors">
+            TRINY (플랫폼)
+          </a>
         </div>
 
         {/* 스펙 — 텍스트와 이미지 경계에 absolute 배치 */}
