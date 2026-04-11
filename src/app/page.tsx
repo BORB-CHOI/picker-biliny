@@ -21,18 +21,20 @@ export default function Home() {
       {/* 1. 메인 온보딩 — 전체화면 + GSAP pin, 축소 없이 원본 */}
       <HeroSection />
 
-      <ScaleWrapper>
-        <main>
-          {/* 2. 스토리 — 1970↔2026 과거/현재 비교 타임라인 */}
-          <StorySection />
+      <div className="relative z-10">
+        <ScaleWrapper>
+          <main>
+            {/* 2. 스토리 — 1970↔2026 과거/현재 비교 타임라인 */}
+            <StorySection />
 
-          {/* 5. 해결책 제시 — 빌리니, 안내길, 돌봄이, 공평한 모빌리티 */}
-          <SolutionSection />
+            {/* 5. 해결책 제시 — 빌리니, 안내길, 돌봄이, 공평한 모빌리티 */}
+            <SolutionSection />
 
-          {/* 6. 사업성 — 돌봄이, 사회적 비용, 예산, 수익 모델 */}
-          <BusinessSection />
-        </main>
-      </ScaleWrapper>
+            {/* 6. 사업성 — 돌봄이, 사회적 비용, 예산, 수익 모델 */}
+            <BusinessSection />
+          </main>
+        </ScaleWrapper>
+      </div>
 
       {/* 6-2. 글로벌 확장 — sticky pin 섹션 (ScaleWrapper 외부, zoom 축소) */}
       <ZoomWrapper>
