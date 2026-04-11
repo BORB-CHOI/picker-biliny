@@ -28,6 +28,7 @@ export function useAutoplayVideo(options: AutoplayVideoOptions = {}) {
             return;
           }
           started = true;
+          video.currentTime = 0;
           void video.play().catch(() => {});
           if (once) {
             observer.disconnect();

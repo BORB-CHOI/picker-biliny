@@ -27,7 +27,7 @@ export function BilinyProductSection() {
 
   useProductAnimations(sectionRef);
 
-  /* ── 앉아서 / 서서 — viewport entry 시 영상 1회 재생 ── */
+  /* ── 앉아서 / 서서 — viewport entry/leave 시 영상 반복 재생 ── */
   useGSAP(
     () => {
       const video = humanVideoRef.current;
@@ -42,7 +42,6 @@ export function BilinyProductSection() {
       gsap.set([sit, stand], { opacity: 0, y: 24 });
 
       let textSwitched = false;
-      let playbackStarted = false;
       let playbackTrigger: ScrollTrigger | null = null;
       let firstRafId: number;
       let secondRafId: number;
@@ -56,13 +55,17 @@ export function BilinyProductSection() {
       };
 
       const startPlayback = () => {
-        if (playbackStarted) return;
-        playbackStarted = true;
+        textSwitched = false;
+        gsap.set(stand, { opacity: 0, y: 24 });
         gsap.to(sit, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
         video.currentTime = 0;
         void video.play().catch(() => {});
-
         video.addEventListener('timeupdate', handleTime);
+      };
+
+      const stopPlayback = () => {
+        video.pause();
+        video.removeEventListener('timeupdate', handleTime);
       };
 
       const handleEnded = () => {
@@ -79,6 +82,9 @@ export function BilinyProductSection() {
               start: HUMAN_VIDEO_START,
               markers: showMarkers,
               onEnter: startPlayback,
+              onEnterBack: startPlayback,
+              onLeave: stopPlayback,
+              onLeaveBack: stopPlayback,
             });
 
             const rect = video.getBoundingClientRect();
