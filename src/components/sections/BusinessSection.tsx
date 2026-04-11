@@ -309,10 +309,11 @@ export function ExpansionPinSection() {
   );
 
   return (
-    <div ref={outerRef} className="relative bg-white h-[165vh]">
+    <div ref={outerRef} className="relative bg-white" style={{ height: 'calc(165vh * var(--zoom-inverse, 1))' }}>
       <div
         ref={stickyRef}
-        className="sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-center overflow-hidden"
+        className="sticky top-16 flex flex-col justify-center overflow-hidden"
+        style={{ height: 'calc((100vh - 4rem) * var(--zoom-inverse, 1))' }}
       >
         {/* 제목 */}
         <div className="product-container text-center mb-12">

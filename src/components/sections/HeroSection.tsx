@@ -247,7 +247,7 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full h-screen flex flex-col justify-end bg-background pt-18"
+      className="relative w-full h-dvh flex flex-col justify-end bg-background pt-18"
     >
       {/* 배경 canvas — 이미지 시퀀스 스크롤 scrub */}
       <canvas

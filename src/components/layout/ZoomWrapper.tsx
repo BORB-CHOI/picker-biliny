@@ -32,9 +32,11 @@ export function ZoomWrapper({ children, baseWidth = 1440, minScale = 0.25 }: Zoo
     if (factor < 1.0) {
       wrapper.style.width = `${baseWidth}px`;
       wrapper.style.zoom = String(factor);
+      wrapper.style.setProperty('--zoom-inverse', String(1 / factor));
     } else {
       wrapper.style.width = '100%';
       wrapper.style.zoom = '1';
+      wrapper.style.setProperty('--zoom-inverse', '1');
     }
   }, [baseWidth, minScale]);
 
