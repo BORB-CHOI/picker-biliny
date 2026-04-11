@@ -75,7 +75,16 @@ export function TrinyProductSection() {
           </div>
 
           {/* 우측 제품 이미지 — div 래퍼 기준 레이아웃, 이미지 우측 정렬 */}
-          <div className="flex-1 min-w-0 b-from-right">
+          <div className="flex-1 min-w-0 b-from-right relative">
+            {/* 제품 전환 탭 */}
+            <div className="absolute top-[clamp(8px,1cqw,16px)] right-0 z-20 flex gap-2 bg-[#f0f1f5] rounded-full p-1">
+              <a href="#biliny" className="px-[clamp(12px,1.4cqw,20px)] py-[clamp(4px,0.5cqw,8px)] rounded-full text-[clamp(10px,0.97cqw,14px)] font-medium text-[#8a8a9a] hover:text-(--color-text) transition-colors">
+                BILINY (케어형)
+              </a>
+              <span className="px-[clamp(12px,1.4cqw,20px)] py-[clamp(4px,0.5cqw,8px)] rounded-full bg-white text-[clamp(10px,0.97cqw,14px)] font-bold text-(--color-primary) shadow-sm">
+                TRINY (플랫폼)
+              </span>
+            </div>
             <div className="relative aspect-[4/5] scale-80">
               <Image
                 src="/images/triny/1_lineup-hero.png"
@@ -90,7 +99,7 @@ export function TrinyProductSection() {
         </div>
 
         {/* 스펙 — desktop absolute */}
-        <div className="b-fade flex flex-col absolute items-end left-[39%] top-[70%] -translate-y-1/2">
+        <div className="b-fade flex flex-col absolute items-end left-[39%] top-[83%] -translate-y-1/2">
           <div className="product-spec-row flex items-baseline justify-center">
             <span className="product-spec-label">1회 충전 주행거리</span>
             <span className="product-spec-number mx-4">250</span>
