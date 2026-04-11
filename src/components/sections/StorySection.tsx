@@ -448,7 +448,7 @@ export function StorySection() {
               className="story-img-wide"
               sizes="(max-width: 768px) 90vw, 52vw"
             />
-              <div className="s-reveal absolute right-[10%] top-[20%] text-center text-left">
+              <div className="s-reveal absolute right-[15%] top-[20%] text-center text-left">
                 <p className="story-data-label">대기로 인한</p>
                 <p className="story-data-label">이동 포기율</p>
                 <p className="story-data-number mt-1 text-[4rem]!" data-count="36" data-suffix="%">
