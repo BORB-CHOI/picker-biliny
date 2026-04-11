@@ -77,7 +77,7 @@ export function TrinyProductSection() {
           {/* 우측 제품 이미지 — div 래퍼 기준 레이아웃, 이미지 우측 정렬 */}
           <div className="flex-1 min-w-0 b-from-right relative">
             {/* 제품 전환 탭 */}
-            <div className="absolute top-[clamp(8px,1cqw,16px)] right-0 z-20 flex gap-2 bg-[#f0f1f5] rounded-full p-1">
+            <div className="absolute top-[clamp(140px,17cqw,250px)] right-0 z-20 flex gap-2 bg-[#f0f1f5] rounded-full p-1">
               <a href="#biliny" className="px-[clamp(12px,1.4cqw,20px)] py-[clamp(4px,0.5cqw,8px)] rounded-full text-[clamp(10px,0.97cqw,14px)] font-medium text-[#8a8a9a] hover:text-(--color-text) transition-colors">
                 BILINY (케어형)
               </a>
