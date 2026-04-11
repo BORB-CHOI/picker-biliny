@@ -20,6 +20,12 @@ export function useAutoplayVideo(options: AutoplayVideoOptions = {}) {
     if (!video) return;
 
     let started = false;
+    let ended = false;
+
+    const handleEnded = () => {
+      ended = true;
+    };
+    video.addEventListener('ended', handleEnded);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -28,7 +34,10 @@ export function useAutoplayVideo(options: AutoplayVideoOptions = {}) {
             return;
           }
           started = true;
-          video.currentTime = 0;
+          if (ended) {
+            video.currentTime = 0;
+            ended = false;
+          }
           void video.play().catch(() => {});
           if (once) {
             observer.disconnect();
@@ -40,7 +49,10 @@ export function useAutoplayVideo(options: AutoplayVideoOptions = {}) {
       createViewportEntryObserverOptions(),
     );
     observer.observe(video);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('ended', handleEnded);
+    };
   }, [once]);
 
   return ref;

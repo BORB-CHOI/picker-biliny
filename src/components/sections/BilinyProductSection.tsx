@@ -46,6 +46,8 @@ export function BilinyProductSection() {
       let firstRafId: number;
       let secondRafId: number;
 
+      let videoEnded = false;
+
       const handleTime = () => {
         if (!textSwitched && video.currentTime >= video.duration * 0.45) {
           textSwitched = true;
@@ -55,20 +57,25 @@ export function BilinyProductSection() {
       };
 
       const startPlayback = () => {
-        textSwitched = false;
-        gsap.set(stand, { opacity: 0, y: 24 });
-        gsap.to(sit, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
-        video.currentTime = 0;
+        if (videoEnded) {
+          videoEnded = false;
+          textSwitched = false;
+          gsap.set(stand, { opacity: 0, y: 24 });
+          gsap.to(sit, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+          video.currentTime = 0;
+        } else if (!textSwitched) {
+          gsap.to(sit, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+        }
         void video.play().catch(() => {});
         video.addEventListener('timeupdate', handleTime);
       };
 
       const stopPlayback = () => {
         video.pause();
-        video.removeEventListener('timeupdate', handleTime);
       };
 
       const handleEnded = () => {
+        videoEnded = true;
         video.removeEventListener('timeupdate', handleTime);
       };
 
