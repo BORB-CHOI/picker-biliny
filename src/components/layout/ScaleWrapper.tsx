@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useRef } from 'react';
-import { useViewportScale } from '@/hooks/useViewportScale';
+import { useRef } from "react";
+import { useViewportScale } from "@/hooks/useViewportScale";
 
 interface ScaleWrapperProps {
   children: React.ReactNode;
@@ -21,12 +21,15 @@ export function ScaleWrapper({ children }: ScaleWrapperProps) {
   useViewportScale({
     baseWidth: 1440,
     minScale: 0.25,
+    mobileBaseWidth: 393,
+    mobileMinScale: 0.85,
+    mobileBreakpoint: 640,
     wrapperRef,
   });
 
   return (
     <div className="relative w-full overflow-x-clip">
-      <div ref={wrapperRef} style={{ containerType: 'inline-size' }}>
+      <div ref={wrapperRef} style={{ containerType: "inline-size" }}>
         {children}
       </div>
     </div>

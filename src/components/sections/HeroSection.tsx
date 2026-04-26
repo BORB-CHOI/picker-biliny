@@ -99,10 +99,14 @@ function BarIndicator({ count, className }: { count: number; className?: string 
   );
 }
 
+/** 모바일 분기점 (이하에서 모바일 전용 레이아웃 사용) */
+const MOBILE_BREAKPOINT = 640;
+
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasWrapperRef = useRef<HTMLDivElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
 
   // 이미지 시퀀스 프리로드 (마운트 시 1회)
@@ -128,20 +132,31 @@ export function HeroSection() {
       let ch = 0;
 
       function resizeCanvas() {
-        // CSS 변수 --scale-factor 읽기 (useViewportScale 훅이 :root에 설정)
-        const scaleFactor =
-          parseFloat(
-            getComputedStyle(document.documentElement).getPropertyValue("--scale-factor"),
-          ) || 1;
+        const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+        const wrapper = canvasWrapperRef.current;
 
-        if (scaleFactor < 1.0) {
-          // scale-wrapper 내부: canvas 좌표계를 1440px 기준으로 보정
-          // scale(factor) 적용 후 시각적으로 실제 뷰포트를 채우도록 역보정
-          cw = 1440;
-          ch = window.innerHeight / scaleFactor;
+        if (isMobile && wrapper) {
+          // 모바일: canvas wrapper의 실제 크기에 맞춤 (텍스트 아래 영역)
+          const rect = wrapper.getBoundingClientRect();
+          cw = rect.width;
+          ch = rect.height;
         } else {
-          cw = window.innerWidth;
-          ch = window.innerHeight;
+          // 데스크톱: 기존 동작 — 전체 뷰포트 배경
+          // CSS 변수 --scale-factor 읽기 (useViewportScale 훅이 :root에 설정)
+          const scaleFactor =
+            parseFloat(
+              getComputedStyle(document.documentElement).getPropertyValue("--scale-factor"),
+            ) || 1;
+
+          if (scaleFactor < 1.0) {
+            // scale-wrapper 내부: canvas 좌표계를 1440px 기준으로 보정
+            // scale(factor) 적용 후 시각적으로 실제 뷰포트를 채우도록 역보정
+            cw = 1440;
+            ch = window.innerHeight / scaleFactor;
+          } else {
+            cw = window.innerWidth;
+            ch = window.innerHeight;
+          }
         }
 
         canvas!.width = cw * dpr;
@@ -281,21 +296,14 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full h-dvh flex flex-col justify-end bg-background pt-18"
+      className="relative w-full h-dvh flex flex-col sm:justify-end bg-background pt-18"
     >
-      {/* 배경 canvas — 이미지 시퀀스 스크롤 scrub */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 z-0 w-full h-full"
-        style={{ opacity: 0 }}
-      />
-
       <div
         ref={innerRef}
-        className="hero-inner relative z-10 px-[clamp(40px,5.56vw,80px)] pb-[clamp(48px,6.67vw,96px)] w-full max-w-[95rem] mx-auto"
+        className="hero-inner relative z-10 px-[clamp(40px,5.56vw,80px)] pt-15 sm:pt-0 pb-[clamp(48px,6.67vw,96px)] w-full max-w-[95rem] mx-auto"
       >
-        {/* PICKER PROJECT wordmark */}
-        <div className="flex items-center gap-[0.56vw] mb-[clamp(14px,1.94vw,28px)] ml-1">
+        {/* PICKER PROJECT wordmark — 모바일에서는 숨김 */}
+        <div className="hidden sm:flex items-center gap-[0.56vw] mb-[clamp(14px,1.94vw,28px)] ml-1">
           <WordmarkLogoHorizon
             width={240}
             fill="#192746"
@@ -304,20 +312,20 @@ export function HeroSection() {
         </div>
 
         {/* Main heading */}
-        <h1 className="mb-[clamp(14px,1.94vw,28px)]">
-          <span className="block text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight whitespace-nowrap">
+        <h1 className="mb-5 sm:mb-[clamp(14px,1.94vw,28px)]">
+          <span className="block text-[34px] sm:text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight whitespace-nowrap">
             중소도시의 이동권을
           </span>
-          <span className="block text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-primary) leading-tight mt-1 whitespace-nowrap">
+          <span className="block text-[34px] sm:text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-primary) leading-tight mt-1 whitespace-nowrap">
             다시 설계합니다.
           </span>
         </h1>
 
         {/* Horizontal decorative line */}
-        <div className="h-px bg-[#D8D8D8] w-full max-w-[clamp(50px,9.03vw,130px)] mb-[clamp(14px,1.94vw,28px)]" />
+        <div className="h-px bg-[#D8D8D8] w-full max-w-20 sm:max-w-[clamp(50px,9.03vw,130px)] mb-4.5 sm:mb-[clamp(14px,1.94vw,28px)]" />
 
         {/* Description */}
-        <p className="text-[clamp(10px,1.25vw,18px)] text-(--color-text-desc) leading-[1.85] max-w-[clamp(200px,31.94vw,460px)] mb-[clamp(24px,3.33vw,48px)] whitespace-nowrap">
+        <p className="text-sm sm:text-[clamp(10px,1.25vw,18px)] text-(--color-text-desc) leading-[1.7] sm:leading-[1.85] max-w-full sm:max-w-[clamp(200px,31.94vw,460px)] mb-10 sm:mb-[clamp(24px,3.33vw,48px)] whitespace-nowrap">
           피커 프로젝트 &lsquo;빌리니(BILINY)&rsquo; 는 일상 속<br />
           <strong className="font-extrabold">이동의 비효율 사각지대를 해결</strong>
           하는
@@ -326,22 +334,30 @@ export function HeroSection() {
         </p>
 
         {/* CTA buttons */}
-        <div className="flex gap-[clamp(7px,0.97vw,14px)]">
+        <div className="flex gap-2.5 sm:gap-[clamp(7px,0.97vw,14px)]">
           <a
             href="#story"
-            className="inline-flex items-center whitespace-nowrap gap-[clamp(5px,0.69vw,10px)] px-[clamp(12px,1.67vw,24px)] py-[clamp(6px,0.83vw,12px)] bg-[#4B4B4B] text-white text-[clamp(8px,0.97vw,14px)] font-bold rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
+            className="inline-flex items-center whitespace-nowrap gap-2 sm:gap-[clamp(5px,0.69vw,10px)] px-5 py-3 sm:px-[clamp(12px,1.67vw,24px)] sm:py-[clamp(6px,0.83vw,12px)] bg-[#4B4B4B] text-white text-[13px] sm:text-[clamp(8px,0.97vw,14px)] font-bold rounded-[10px] sm:rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
           >
             <BarIndicator count={1} />
             빌리니 스토리 →
           </a>
           <a
             href="#biliny"
-            className="inline-flex items-center whitespace-nowrap gap-[clamp(5px,0.69vw,10px)] px-[clamp(12px,1.67vw,24px)] py-[clamp(6px,0.83vw,12px)] bg-[#2675FF] text-white text-[clamp(8px,0.97vw,14px)] font-bold rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
+            className="inline-flex items-center whitespace-nowrap gap-2 sm:gap-[clamp(5px,0.69vw,10px)] px-5 py-3 sm:px-[clamp(12px,1.67vw,24px)] sm:py-[clamp(6px,0.83vw,12px)] bg-[#2675FF] text-white text-[13px] sm:text-[clamp(8px,0.97vw,14px)] font-bold rounded-[10px] sm:rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
           >
             <BarIndicator count={2} />
             빌리니 둘러보기 →
           </a>
         </div>
+      </div>
+
+      {/* 배경 canvas wrapper — 데스크톱: 전체 배경(absolute) / 모바일: 텍스트 아래 영역 */}
+      <div
+        ref={canvasWrapperRef}
+        className="hero-canvas-wrap relative w-full flex-1 sm:absolute sm:inset-0 sm:flex-none sm:z-0"
+      >
+        <canvas ref={canvasRef} className="block w-full h-full" style={{ opacity: 0 }} />
       </div>
     </section>
   );
