@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
@@ -17,7 +17,14 @@ const AUTOPLAY_STOP_FRAME = 133;
 /** 자동재생 fps */
 const AUTOPLAY_FPS = 30;
 
+// 모듈 스코프 캐시 — StrictMode/HMR로 마운트가 반복돼도 한 번만 다운로드
+let cachedFrames: HTMLImageElement[] | null = null;
+let pendingRafId: number | null = null;
+
 function preloadFrames(): HTMLImageElement[] {
+  // 이미 캐시되어 있으면 재사용 (재마운트 시 중복 요청 방지)
+  if (cachedFrames) return cachedFrames;
+
   const images: HTMLImageElement[] = [];
 
   // 핵심 프레임 먼저 로드 (첫 프레임, 자동재생 정지, 마지막 + 매 20프레임)
@@ -48,11 +55,37 @@ function preloadFrames(): HTMLImageElement[] {
       }
       nextIdx++;
     }
-    if (nextIdx < FRAME_COUNT) requestAnimationFrame(loadBatch);
+    if (nextIdx < FRAME_COUNT) {
+      pendingRafId = requestAnimationFrame(loadBatch);
+    } else {
+      pendingRafId = null;
+    }
   }
-  requestAnimationFrame(loadBatch);
+  pendingRafId = requestAnimationFrame(loadBatch);
 
+  cachedFrames = images;
   return images;
+}
+
+/** 페이지 이탈 시 진행 중인 webp 요청 abort — 새로고침 누적 부하 방지 */
+function abortPendingFrames() {
+  if (pendingRafId !== null) {
+    cancelAnimationFrame(pendingRafId);
+    pendingRafId = null;
+  }
+  if (cachedFrames) {
+    for (const img of cachedFrames) {
+      if (!img.complete) {
+        // src를 빈 값으로 덮어써 진행 중인 요청 취소
+        img.src = "";
+      }
+    }
+  }
+}
+
+if (typeof window !== "undefined") {
+  // bfcache 친화적 — pagehide가 unload보다 안전하게 abort 보장
+  window.addEventListener("pagehide", abortPendingFrames);
 }
 
 /** Vertical bar indicator matching the nav pattern */
@@ -96,9 +129,10 @@ export function HeroSection() {
 
       function resizeCanvas() {
         // CSS 변수 --scale-factor 읽기 (useViewportScale 훅이 :root에 설정)
-        const scaleFactor = parseFloat(
-          getComputedStyle(document.documentElement).getPropertyValue('--scale-factor'),
-        ) || 1;
+        const scaleFactor =
+          parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue("--scale-factor"),
+          ) || 1;
 
         if (scaleFactor < 1.0) {
           // scale-wrapper 내부: canvas 좌표계를 1440px 기준으로 보정
@@ -147,87 +181,87 @@ export function HeroSection() {
       let heroRafId: number;
       const cleanup = onHeaderReady(() => {
         heroRafId = requestAnimationFrame(() => {
-        // 콘텐츠 슬라이드업
-        const contentIntro = gsap.to(inner, {
-          y: 0,
-          opacity: 1,
-          duration: 1.4,
-          ease: "power4.out",
-          onComplete: () => {
-            // 스크롤 시 콘텐츠 fade-out (entry 완료 후 생성)
-            const contentFade = gsap.to(inner, {
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top top",
-                end: "15% top",
-                scrub: 0.5,
-              },
-              y: -80,
-              opacity: 0,
-            });
-            animations.push(contentFade);
-          },
-        });
-        animations.push(contentIntro);
+          // 콘텐츠 슬라이드업
+          const contentIntro = gsap.to(inner, {
+            y: 0,
+            opacity: 1,
+            duration: 1.4,
+            ease: "power4.out",
+            onComplete: () => {
+              // 스크롤 시 콘텐츠 fade-out (entry 완료 후 생성)
+              const contentFade = gsap.to(inner, {
+                scrollTrigger: {
+                  trigger: sectionRef.current,
+                  start: "top top",
+                  end: "15% top",
+                  scrub: 0.5,
+                },
+                y: -80,
+                opacity: 0,
+              });
+              animations.push(contentFade);
+            },
+          });
+          animations.push(contentIntro);
 
-        // ③ canvas 자동재생 (0 → AUTOPLAY_STOP_FRAME, ~4초)
-        drawFrame(0);
-        const canvasFade = gsap.to(canvas, { opacity: 1, duration: 0.6, ease: "power2.out" });
-        animations.push(canvasFade);
+          // ③ canvas 자동재생 (0 → AUTOPLAY_STOP_FRAME, ~4초)
+          drawFrame(0);
+          const canvasFade = gsap.to(canvas, { opacity: 1, duration: 0.6, ease: "power2.out" });
+          animations.push(canvasFade);
 
-        let autoplayStopped = false;
-        const tracker = { frame: 0 };
+          let autoplayStopped = false;
+          const tracker = { frame: 0 };
 
-        autoplayTween = gsap.to(tracker, {
-          frame: AUTOPLAY_STOP_FRAME,
-          duration: AUTOPLAY_STOP_FRAME / AUTOPLAY_FPS,
-          ease: "none",
-          onUpdate: () => drawFrame(tracker.frame),
-        });
-        animations.push(autoplayTween);
+          autoplayTween = gsap.to(tracker, {
+            frame: AUTOPLAY_STOP_FRAME,
+            duration: AUTOPLAY_STOP_FRAME / AUTOPLAY_FPS,
+            ease: "none",
+            onUpdate: () => drawFrame(tracker.frame),
+          });
+          animations.push(autoplayTween);
 
-        // ④ 스크롤 scrub — 전체 0→199 프레임을 스크롤로 제어
-        //    자동재생 중 스크롤 시 → 자동재생 중단, 스크롤 위치를 현재 프레임에 동기화
-        //    pin 상태라 스크롤 점프해도 화면은 안 움직임 → 이후 전 구간 자유 탐색
-        let scrollJumping = false;
+          // ④ 스크롤 scrub — 전체 0→199 프레임을 스크롤로 제어
+          //    자동재생 중 스크롤 시 → 자동재생 중단, 스크롤 위치를 현재 프레임에 동기화
+          //    pin 상태라 스크롤 점프해도 화면은 안 움직임 → 이후 전 구간 자유 탐색
+          let scrollJumping = false;
 
-        let heroPhaseEmitted = false;
-        const emitHeroPhase = () => {
-          if (heroPhaseEmitted) return;
-          heroPhaseEmitted = true;
-          phase.hero.emit();
-        };
-        heroScrollTrigger = ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "+=800",
-          pin: true,
-          pinSpacing: true,
-          onUpdate: (self) => {
-            if (scrollJumping) return;
+          let heroPhaseEmitted = false;
+          const emitHeroPhase = () => {
+            if (heroPhaseEmitted) return;
+            heroPhaseEmitted = true;
+            phase.hero.emit();
+          };
+          heroScrollTrigger = ScrollTrigger.create({
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "+=800",
+            pin: true,
+            pinSpacing: true,
+            onUpdate: (self) => {
+              if (scrollJumping) return;
 
-            if (!autoplayStopped) {
-              if (self.progress > 0.005) {
-                autoplayStopped = true;
-                autoplayTween?.kill();
-                // CSS scroll-behavior: smooth를 무시하고 즉시 점프
-                scrollJumping = true;
-                const targetPos =
-                  self.start + (currentFrame / (FRAME_COUNT - 1)) * (self.end - self.start);
-                window.scrollTo({ top: targetPos, behavior: "instant" });
-                drawFrame(currentFrame);
-                requestAnimationFrame(() => {
-                  scrollJumping = false;
-                });
+              if (!autoplayStopped) {
+                if (self.progress > 0.005) {
+                  autoplayStopped = true;
+                  autoplayTween?.kill();
+                  // CSS scroll-behavior: smooth를 무시하고 즉시 점프
+                  scrollJumping = true;
+                  const targetPos =
+                    self.start + (currentFrame / (FRAME_COUNT - 1)) * (self.end - self.start);
+                  window.scrollTo({ top: targetPos, behavior: "instant" });
+                  drawFrame(currentFrame);
+                  requestAnimationFrame(() => {
+                    scrollJumping = false;
+                  });
+                }
+                return;
               }
-              return;
-            }
-            drawFrame(self.progress * (FRAME_COUNT - 1));
-          },
-          onLeave: () => {
-            emitHeroPhase();
-          },
-        });
+              drawFrame(self.progress * (FRAME_COUNT - 1));
+            },
+            onLeave: () => {
+              emitHeroPhase();
+            },
+          });
         }); // rAF 끝
       });
 
@@ -262,7 +296,11 @@ export function HeroSection() {
       >
         {/* PICKER PROJECT wordmark */}
         <div className="flex items-center gap-[0.56vw] mb-[clamp(14px,1.94vw,28px)] ml-1">
-          <WordmarkLogoHorizon width={240} fill="#192746" className="w-[clamp(120px,16.67vw,240px)] h-auto" />
+          <WordmarkLogoHorizon
+            width={240}
+            fill="#192746"
+            className="w-[clamp(120px,16.67vw,240px)] h-auto"
+          />
         </div>
 
         {/* Main heading */}
@@ -281,9 +319,7 @@ export function HeroSection() {
         {/* Description */}
         <p className="text-[clamp(10px,1.25vw,18px)] text-(--color-text-desc) leading-[1.85] max-w-[clamp(200px,31.94vw,460px)] mb-[clamp(24px,3.33vw,48px)] whitespace-nowrap">
           피커 프로젝트 &lsquo;빌리니(BILINY)&rsquo; 는 일상 속<br />
-          <strong className="font-extrabold">
-            이동의 비효율 사각지대를 해결
-          </strong>
+          <strong className="font-extrabold">이동의 비효율 사각지대를 해결</strong>
           하는
           <br />
           공유형 자율주행 모빌리티 솔루션입니다.
