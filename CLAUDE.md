@@ -107,6 +107,18 @@ Figma 디자인 참조: `4ofzLPWgHAFGKebRvk9cau`
 - "연락", "문의", "폼", "이메일", "전화" → `contact-form`
 - "섹션", "컴포넌트", "페이지", "UI" → `frontend-design`
 
+## Mobile / Desktop 분기 (확정)
+
+- **분기점 640px** — `< 640` 모바일, `>= 640` 데스크톱. 태블릿 분기 없음.
+- **모바일 디자인 기준 393px (iPhone 17), 데스크톱 1440px**
+- `ScaleWrapper`가 자동 분기. 컴포넌트는 모바일이면 393 기준, 데스크톱이면 1440 기준 절대 px로 작성
+- **모바일 시안: `public/images/mobile/iPhone 17 - {1..17}.png`**
+- 분기 방식 두 가지:
+  - **방식 A**: 한 컴포넌트 + Tailwind `sm:` 분기 (레이아웃만 다른 경우, 기본)
+  - **방식 B**: `.mobile.tsx` / `.desktop.tsx` + dynamic ssr:false 라우터 (디자인이 본질적으로 다른 경우)
+- 분리(방식 B) 시 모바일 파일은 **데스크톱 파일 복사 후 isMobile 분기 값만 고정**. 새로 짜지 말 것
+- 자세한 규칙: @.claude/rules/responsive.md
+
 ## Git Convention
 
 @.claude/rules/git-convention.md
