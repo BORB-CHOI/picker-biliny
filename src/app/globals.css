@@ -26,7 +26,7 @@
   --color-background: var(--color-bg);
   --color-foreground: var(--color-text);
   --font-display: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-body: var(--font-inter);
+  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --color-hero-title: #192746;
   --color-accent-dark: #0060EF;
   --color-text-desc: #8287A2;
@@ -137,7 +137,7 @@ body {
 .story-heading-m {
   font-size: clamp(18px, 2.1cqw, 30px);
   letter-spacing: 11%;
-  @apply font-bold text-[var(--color-text)];
+  @apply font-bold! text-[var(--color-text)];
 }
 
 .story-data-label {
@@ -281,7 +281,7 @@ body {
 
 /* 상단 섹션 인트로 */
 .sol-m-intro {
-  font-size: 22px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   @apply font-bold text-[var(--color-text)] text-center;
 }
@@ -678,7 +678,7 @@ body {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .solution-heading {
-  font-size: 2rem;
+  font-size: 1.7rem;
   letter-spacing: 0.11em;
   @apply font-bold text-[var(--color-text)];
 }
