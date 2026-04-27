@@ -391,7 +391,7 @@ export function SolutionSection() {
             <span>필요할 때 </span>
             <span className="sol-m-text-accent">언제든지 부르시면 빌려드립니다.</span>
           </p>
-          <div className="sol-from-left relative w-screen -mx-[5%] mt-2">
+          <div className="sol-from-left relative w-[130%] -mx-[5%] mt-2">
             <Image
               src="/images/solution/2_biliny-doorstep.png"
               alt="빌리니가 집 앞까지 찾아오는 모습"
@@ -401,7 +401,7 @@ export function SolutionSection() {
               sizes="100vw"
             />
           </div>
-          <p className="sol-reveal sol-m-text text-center mt-2">
+          <p className="sol-reveal sol-m-text text-left mt-2">
             집 앞까지 와주고,
             <br />
             가고자하는 모든 길을 갑니다.
