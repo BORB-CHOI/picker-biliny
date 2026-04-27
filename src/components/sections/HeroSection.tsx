@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import NextImage from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -311,21 +312,34 @@ export function HeroSection() {
           />
         </div>
 
-        {/* Main heading */}
-        <h1 className="mb-5 sm:mb-[clamp(14px,1.94vw,28px)]">
-          <span className="block text-[34px] sm:text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight whitespace-nowrap">
+        {/* 모바일: 타이틀 + 설계선 + 본문이 한 장에 그려진 디자이너 이미지 */}
+        <div className="sm:hidden mx-auto mb-10 w-full max-w-[320px]">
+          <NextImage
+            src="/images/hero/title.png"
+            alt="중소도시의 이동권을 다시 설계합니다. 피커 프로젝트의 빌리니(BILINY)는 일상 속 이동의 비효율 사각지대를 해결하는 공유형 자율주행 모빌리티 솔루션입니다."
+            width={1108}
+            height={596}
+            priority
+            sizes="(max-width: 640px) 90vw, 0px"
+            className="w-full h-auto"
+          />
+        </div>
+
+        {/* Main heading — 데스크톱 전용 */}
+        <h1 className="hidden sm:block mb-[clamp(14px,1.94vw,28px)]">
+          <span className="block text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight whitespace-nowrap">
             중소도시의 이동권을
           </span>
-          <span className="block text-[34px] sm:text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-primary) leading-tight mt-1 whitespace-nowrap">
+          <span className="block text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-primary) leading-tight mt-1 whitespace-nowrap">
             다시 설계합니다.
           </span>
         </h1>
 
-        {/* Horizontal decorative line */}
-        <div className="h-px bg-[#D8D8D8] w-full max-w-20 sm:max-w-[clamp(50px,9.03vw,130px)] mb-4.5 sm:mb-[clamp(14px,1.94vw,28px)]" />
+        {/* Horizontal decorative line — 데스크톱 전용 */}
+        <div className="hidden sm:block h-px bg-[#D8D8D8] w-full max-w-[clamp(50px,9.03vw,130px)] mb-[clamp(14px,1.94vw,28px)]" />
 
-        {/* Description */}
-        <p className="text-sm sm:text-[clamp(10px,1.25vw,18px)] text-(--color-text-desc) leading-[1.7] sm:leading-[1.85] max-w-full sm:max-w-[clamp(200px,31.94vw,460px)] mb-10 sm:mb-[clamp(24px,3.33vw,48px)] whitespace-nowrap">
+        {/* Description — 데스크톱 전용 */}
+        <p className="hidden sm:block text-[clamp(10px,1.25vw,18px)] text-(--color-text-desc) leading-[1.85] max-w-[clamp(200px,31.94vw,460px)] mb-[clamp(24px,3.33vw,48px)] whitespace-nowrap">
           피커 프로젝트 &lsquo;빌리니(BILINY)&rsquo; 는 일상 속<br />
           <strong className="font-extrabold">이동의 비효율 사각지대를 해결</strong>
           하는
@@ -355,9 +369,13 @@ export function HeroSection() {
       {/* 배경 canvas wrapper — 데스크톱: 전체 배경(absolute) / 모바일: 텍스트 아래 영역 */}
       <div
         ref={canvasWrapperRef}
-        className="hero-canvas-wrap relative w-full flex-1 sm:absolute sm:inset-0 sm:flex-none sm:z-0"
+        className="hero-canvas-wrap relative w-full flex-1 sm:absolute sm:inset-0 sm:flex-none sm:z-0 overflow-hidden"
       >
-        <canvas ref={canvasRef} className="block w-full h-full" style={{ opacity: 0 }} />
+        <canvas
+          ref={canvasRef}
+          className="block w-full h-full origin-center scale-[1.8] -translate-x-[23%] sm:scale-100 sm:translate-x-0"
+          style={{ opacity: 0 }}
+        />
       </div>
     </section>
   );

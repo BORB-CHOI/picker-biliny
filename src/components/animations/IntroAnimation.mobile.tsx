@@ -42,9 +42,15 @@ export function IntroAnimationMobile() {
       if (SKIP_INTRO || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         // 인트로 스킵 시에는 즉시 프리로드 시작 (애니메이션 경합 없음)
         preloadVideoSources(PRELOAD_VIDEO_SOURCES);
-        phase.intro.emit();
+        // Header가 SKIP_INTRO를 자체 감지해 직접 슬라이드 다운하므로
+        // intro emit 누락이 발생해도 헤더/후속 phase는 정상 진행됨.
+        const timeoutId = window.setTimeout(() => {
+          phase.intro.emit();
+        }, 0);
         setHidden(true);
-        return;
+        return () => {
+          window.clearTimeout(timeoutId);
+        };
       }
 
       const ltEl = containerRef.current!.querySelector(".intro-leaf-lt") as HTMLElement;

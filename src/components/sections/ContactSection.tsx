@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useRef, useState } from 'react';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { LogoName } from '@/components/ui/icons';
-import { onMainContentReady } from '@/lib/animationState';
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { LogoName } from "@/components/ui/icons";
+import { onMainContentReady } from "@/lib/animationState";
 import {
   buildViewportEntryStart,
   isScrollMarkerEnabled,
   resolveAnimationTrigger,
-} from '@/lib/scrollTriggerUtils';
+} from "@/lib/scrollTriggerUtils";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,10 +57,10 @@ function ContactInfoRow({
 export function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [formState, setFormState] = useState({
-    name: '',
-    phone: '',
-    purpose: '지자체 도입 문의',
-    message: '',
+    name: "",
+    phone: "",
+    purpose: "지자체 도입 문의",
+    message: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -71,7 +71,7 @@ export function ContactSection() {
       if (!section) return;
       const showMarkers = isScrollMarkerEnabled();
       const animations: gsap.core.Animation[] = [];
-      gsap.set(section.querySelectorAll('.ct-anim'), { y: 40, opacity: 0 });
+      gsap.set(section.querySelectorAll(".ct-anim"), { y: 40, opacity: 0 });
 
       let firstRafId: number;
       let secondRafId: number;
@@ -79,17 +79,21 @@ export function ContactSection() {
       const unsubscribe = onMainContentReady(() => {
         firstRafId = requestAnimationFrame(() => {
           secondRafId = requestAnimationFrame(() => {
-          section.querySelectorAll<HTMLElement>('.ct-anim').forEach((el) => {
-            const triggerEl = resolveAnimationTrigger(el);
-            const animation = gsap.to(el, {
-              y: 0,
-              opacity: 1,
-              duration: 1,
-              ease: 'power2.out',
-              scrollTrigger: { trigger: triggerEl, start: CONTACT_ANIM_START, markers: showMarkers },
+            section.querySelectorAll<HTMLElement>(".ct-anim").forEach((el) => {
+              const triggerEl = resolveAnimationTrigger(el);
+              const animation = gsap.to(el, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: triggerEl,
+                  start: CONTACT_ANIM_START,
+                  markers: showMarkers,
+                },
+              });
+              animations.push(animation);
             });
-            animations.push(animation);
-          });
           });
         });
       });
@@ -118,33 +122,32 @@ export function ContactSection() {
   return (
     <section ref={sectionRef} id="contact" className="relative">
       {/* ── 섹션 타이틀 ── */}
-      <div className="ct-anim flex items-center justify-center gap-3 pt-28 pb-8">
+      <div className="ct-anim flex items-center justify-center gap-3 pt-16 pb-6 sm:pt-28 sm:pb-8">
         <BarIndicator count={4} />
-        <h2 className="text-[43px] font-bold text-[#3a3a3a] tracking-wide">
-          CONTACT
-        </h2>
+        <h2 className="text-3xl sm:text-[43px] font-bold text-[#3a3a3a] tracking-wide">CONTACT</h2>
       </div>
 
       {/* 구분선 */}
       <div className="ct-anim w-full h-px bg-[#e0e0e0]" />
 
       {/* ── 본문: 좌 파란카드 + 우 폼 ── */}
-      <div className="ct-anim bg-[#f5f6fa] py-20">
-        <div className="max-w-[1200px] mx-auto px-20">
-          <div className="flex flex-row gap-12">
+      <div className="ct-anim bg-[#f5f6fa] py-20 sm:py-20">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-20">
+          <div className="flex flex-col sm:flex-row gap-8 sm:gap-12">
             {/* 좌측: 파란 배경 카드 */}
-            <div className="relative w-[45%] rounded-3xl overflow-hidden bg-linear-to-br from-[#2675FF] to-[#0050D0] p-12 flex flex-col justify-between min-h-100">
+            <div className="relative w-full sm:w-[45%] rounded-3xl overflow-hidden bg-linear-to-br from-[#2675FF] to-[#0050D0] p-8 sm:p-12 flex flex-col justify-between min-h-80 sm:min-h-100">
               {/* 좌상단 원형 장식 */}
               <div className="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-white/10" />
 
               <div className="relative z-10">
-                <h3 className="text-white text-3xl font-black leading-tight">
+                <h3 className="text-white text-2xl sm:text-3xl font-black leading-tight">
                   당신의 도시에
                   <br />
                   이동의 자유를 더하세요.
                 </h3>
-                <p className="text-white/80 text-[15px] mt-6 leading-relaxed">
-                  빌리니 도입은 단순한 기기 구매가 아닙니다. 이동 데이터 기반의 환경 설계부터 운영까지 최적화된 솔루션을 제안합니다.
+                <p className="text-white/80 text-sm sm:text-[15px] mt-4 sm:mt-6 leading-relaxed">
+                  빌리니 도입은 단순한 기기 구매가 아닙니다. 이동 데이터 기반의 환경 설계부터
+                  운영까지 최적화된 솔루션을 제안합니다.
                 </p>
               </div>
 
@@ -152,7 +155,12 @@ export function ContactSection() {
                 <ContactInfoRow
                   icon={
                     <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5">
-                      <path d="M5.5 3.5C5.5 3.5 6.5 2 8 2C9 2 9.5 2.5 10 3.5L10.5 5C10.5 5 10.5 6 9.5 6.5L8.5 7C8.5 7 9 9 11 11C13 13 13 13 13 13L13.5 12C14 11 15 11 15 11L16.5 11.5C17.5 12 18 12.5 18 13.5C18 15 16.5 16.5 16.5 16.5C14.5 18.5 8 15 5.5 12.5C3 10 -0.5 3.5 1.5 1.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                      <path
+                        d="M5.5 3.5C5.5 3.5 6.5 2 8 2C9 2 9.5 2.5 10 3.5L10.5 5C10.5 5 10.5 6 9.5 6.5L8.5 7C8.5 7 9 9 11 11C13 13 13 13 13 13L13.5 12C14 11 15 11 15 11L16.5 11.5C17.5 12 18 12.5 18 13.5C18 15 16.5 16.5 16.5 16.5C14.5 18.5 8 15 5.5 12.5C3 10 -0.5 3.5 1.5 1.5"
+                        stroke="white"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                      />
                     </svg>
                   }
                   label="문의 전화"
@@ -161,8 +169,21 @@ export function ContactSection() {
                 <ContactInfoRow
                   icon={
                     <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5">
-                      <rect x="2" y="4" width="16" height="12" rx="2" stroke="white" strokeWidth="1.5"/>
-                      <path d="M2 6L10 11L18 6" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                      <rect
+                        x="2"
+                        y="4"
+                        width="16"
+                        height="12"
+                        rx="2"
+                        stroke="white"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M2 6L10 11L18 6"
+                        stroke="white"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                      />
                     </svg>
                   }
                   label="이메일"
@@ -171,8 +192,16 @@ export function ContactSection() {
                 <ContactInfoRow
                   icon={
                     <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5">
-                      <path d="M10 11C11.6569 11 13 9.65685 13 8C13 6.34315 11.6569 5 10 5C8.34315 5 7 6.34315 7 8C7 9.65685 8.34315 11 10 11Z" stroke="white" strokeWidth="1.5"/>
-                      <path d="M10 18C10 18 17 13 17 8C17 4.13401 13.866 1 10 1C6.13401 1 3 4.13401 3 8C3 13 10 18 10 18Z" stroke="white" strokeWidth="1.5"/>
+                      <path
+                        d="M10 11C11.6569 11 13 9.65685 13 8C13 6.34315 11.6569 5 10 5C8.34315 5 7 6.34315 7 8C7 9.65685 8.34315 11 10 11Z"
+                        stroke="white"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M10 18C10 18 17 13 17 8C17 4.13401 13.866 1 10 1C6.13401 1 3 4.13401 3 8C3 13 10 18 10 18Z"
+                        stroke="white"
+                        strokeWidth="1.5"
+                      />
                     </svg>
                   }
                   label="오피스"
@@ -182,12 +211,18 @@ export function ContactSection() {
             </div>
 
             {/* 우측: 문의 폼 */}
-            <div className="w-[55%]">
+            <div className="w-full sm:w-[55%]">
               {submitted ? (
                 <div className="flex flex-col items-center justify-center h-full text-center gap-4">
                   <div className="w-16 h-16 rounded-full bg-(--color-primary) flex items-center justify-center">
                     <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8">
-                      <path d="M5 13L9 17L19 7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path
+                        d="M5 13L9 17L19 7"
+                        stroke="white"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   </div>
                   <p className="text-xl font-bold text-foreground">상담 신청이 완료되었습니다</p>
@@ -198,7 +233,7 @@ export function ContactSection() {
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   {/* 이름 + 연락처 */}
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-bold text-foreground mb-2">
                         이름/담당자명
@@ -213,9 +248,7 @@ export function ContactSection() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-bold text-foreground mb-2">
-                        연락처
-                      </label>
+                      <label className="block text-sm font-bold text-foreground mb-2">연락처</label>
                       <input
                         type="tel"
                         placeholder="010-0000-0000"
@@ -238,8 +271,8 @@ export function ContactSection() {
                       className="w-full px-4 py-3 rounded-lg border border-[#e0e0e0] bg-white text-sm text-foreground outline-none focus:border-(--color-primary) transition-colors appearance-none"
                       style={{
                         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'right 16px center',
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 16px center",
                       }}
                     >
                       <option>지자체 도입 문의</option>
@@ -270,7 +303,7 @@ export function ContactSection() {
                     disabled={submitting}
                     className="w-full py-4 rounded-xl bg-[#2c2c2c] text-white font-bold text-sm tracking-wide hover:bg-[#1a1a1a] transition-colors disabled:opacity-50"
                   >
-                    {submitting ? '신청 중...' : '상담 신청하기  ›'}
+                    {submitting ? "신청 중..." : "상담 신청하기  ›"}
                   </button>
 
                   <p className="text-center text-xs text-[#999]">
@@ -284,23 +317,29 @@ export function ContactSection() {
       </div>
 
       {/* ── Footer ── */}
-      <footer className="ct-anim bg-white py-10">
-        <div className="max-w-[1200px] mx-auto px-20 flex flex-row items-center justify-between gap-4">
+      <footer className="ct-anim bg-white py-8 sm:py-10">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-20 flex flex-col sm:flex-row items-center sm:justify-between gap-5 sm:gap-4">
           {/* 로고 */}
-          <LogoName width={150} />
+          <LogoName width={120} />
 
           {/* 링크 */}
-          <div className="flex items-center gap-8">
-            <a href="#" className="text-[13px] text-[#656f96] hover:text-foreground transition-colors">
+          <div className="flex items-center gap-6 sm:gap-8">
+            <a
+              href="#"
+              className="text-xs sm:text-[13px] text-[#656f96] hover:text-foreground transition-colors"
+            >
               이용약관
             </a>
-            <a href="#" className="text-[13px] text-[#656f96] hover:text-foreground transition-colors">
+            <a
+              href="#"
+              className="text-xs sm:text-[13px] text-[#656f96] hover:text-foreground transition-colors"
+            >
               개인정보처리방침
             </a>
           </div>
 
           {/* 저작권 */}
-          <p className="text-[13px] text-[#656f96]">
+          <p className="text-xs sm:text-[13px] text-[#656f96] text-center">
             © 2026 Picker Project. All rights reserved.
           </p>
         </div>
