@@ -7,7 +7,7 @@
   --color-accent-dark: #0060EF;
   --color-dark: #2C2C2C;
   --color-text: #202020;
-  --color-text-secondary: #656565;
+  --color-text-secondary: #515151;
   --color-text-tertiary: #313131;
   --color-text-light: #414141;
   --color-text-desc: #8287A2;
@@ -26,7 +26,7 @@
   --color-background: var(--color-bg);
   --color-foreground: var(--color-text);
   --font-display: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-body: var(--font-inter);
   --color-hero-title: #192746;
   --color-accent-dark: #0060EF;
   --color-text-desc: #8287A2;
@@ -93,6 +93,12 @@ body {
   background: #3a3a3a;
 }
 
+.section-bar-m {
+  width: 5px;
+  height: clamp(18px, 2.2cqw, 30px);
+  background: #3a3a3a;
+}
+
 .section-title-row {
   @apply flex items-center justify-center gap-3;
   padding-top: clamp(40px, 5.5cqw, 80px);
@@ -125,7 +131,13 @@ body {
 .story-heading {
   font-size: clamp(24px, 2.9cqw, 42px);
   letter-spacing: 11%;
-  @apply font-black text-[var(--color-text)];
+  @apply font-bold text-[var(--color-text)];
+}
+
+.story-heading-m {
+  font-size: clamp(18px, 2.1cqw, 30px);
+  letter-spacing: 11%;
+  @apply font-bold text-[var(--color-text)];
 }
 
 .story-data-label {
@@ -156,6 +168,12 @@ body {
   @apply text-[var(--color-text)];
 }
 
+.story-intro-m {
+  font-size: clamp(18px, 2.1cqw, 30px);
+  letter-spacing: 11%;
+  @apply text-[var(--color-text)];
+}
+
 .story-conclusion-label {
   font-size: clamp(10px, 1.3cqw, 19px);
   letter-spacing: 0.15em;
@@ -166,6 +184,231 @@ body {
   font-size: clamp(14px, 2.1cqw, 30px);
   letter-spacing: 0.23em;
   @apply font-bold text-[var(--color-text)];
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Story Section — 모바일 전용 (< 640px)
+   세로 중앙 정렬 + 텍스트 위 / 이미지 아래
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* "원인 Ⅰ", "원인 Ⅱ" 양옆에 가로선이 들어간 라벨 (모바일 전용) */
+/* 부모 컨테이너 (max-w-[80%] + px-[5%]) 패딩을 무시하고 393px 베이스 양 끝까지 확장 */
+/* ScaleWrapper(containerType:inline-size, 393px)를 기준으로 화면 중앙 고정 */
+.story-m-cause-row {
+  @apply flex items-center justify-center gap-3;
+  position: relative;
+  width: 100cqw;
+  left: 50cqw;
+  transform: translateX(-50%);
+}
+.story-m-cause-line {
+  @apply flex-1 h-px bg-[#2c2c2c];
+}
+.story-m-cause-label {
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  @apply font-bold text-[var(--color-text)] whitespace-nowrap;
+}
+
+/* "대안 Ⅰ", "대안 Ⅱ", "대안 Ⅲ" 작은 라벨 (모바일 전용) */
+.story-m-alt-label {
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  @apply font-black text-[#5c5c5c];
+}
+
+/* 모바일 본문 텍스트 */
+.story-m-text {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  @apply font-medium text-[var(--color-text-secondary)] text-center;
+}
+
+/* 모바일 연도 (1970, 2026) */
+.story-m-year {
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  @apply font-bold text-[var(--color-text)] text-center;
+}
+
+/* 모바일 큰 헤딩 (빼앗긴 두 다리, 전동스쿠터, 버스, 택시) */
+.story-m-heading {
+  letter-spacing: 0.08em;
+  @apply font-black text-xl! text-[var(--color-text)] text-center;
+}
+
+/* 모바일 데이터 라벨 / 숫자 */
+.story-m-data-label {
+  font-size: 6px;
+  letter-spacing: 0.05em;
+  @apply font-bold text-[#5c5c5c];
+}
+.story-m-data-number {
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  @apply font-bold text-[var(--color-text-secondary)];
+}
+
+/* 모바일 결론 따옴표 (불안해, 힘들어, 부담스러워) */
+.story-m-quote {
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  @apply font-bold text-[var(--color-text)];
+}
+.story-m-quote-label {
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  @apply font-medium text-[#5c5c5c];
+}
+
+/* "집에 있을래" 따옴표 (인물 사진 아래 중앙) */
+.story-m-quote-home {
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  @apply font-medium text-[var(--color-text)];
+}
+
+/* 1.5배 큰 숫자 */
+.story-m-multiplier {
+  font-size: 40px;
+  letter-spacing: 0.02em;
+  @apply font-bold text-[var(--color-text)];
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Solution Section — 모바일 전용 (< 640px)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* 상단 섹션 인트로 */
+.sol-m-intro {
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  @apply font-bold text-[var(--color-text)] text-center;
+}
+
+/* 로마숫자 + 타이틀 (Ⅰ 빌려타는 빌리니) */
+.sol-m-title {
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  @apply font-bold text-[var(--color-primary)];
+}
+
+/* 본문 텍스트 (검정) */
+.sol-m-text {
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  @apply font-medium text-[var(--color-text)];
+}
+
+/* 강조 텍스트 (파랑) */
+.sol-m-text-accent {
+  @apply font-bold text-[var(--color-primary)];
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Business Section — 모바일 전용 (< 640px)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* 큰 헤딩 (검정 배경 + 흰 글자) */
+.biz-m-heading-white {
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  @apply font-bold text-white text-center;
+}
+
+/* 큰 헤딩 (흰 배경 + 검정 글자) */
+.biz-m-heading {
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  @apply font-bold text-[var(--color-text)] text-center;
+}
+
+/* 강조 숫자 (310억 등) */
+.biz-m-big {
+  font-size: 32px;
+  letter-spacing: 0.02em;
+  @apply font-bold text-white;
+}
+
+/* 본문 흰색 */
+.biz-m-body-white {
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  @apply font-medium text-white/85;
+}
+
+/* 본문 검정 */
+.biz-m-body {
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  @apply font-medium text-[var(--color-text-secondary)];
+}
+
+/* 작은 라벨 */
+.biz-m-label {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  @apply font-medium text-[#9a9aa0];
+}
+
+/* 카드 제목 (다크) */
+.biz-m-card-title {
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  @apply font-bold text-white;
+}
+
+/* 카드 부제목/설명 (다크) */
+.biz-m-card-desc {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  @apply text-white/70;
+}
+
+/* 솔루션 카드 (라이트, BILINY/스마트레인/케어워치) */
+.biz-m-product-title {
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  @apply font-bold text-[var(--color-text)];
+}
+.biz-m-product-qty {
+  font-size: 13px;
+  @apply font-medium text-[var(--color-text-secondary)];
+}
+.biz-m-product-price {
+  font-size: 24px;
+  letter-spacing: 0.02em;
+  @apply font-bold text-[var(--color-primary)];
+}
+
+/* Revenue 카드 (시티 케어) */
+.biz-m-revenue-label {
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  @apply font-bold text-[var(--color-text)] text-center;
+}
+.biz-m-revenue-annual {
+  font-size: 32px;
+  letter-spacing: 0.02em;
+  @apply font-bold text-[var(--color-primary)];
+}
+
+/* Phase 연도 배지 (2027/2028/2030) */
+.biz-m-year-badge {
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  @apply font-bold text-white inline-flex items-center justify-center px-4 py-1 rounded-md bg-[var(--color-primary)];
+}
+
+/* Phase 설명 */
+.biz-m-phase-desc {
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  @apply font-bold text-[var(--color-text)] text-center;
 }
 
 
