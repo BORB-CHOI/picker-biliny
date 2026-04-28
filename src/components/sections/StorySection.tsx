@@ -819,7 +819,7 @@ export function StorySection() {
 
           {/* 대안 Ⅱ — 버스 */}
           <div className="mt-28 flex flex-col items-center gap-3">
-            <p className="s-fade story-m-alt-label">대안 Ⅱ</p>
+            <p className="s-fade story-m-alt-label">대안Ⅱ</p>
             <h3 className="s-reveal story-m-heading">버스</h3>
           </div>
 
@@ -931,11 +931,7 @@ export function StorySection() {
               <div className="s-reveal absolute flex flex-col items-center top-[10%] right-12">
                 <p className="story-m-data-label text-[10px]!">대기로 인한</p>
                 <p className="story-m-data-label text-[10px]!">이동 포기율</p>
-                <p
-                  className="story-m-data-number text-[24px]!"
-                  data-count="36"
-                  data-suffix="%"
-                >
+                <p className="story-m-data-number text-[24px]!" data-count="36" data-suffix="%">
                   0%
                 </p>
               </div>
@@ -944,7 +940,7 @@ export function StorySection() {
 
           {/* 대안 Ⅲ — 택시 */}
           <div className="mt-28 flex flex-col items-center gap-3">
-            <p className="s-fade story-m-alt-label">대안Ⅲ</p>
+            <p className="s-fade story-m-alt-label">대안 Ⅲ</p>
             <h3 className="s-reveal story-m-heading">택시</h3>
           </div>
 

@@ -119,7 +119,7 @@ export function useViewportScale(config: ViewportScaleConfig): ViewportScaleResu
 
   useEffect(() => {
     // 초기 적용
-    applyScale();
+    handleResize();
 
     // resize 리스너 등록
     window.addEventListener("resize", handleResize);

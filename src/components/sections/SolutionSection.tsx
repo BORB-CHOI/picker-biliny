@@ -384,9 +384,14 @@ export function SolutionSection() {
         {/* 인트로 */}
         <p className="sol-reveal sol-m-intro">이에 대한 해결책을 제시합니다.</p>
 
-        {/* Ⅰ 빌려타는 빌리니 */}
-        <div className="mt-16 flex flex-col items-center gap-5">
-          <h3 className="sol-reveal sol-m-title text-center">Ⅰ 빌려타는 &ldquo;빌리니&rdquo;</h3>
+        {/* I 빌려타는 빌리니 */}
+        <div className="mt-16 flex flex-col items-center gap-2">
+          <h3 className="sol-reveal sol-m-title text-center inline-flex items-center justify-center gap-2">
+            <span className="inline-flex items-center gap-0.75">
+              <span className="section-bar-m h-3!" />
+            </span>
+            <span>빌려타는 &ldquo;빌리니&rdquo;</span>
+          </h3>
           <p className="sol-reveal sol-m-text text-center">
             <span>필요할 때 </span>
             <span className="sol-m-text-accent">언제든지 부르시면 빌려드립니다.</span>
@@ -410,16 +415,20 @@ export function SolutionSection() {
           </p>
         </div>
 
-        {/* Ⅱ 서로에게 안전한 안내길 */}
-        <div className="mt-24 flex flex-col items-center gap-5">
-          <h3 className="sol-reveal sol-m-title text-center">
-            Ⅱ 서로에게 안전한 &ldquo;안내길&rdquo;
+        {/* II 서로에게 안전한 안내길 */}
+        <div className="mt-24 flex flex-col items-center gap-2">
+          <h3 className="sol-reveal sol-m-title text-center inline-flex items-center justify-center gap-2">
+            <span className="inline-flex items-center gap-0.75">
+              <span className="section-bar-m h-3!" />
+              <span className="section-bar-m h-3!" />
+            </span>
+            <span>서로에게 안전한 &ldquo;안내길&rdquo;</span>
           </h3>
           <p className="sol-reveal sol-m-text text-center">
             가는 길을 안내해주는{" "}
             <span className="sol-m-text-accent">&lsquo;안내길&rsquo;을 깔아드려요.</span>
           </p>
-          <div className="sol-from-right relative w-screen -mx-[5%] mt-2">
+          <div className="sol-from-right relative w-[125%] -mx-[5%] mt-2">
             <Image
               src="/images/solution/3_smartlane-night.png"
               alt="야간 도로 위 빌리니 안내길 시스템"
@@ -429,7 +438,7 @@ export function SolutionSection() {
               sizes="100vw"
             />
           </div>
-          <p className="sol-reveal sol-m-text text-center mt-2">
+          <p className="sol-reveal sol-m-text ">
             <span className="sol-m-text-accent">탑승자/보행자/운전자 모두를 안전하게 안내</span>
             하기 위해
             <br />
@@ -437,36 +446,43 @@ export function SolutionSection() {
           </p>
         </div>
 
-        {/* Ⅲ 모든 과정을 지켜봐주는 돌봄이 */}
-        <div className="mt-24 flex flex-col items-center gap-5">
-          <h3 className="sol-reveal sol-m-title text-center">
-            Ⅲ 모든 과정을 지켜봐주는 &ldquo;돌봄이&rdquo;
+        {/* III 모든 과정을 지켜봐주는 돌봄이 */}
+        <div className="mt-24 flex flex-col items-center gap-2">
+          <h3 className="sol-reveal sol-m-title text-center inline-flex items-center justify-center gap-2">
+            <span className="inline-flex items-center gap-0.75">
+              <span className="section-bar-m h-3!" />
+              <span className="section-bar-m h-3!" />
+              <span className="section-bar-m h-3!" />
+            </span>
+            <span>모든 과정을 지켜봐주는 &ldquo;돌봄이&rdquo;</span>
           </h3>
           <p className="sol-reveal sol-m-text text-center">
             가는 길을 지켜봐줄{" "}
             <span className="sol-m-text-accent">&lsquo;돌봄이&rsquo;가 여러분과 동행합니다.</span>
           </p>
-          <div className="sol-from-left relative w-[80%] mt-2">
-            <Image
-              src="/images/solution/4_carewatch-wrist.png"
-              alt="돌봄이 손목 디바이스를 착용한 어르신"
-              width={1675}
-              height={998}
-              className="w-full h-auto"
-              sizes="80vw"
-            />
+          <div className="sol-reveal relative -ml-[5cqw] w-[100cqw]">
+            <div className="sol-from-left absolute left-0 top-2 w-[60%] z-10">
+              <Image
+                src="/images/solution/4_carewatch-wrist.png"
+                alt="돌봄이 손목 디바이스를 착용한 어르신"
+                width={1675}
+                height={998}
+                className="w-full h-auto -translate-x-15"
+                sizes="80vw"
+              />
+            </div>
+            <div className="sol-from-right relative w-[90%] z-0 mt-20">
+              <Image
+                src="/images/solution/5_guardian-dashboard.png"
+                alt="PICKER 가디언 관제 시스템 2.0 대시보드"
+                width={2465}
+                height={1015}
+                className="w-full h-auto translate-x-15"
+                sizes="95vw"
+              />
+            </div>
           </div>
-          <div className="sol-from-right relative w-[95%] -mt-6">
-            <Image
-              src="/images/solution/5_guardian-dashboard.png"
-              alt="PICKER 가디언 관제 시스템 2.0 대시보드"
-              width={2465}
-              height={1015}
-              className="w-full h-auto"
-              sizes="95vw"
-            />
-          </div>
-          <p className="sol-reveal sol-m-text text-center mt-2">
+          <p className="sol-reveal sol-m-text">
             안전과 편의를 위해
             <br />
             탑승자가 이동을 <span className="sol-m-text-accent">시작할 때부터 이동이 끝날 때</span>
@@ -476,43 +492,49 @@ export function SolutionSection() {
           </p>
         </div>
 
-        {/* Ⅳ 모두에게 공평한 모빌리티 */}
-        <div className="mt-24 flex flex-col items-center gap-5">
-          <h3 className="sol-reveal sol-m-title text-center">
-            Ⅳ 모두에게 &ldquo;공평한&rdquo; 모빌리티
+        {/* IIII 모두에게 공평한 모빌리티 */}
+        <div className="mt-24 flex flex-col items-center gap-2">
+          <h3 className="sol-reveal sol-m-title text-center inline-flex items-center justify-center gap-2">
+            <span className="inline-flex items-center gap-0.75">
+              <span className="section-bar-m h-3!" />
+              <span className="section-bar-m h-3!" />
+              <span className="section-bar-m h-3!" />
+              <span className="section-bar-m h-3!" />
+            </span>
+            <span>모두에게 &ldquo;공평한&rdquo; 모빌리티</span>
           </h3>
-          <p className="sol-reveal sol-m-text text-center">
+          <p className="sol-reveal sol-m-text text-center mt-1">
             모두가 타실 수 있어요.
             <br />
             <span className="sol-m-text-accent">학생부터 고령자까지 모두 이용</span>할 수 있습니다.
           </p>
-          <div className="sol-from-left relative w-[75%] mt-4">
+          <div className="sol-from-left relative w-[95%] mt-2">
             <Image
               src="/images/solution/6_biliny-students.png"
               alt="빌리니를 이용하는 학생들"
               width={1770}
               height={688}
-              className="w-full h-auto"
+              className="w-full h-auto -translate-x-30"
               sizes="75vw"
             />
           </div>
-          <div className="sol-from-right relative w-[80%] mt-2">
+          <div className="sol-from-right relative w-full ">
             <Image
               src="/images/solution/7_biliny-commute.png"
               alt="빌리니와 함께하는 출퇴근"
               width={2018}
               height={890}
-              className="w-full h-auto"
+              className="w-full h-auto translate-x-30"
               sizes="80vw"
             />
           </div>
-          <div className="sol-from-left relative w-[85%] mt-2">
+          <div className="sol-from-left relative w-full mt-3">
             <Image
               src="/images/solution/8_biliny-city-elderly.png"
               alt="도심에서 빌리니를 이용하는 어르신"
               width={2005}
               height={1075}
-              className="w-full h-auto"
+              className="w-full h-auto -translate-x-15"
               sizes="85vw"
             />
           </div>
