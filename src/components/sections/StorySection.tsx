@@ -435,7 +435,7 @@ export function StorySection() {
               />
               <div className="absolute inset-0 flex flex-col items-center justify-top left-[35%] translate-x-[-50%] top-[12%] text-center">
                 <p className="s-reveal story-data-label text-center">정류장 평균 거리</p>
-                <p className="story-data-number" data-count="800" data-suffix="m">
+                <p className="s-reveal story-data-number" data-count="800" data-suffix="m">
                   0m
                 </p>
               </div>
@@ -481,7 +481,7 @@ export function StorySection() {
               <div className="absolute right-[9%] top-[29%] text-left">
                 <p className="s-reveal story-text text-white!">약 4시간당 1대</p>
                 <p
-                  className="story-data-number text-white! tracking-wider text-[4rem]!"
+                  className="s-reveal story-data-number text-white! tracking-wider text-[4rem]!"
                   data-count="4"
                   data-suffix="대"
                 >
@@ -639,9 +639,9 @@ export function StorySection() {
           <div className="mt-35 flex flex-col items-center gap-3">
             <p className="s-fade story-m-alt-label">원인Ⅰ</p>
             <div className="story-m-cause-row">
-              <span className="story-m-cause-line" />
+              <span className="s-fade story-m-cause-line" />
               <h2 className="s-reveal story-m-heading">빼앗긴 두 다리</h2>
-              <span className="story-m-cause-line" />
+              <span className="s-fade story-m-cause-line" />
             </div>
           </div>
 
@@ -717,9 +717,9 @@ export function StorySection() {
           <div className="mt-28 flex flex-col items-center gap-3">
             <p className="s-fade story-m-alt-label">원인Ⅱ</p>
             <div className="story-m-cause-row">
-              <span className="story-m-cause-line" />
+              <span className="s-fade story-m-cause-line" />
               <h2 className="s-reveal story-m-heading">불편한 대안들</h2>
-              <span className="story-m-cause-line" />
+              <span className="s-fade story-m-cause-line" />
             </div>
           </div>
 

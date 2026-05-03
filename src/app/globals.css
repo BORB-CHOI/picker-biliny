@@ -338,7 +338,7 @@ body {
 
 /* 큰 헤딩 (검정 배경 + 흰 글자) */
 .biz-m-heading-white {
-  font-size: 22px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   @apply font-bold text-white text-center;
 }
@@ -362,12 +362,12 @@ body {
   font-size: 14px;
   letter-spacing: 0.02em;
   line-height: 1.6;
-  @apply font-medium text-white/85;
+  @apply font-normal text-white/85;
 }
 
 /* 본문 검정 */
 .biz-m-body {
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 0.02em;
   line-height: 1.6;
   @apply font-medium text-[var(--color-text-secondary)];
@@ -375,21 +375,21 @@ body {
 
 /* 작은 라벨 */
 .biz-m-label {
-  font-size: 12px;
+  font-size: 9px;
   letter-spacing: 0.05em;
   @apply font-medium text-[#9a9aa0];
 }
 
 /* 카드 제목 (다크) */
 .biz-m-card-title {
-  font-size: 15px;
+  font-size: 12px;
   letter-spacing: 0.03em;
-  @apply font-bold text-white;
+  @apply font-bold text-[#CCCCCC];
 }
 
 /* 카드 부제목/설명 (다크) */
 .biz-m-card-desc {
-  font-size: 12px;
+  font-size: 7px;
   letter-spacing: 0.02em;
   line-height: 1.5;
   @apply text-white/70;
@@ -403,12 +403,22 @@ body {
 }
 .biz-m-product-qty {
   font-size: 13px;
-  @apply font-medium text-[var(--color-text-secondary)];
+  @apply font-normal text-[#848484];
 }
+
 .biz-m-product-price {
-  font-size: 24px;
-  letter-spacing: 0.02em;
+  font-size: 15px;
   @apply font-bold text-[var(--color-primary)];
+}
+
+.biz-m-product-text {
+  font-size: 15px;
+  @apply font-medium text-[var(--color-text-tertiary)];
+}
+
+.biz-m-product-card-text {
+  font-size: 10px;
+  @apply font-bold text-[var(--color-text-tertiary)];
 }
 
 /* Revenue 카드 (시티 케어) */
@@ -485,7 +495,7 @@ body {
 
 /* 비용 숫자 (26.526px 기준) */
 .biz-cost-number {
-  font-size: 2rem;
+  font-size: clamp(22px, 2.9cqw, 42px);
   letter-spacing: 0.11em;
   @apply font-bold text-white;
 }

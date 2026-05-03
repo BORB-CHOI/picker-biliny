@@ -7,6 +7,9 @@ interface ZoomWrapperProps {
   children: React.ReactNode;
   baseWidth?: number;
   minScale?: number;
+  mobileBaseWidth?: number;
+  mobileMinScale?: number;
+  mobileBreakpoint?: number;
 }
 
 /**
@@ -19,7 +22,14 @@ interface ZoomWrapperProps {
  * - zoom = viewportWidth / baseWidth로 축소
  * - container-type: inline-size로 cqw가 1440px 기준
  */
-export function ZoomWrapper({ children, baseWidth = 1440, minScale = 0.25 }: ZoomWrapperProps) {
+export function ZoomWrapper({
+  children,
+  baseWidth = 1440,
+  minScale = 0.25,
+  mobileBaseWidth,
+  mobileMinScale,
+  mobileBreakpoint = 640,
+}: ZoomWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const applyZoom = useCallback(() => {
@@ -27,10 +37,13 @@ export function ZoomWrapper({ children, baseWidth = 1440, minScale = 0.25 }: Zoo
     if (!wrapper) return;
 
     const vw = window.innerWidth;
-    const factor = computeScaleFactor(vw, baseWidth, minScale);
+    const isMobile = mobileBaseWidth !== undefined && vw < mobileBreakpoint;
+    const effectiveBaseWidth = isMobile ? mobileBaseWidth : baseWidth;
+    const effectiveMinScale = isMobile ? (mobileMinScale ?? minScale) : minScale;
+    const factor = computeScaleFactor(vw, effectiveBaseWidth, effectiveMinScale);
 
     if (factor < 1.0) {
-      wrapper.style.width = `${baseWidth}px`;
+      wrapper.style.width = `${effectiveBaseWidth}px`;
       wrapper.style.zoom = String(factor);
       wrapper.style.setProperty('--zoom-inverse', String(1 / factor));
     } else {
@@ -38,7 +51,7 @@ export function ZoomWrapper({ children, baseWidth = 1440, minScale = 0.25 }: Zoo
       wrapper.style.zoom = '1';
       wrapper.style.setProperty('--zoom-inverse', '1');
     }
-  }, [baseWidth, minScale]);
+  }, [baseWidth, minScale, mobileBaseWidth, mobileMinScale, mobileBreakpoint]);
 
   useEffect(() => {
     applyZoom();
