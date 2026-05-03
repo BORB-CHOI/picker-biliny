@@ -1,12 +1,15 @@
 "use client";
 
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { onMainContentReady } from "@/lib/animationState";
 import { useProductAnimations } from "@/hooks/useProductAnimations";
+import { WordmarkLogoHorizon } from "@/components/ui/icons/WordmarkLogoHorizon";
+import { LeafTopLeft } from "@/components/ui/icons/BlueLeafTopLeft";
+import { LeafBottomRight } from "@/components/ui/icons/BlueLeafBottomRight";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,7 +27,7 @@ const PHASES = [
     ),
     map: "/images/busniess/13_map-2027.png",
     mapAlt: "홍성읍 600m 반경 지도",
-    mapOpacity: "opacity-30",
+    mapOpacity: "",
     stats: [
       { number: "16", unit: "km" },
       { number: "50", unit: " 대" },
@@ -230,8 +233,13 @@ function PhaseColumn({ p }: { p: (typeof PHASES)[number] }) {
 }
 
 export function ExpansionPinSection() {
+  const expansionRef = useRef<HTMLElement>(null);
   const outerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
+  const mobileOuterRef = useRef<HTMLDivElement>(null);
+  const mobileEndRef = useRef<HTMLDivElement>(null);
+
+  useProductAnimations(expansionRef);
 
   useGSAP(
     () => {
@@ -311,15 +319,124 @@ export function ExpansionPinSection() {
     { scope: outerRef },
   );
 
+  useGSAP(
+    () => {
+      const outer = mobileOuterRef.current;
+      const root = mobileEndRef.current;
+      if (!outer || !root) return;
+
+      const steps = root.querySelectorAll<HTMLElement>(".exp-mobile-dissolve-step");
+      if (steps.length < 3) return;
+
+      /* 초기 숨김 — 모든 step 숨김 (사전 노출 방지) */
+      gsap.set(steps, { autoAlpha: 0, y: 16, filter: "blur(10px)" });
+
+      let timeline: gsap.core.Timeline | null = null;
+      let firstRafId: number;
+      let secondRafId: number;
+      let unsubscribe: (() => void) | null = null;
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(max-width: 639px)", () => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          gsap.set(steps, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
+          return undefined;
+        }
+
+        /*
+         * desktop sticky pin 패턴과 동일:
+         * 1) 모든 step 초기 숨김
+         * 2) onMainContentReady → 2x rAF로 다른 섹션의 -mt/translateY가 settle된 후 ScrollTrigger 위치 계산
+         * 3) staggered 등장 — 각 요소가 차례로 등장 후 유지(cross-fade 아님)
+         */
+        unsubscribe = onMainContentReady(() => {
+          firstRafId = requestAnimationFrame(() => {
+            secondRafId = requestAnimationFrame(() => {
+              timeline = gsap.timeline({
+                scrollTrigger: {
+                  trigger: outer,
+                  start: "top top",
+                  end: "bottom bottom",
+                  scrub: 0.7,
+                },
+              });
+
+              timeline
+                /* Step 0: 헤딩 등장 */
+                .to(steps[0], {
+                  autoAlpha: 1,
+                  y: 0,
+                  filter: "blur(0px)",
+                  duration: 0.35,
+                  ease: "power2.out",
+                })
+                .to({}, { duration: 0.5 })
+                /* Step 0 사라짐 → Step 1 등장 */
+                .to(steps[0], {
+                  autoAlpha: 0,
+                  y: -16,
+                  filter: "blur(10px)",
+                  duration: 0.3,
+                })
+                .to(
+                  steps[1],
+                  {
+                    autoAlpha: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                    duration: 0.35,
+                    ease: "power2.out",
+                  },
+                  "<0.1",
+                )
+                .to({}, { duration: 0.5 })
+                /* Step 1 사라짐 → Step 2 등장 */
+                .to(steps[1], {
+                  autoAlpha: 0,
+                  y: -16,
+                  filter: "blur(10px)",
+                  duration: 0.3,
+                })
+                .to(
+                  steps[2],
+                  {
+                    autoAlpha: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                    duration: 0.35,
+                    ease: "power2.out",
+                  },
+                  "<0.1",
+                )
+                /* 최종 유지 */
+                .to({}, { duration: 0.5 });
+            });
+          });
+        });
+
+        return () => {
+          unsubscribe?.();
+          timeline?.kill();
+          if (firstRafId) cancelAnimationFrame(firstRafId);
+          if (secondRafId) cancelAnimationFrame(secondRafId);
+        };
+      });
+
+      return () => mm.revert();
+    },
+    { scope: mobileOuterRef },
+  );
+
   return (
-    <>
+    <section ref={expansionRef} className="relative z-10">
       {/* ═══════════════════════════════════════
           모바일 전용 — sticky pin 비활성, 세로 스택
       ═══════════════════════════════════════ */}
-      <div className="block sm:hidden bg-white px-[5%] py-24">
-        <div className="mb-20 text-center">
-          <h3 className="biz-m-heading text-[24px]!">로컬 실증에서 글로벌 확장까지</h3>
-          <p className="biz-m-body mt-10 text-[20px]! leading-[1.45]! text-[var(--color-text-tertiary)]!">
+      <div className="block sm:hidden bg-white px-10 py-5">
+        <div className="mb-10 text-center">
+          <h3 className="b-reveal biz-m-heading text-[19px]!">로컬 실증에서 글로벌 확장까지</h3>
+          <p className="b-fade biz-m-body mt-5 text-[16px]! leading-[1.45]! text-[var(--color-text-tertiary)]!">
             <span className="font-bold text-[var(--color-primary)]">10% </span>
             <span className="font-bold text-[var(--color-text)]">예산 전환을 시작으로,</span>
             <br />
@@ -327,32 +444,33 @@ export function ExpansionPinSection() {
             <span className="font-bold text-[var(--color-text)]">확장성</span>을 이루는 솔루션
           </p>
         </div>
-
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-5">
           {PHASES.map((p, idx) => (
             <div key={p.year} className="flex flex-col items-center">
-              <span className="rounded-xl bg-[var(--color-primary)] px-7 py-3 text-[23px] font-bold leading-none text-white">
+              <span className="b-fade rounded-[10px] bg-[var(--color-primary)] p-2 text-[14px] font-bold leading-none text-white">
                 {p.year}
               </span>
-              <p className="biz-m-phase-desc mt-10 whitespace-nowrap text-[21px]!">{p.desc}</p>
+              <p className="b-fade biz-m-phase-desc mt-4 whitespace-nowrap text-[14px]!">
+                {p.desc}
+              </p>
 
-              <div className="mt-6 flex items-center justify-center gap-8">
-                <div className="relative h-48 w-48 shrink-0">
+              <div className="b-fade mt-1 flex items-center justify-center">
+                <div className="relative size-[166px] shrink-0">
                   <Image
                     src={p.map}
                     alt={p.mapAlt}
                     fill
                     className={`object-contain ${p.mapOpacity}`}
-                    sizes="192px"
+                    sizes="166px"
                   />
                 </div>
-                <div className="flex flex-col justify-center gap-5">
+                <div className="flex flex-col justify-center gap-2">
                   {p.stats.map((s) => (
-                    <p key={s.number} className="whitespace-nowrap text-[24px]">
+                    <p key={s.number} className="whitespace-nowrap text-[16px]">
                       <span className="font-bold text-[var(--color-text-tertiary)]">
                         {s.number}
                       </span>
-                      <span className="font-medium text-[var(--color-text-tertiary)]">
+                      <span className="font-normal text-[var(--color-text-tertiary)]">
                         {s.unit}
                       </span>
                     </p>
@@ -361,101 +479,124 @@ export function ExpansionPinSection() {
               </div>
 
               {/* 재정 카드 */}
-              <div className="mt-10 w-[88%] rounded-[34px] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] px-7 py-7 shadow-[0_4px_32px_rgba(98,98,98,0.15)]">
-                <div className="grid grid-cols-2 gap-x-8">
-                  <div className="flex flex-col gap-3">
+              <div className="b-fade mt-5 w-[86%] rounded-[28px] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] px-5 py-5 shadow-[0_4px_32px_rgba(98,98,98,0.15)]">
+                <div className="grid grid-cols-2 gap-x-3">
+                  <div className="grid grid-cols-[1fr_auto_auto] gap-x-1 gap-y-1 items-baseline">
                     {p.finance.left.map((item) => (
-                      <div key={item.label} className="flex items-baseline justify-between gap-1">
-                        <span className="text-[15px] font-medium text-[#6d6d6d]">
-                          {item.label}
-                        </span>
-                        <span className="text-[18px] font-bold text-[#6d6d6d]">
+                      <Fragment key={item.label}>
+                        <span className="text-[10px] font-medium text-[#6d6d6d]">{item.label}</span>
+                        <span className="text-[12px] font-bold text-[#6d6d6d] text-right">
                           {item.value}
                         </span>
-                        <span className="text-[11px] text-[#6d6d6d]">{item.tag}</span>
-                      </div>
+                        <span className="text-[10px] text-[#6d6d6d]">{item.tag}</span>
+                      </Fragment>
                     ))}
                   </div>
-                  <div className="flex flex-col gap-3">
+                  <div className="grid grid-cols-[1fr_auto_auto] gap-x-1 gap-y-1 items-baseline">
                     {p.finance.right.map((item) => (
-                      <div key={item.label} className="flex items-baseline justify-between gap-1">
-                        <span className="text-[15px] font-medium text-[#6d6d6d]">
+                      <Fragment key={item.label}>
+                        <span className="text-[10px] font-medium text-[#6d6d6d] text-right">
                           {item.label}
                         </span>
-                        <span className="text-[18px] font-bold text-[#6d6d6d]">
+                        <span className="text-[12px] font-bold text-[#6d6d6d] text-right">
                           {item.value}
                         </span>
-                        <span className="text-[11px] text-[#6d6d6d]">{item.tag}</span>
-                      </div>
+                        <span className="text-[10px] text-[#6d6d6d]">{item.tag}</span>
+                      </Fragment>
                     ))}
                   </div>
                 </div>
-                <div className="mt-7 flex items-center justify-between border-t border-black/5 pt-5">
+                <div className="mt-2 flex items-start justify-between border-t border-black/5 pt-1.5">
                   <div className="flex flex-col items-start">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-[28px] font-bold text-[var(--color-primary)]">
+                      <span className="text-[15px] font-bold text-[var(--color-primary)]">
                         {p.finance.totalLeft}
                       </span>
-                      <span className="text-[22px] font-bold text-[var(--color-text-tertiary)]">
+                      <span className="text-[15px] font-bold text-[var(--color-text-tertiary)]">
                         {p.finance.totalLeftUnit}
                       </span>
+                      <span className="text-[10px] font-bold text-[var(--color-text-tertiary)]">
+                        {p.finance.totalLeftNote}
+                      </span>
                     </div>
-                    <span className="text-[13px] font-bold text-[var(--color-text-tertiary)]">
-                      {p.finance.totalLeftNote}
+                  </div>
+
+                  <div className="grid grid-cols-[auto_auto_auto_auto] gap-x-1 items-baseline">
+                    <div className="flex relative h-5 w-9 shrink-0 self-center">
+                      <Image
+                        src="/images/busniess/16_fin-card-shadow.png"
+                        alt=""
+                        fill
+                        className="object-contain"
+                        sizes="36px"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <span className="text-[13px] font-bold text-[var(--color-text-tertiary)] text-right">
+                      {p.finance.totalRightNote}
                     </span>
-                  </div>
-                  <div className="relative h-9 w-14 shrink-0">
-                    <Image
-                      src="/images/busniess/16_fin-card-shadow.png"
-                      alt=""
-                      fill
-                      className="object-contain"
-                      sizes="56px"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-[20px] font-bold text-[var(--color-text-tertiary)]">
-                        {p.finance.totalRightNote}
-                      </span>
-                      <span className="text-[28px] font-bold text-[var(--color-primary)]">
-                        {p.finance.totalRight}
-                      </span>
-                      <span className="text-[20px] font-bold text-[var(--color-text-tertiary)]">
-                        {p.finance.totalRightUnit}
-                      </span>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-[18px] font-bold text-[var(--color-text-tertiary)]">
-                        5년누적
-                      </span>
-                      <span className="text-[26px] font-bold text-[var(--color-primary)]">
-                        {p.finance.cumulative}
-                      </span>
-                      <span className="text-[18px] font-bold text-[var(--color-text-tertiary)]">
-                        {p.finance.cumulativeUnit}
-                      </span>
-                    </div>
+                    <span className="text-[15px] font-bold text-[var(--color-primary)] text-right">
+                      {p.finance.totalRight}
+                    </span>
+                    <span className="text-[13px] font-bold text-[var(--color-text-tertiary)]">
+                      {p.finance.totalRightUnit}
+                    </span>
+                    <span className="col-span-2 text-[13px] font-bold text-[var(--color-text-tertiary)] text-right whitespace-nowrap">
+                      5년누적
+                    </span>
+                    <span className="text-[15px] font-bold text-[var(--color-primary)] text-right">
+                      {p.finance.cumulative}
+                    </span>
+                    <span className="text-[13px] font-bold text-[var(--color-text-tertiary)]">
+                      {p.finance.cumulativeUnit}
+                    </span>
                   </div>
                 </div>
               </div>
 
               {idx < PHASES.length - 1 && (
-                <div className="mt-14 flex flex-col items-center">
-                  <div className="h-20 w-1 bg-[var(--color-primary)]" />
-                  <div className="h-5 w-5 rounded-full bg-[var(--color-primary)]" />
+                <div className="b-fade mt-6 flex flex-col items-center">
+                  <div className="h-10 w-0.5 bg-[var(--color-primary)]" />
+                  <div className="size-3 rounded-full bg-[var(--color-primary)]" />
                 </div>
               )}
             </div>
           ))}
         </div>
 
-        {/* 엔딩 */}
-        <div className="mt-28 text-center">
-          <h3 className="biz-m-heading text-[22px]!">
-            이동의 자유가 모두에게 채워지는 그날까지
-          </h3>
+        {/* 엔딩 — sticky pin (desktop과 동일 패턴) */}
+        <div ref={mobileOuterRef} className="relative mt-16" style={{ height: "260vh" }}>
+          <div
+            ref={mobileEndRef}
+            className="sticky top-0 flex h-screen items-center justify-center overflow-hidden"
+          >
+            {/* 3개 step이 모두 중앙에 overlap — cross-fade로 한 번에 하나씩 표시 */}
+            <div className="relative h-[80px] w-full">
+              <div className="exp-mobile-dissolve-step absolute inset-0 flex items-center justify-center">
+                <div className="relative flex h-[50px] w-[88%] items-center justify-center">
+                  <LeafTopLeft size={24} fill="#0060EF" className="absolute left-0 top-0" />
+                  <h3 className="biz-m-heading text-[14px]!">
+                    이동의 자유가 모두에게 채워지는 그날까지
+                  </h3>
+                  <LeafBottomRight size={24} fill="#0060EF" className="absolute bottom-0 right-0" />
+                </div>
+              </div>
+
+              <div className="exp-mobile-dissolve-step absolute inset-0 flex items-center justify-center">
+                <div className="relative h-[50px] w-full text-[18px] font-bold leading-none text-[#3c3c3c]">
+                  <span className="absolute left-[5%] top-0 text-[var(--color-primary)]">FIND</span>
+                  <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                    BLIND
+                  </span>
+                  <span className="absolute bottom-0 right-[5%]">SPOT</span>
+                </div>
+              </div>
+
+              <div className="exp-mobile-dissolve-step absolute inset-0 flex items-center justify-center">
+                <WordmarkLogoHorizon width={160} fill="#3C3C3C" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -514,7 +655,7 @@ export function ExpansionPinSection() {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }
 
@@ -1157,7 +1298,10 @@ export function BusinessSection() {
             </div>
 
             {/* 3 카드: 1행 2개, 2행 1개 */}
-            <div className="b-fade relative z-10 mt-10 mx-5 grid grid-cols-2 gap-3">
+            <div
+              className="b-fade relative z-10 mt-10 mx-5 grid grid-cols-2 gap-3"
+              data-anim-split="children"
+            >
               {[
                 {
                   icon: (
@@ -1274,7 +1418,7 @@ export function BusinessSection() {
           <h3 className="b-reveal biz-m-heading">
             교통 복지 예산의 <span className="text-[var(--color-primary)]">10%</span>만으로!
           </h3>
-          <div className="b-fade mt-6">
+          <div className="b-fade mt-6" data-anim-split="children">
             <p className="biz-m-body">
               <span className="relative inline-block pb-5">
                 중소도시 1년 교통 복지 <span className="font-bold">예산</span>
@@ -1302,83 +1446,88 @@ export function BusinessSection() {
           </p>
 
           {/* 3 제품 카드 */}
-          <div className="b-fade mt-12 flex flex-col">
-            <div className="relative flex flex-col items-center ">
-              <div className="relative z-0 mb-[-6px] aspect-[5/4] w-[70%]">
-                <Image
-                  src="/images/busniess/6_biliny-pm.png"
-                  alt="공유형 PM BILINY"
-                  fill
-                  className="object-contain"
-                  sizes="70vw"
-                />
-              </div>
-              <div className="relative z-10 w-[72%] max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)] translate-y-[-20%]">
-                <p className="biz-m-product-title">{"① 공유형 PM 'BILINY'"}</p>
-                <p className="biz-m-product-qty mt-1">50 대</p>
-                <div className="flex items-baseline justify-center gap-1">
-                  <p className="biz-m-product-price">2.5</p>
-                  <p className="biz-m-product-text">억 원</p>
+          <div className="mt-12 flex flex-col" data-anim-split="children">
+            <div className="b-fade">
+              <div className="relative flex flex-col items-center ">
+                <div className="relative z-0 mb-[-6px] aspect-[5/4] w-[70%]">
+                  <Image
+                    src="/images/busniess/6_biliny-pm.png"
+                    alt="공유형 PM BILINY"
+                    fill
+                    className="object-contain"
+                    sizes="70vw"
+                  />
                 </div>
-                <div className="">
-                  <p className="biz-m-product-card-text">
-                    스마트 레인 기반{" "}
-                    <span className="font-bold text-[var(--color-primary)]">저속 자율주행</span>{" "}
-                    기능
-                  </p>
-                  <p className="biz-m-product-card-text mt-1">
-                    <span className="font-bold text-[var(--color-primary)]">
-                      사계절 기후 대응형
-                    </span>{" "}
-                    1인승 퍼스널 모빌리티
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative flex flex-col items-center pb-6 translate-y-[-24%]">
-              <div className="relative z-0 mb-[-26px] aspect-[5/4] w-[105%]">
-                <Image
-                  src="/images/busniess/7_smart-lane.png"
-                  alt="스마트 레인"
-                  fill
-                  className="object-contain translate-x-[-5%]"
-                  sizes="100vw"
-                />
-              </div>
-              <div className="relative z-10 w-[72%] max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)] translate-y-[-20%]">
-                <p className="biz-m-product-title">② 스마트 레인</p>
-                <p className="biz-m-product-qty mt-1">16km</p>
-                <div className="flex items-baseline justify-center gap-1">
-                  <p className="biz-m-product-price">9.6</p>
-                  <p className="biz-m-product-text">억 원</p>
-                </div>
-                <div className="">
-                  <p className="biz-m-product-card-text">
-                    시각 인식 기반의{" "}
-                    <span className="font-bold text-[var(--color-primary)]">저비용 유도 주행</span>{" "}
-                    레인 인프라
-                  </p>
-                  <p className="biz-m-product-card-text mt-1">
-                    태양광 야간 시인성 확보 및 보행자 안전 경계선 기능
-                  </p>
+                <div className="relative z-10 w-[72%] max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)] translate-y-[-20%]">
+                  <p className="biz-m-product-title">{"① 공유형 PM 'BILINY'"}</p>
+                  <p className="biz-m-product-qty mt-1">50 대</p>
+                  <div className="flex items-baseline justify-center gap-1">
+                    <p className="biz-m-product-price">2.5</p>
+                    <p className="biz-m-product-text">억 원</p>
+                  </div>
+                  <div className="">
+                    <p className="biz-m-product-card-text">
+                      스마트 레인 기반{" "}
+                      <span className="font-bold text-[var(--color-primary)]">저속 자율주행</span>{" "}
+                      기능
+                    </p>
+                    <p className="biz-m-product-card-text mt-1">
+                      <span className="font-bold text-[var(--color-primary)]">
+                        사계절 기후 대응형
+                      </span>{" "}
+                      1인승 퍼스널 모빌리티
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="relative flex flex-col items-center translate-y-[-45%]">
-              <div className="relative z-0 mb-[-14px] aspect-[5/4] w-[64%]">
-                <Image
-                  src="/images/busniess/8_carewatch.png"
-                  alt="케어워치"
-                  fill
-                  className="object-contain"
-                  sizes="64vw"
-                />
+            <div className="b-fade">
+              <div className="relative flex flex-col items-center pb-6 translate-y-[-24%]">
+                <div className="relative z-0 mb-[-26px] aspect-[5/4] w-[105%]">
+                  <Image
+                    src="/images/busniess/7_smart-lane.png"
+                    alt="스마트 레인"
+                    fill
+                    className="object-contain translate-x-[-5%]"
+                    sizes="100vw"
+                  />
+                </div>
+                <div className="relative z-10 w-[72%] max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)] translate-y-[-20%]">
+                  <p className="biz-m-product-title">② 스마트 레인</p>
+                  <p className="biz-m-product-qty mt-1">16km</p>
+                  <div className="flex items-baseline justify-center gap-1">
+                    <p className="biz-m-product-price">9.6</p>
+                    <p className="biz-m-product-text">억 원</p>
+                  </div>
+                  <div className="">
+                    <p className="biz-m-product-card-text">
+                      시각 인식 기반의{" "}
+                      <span className="font-bold text-[var(--color-primary)]">저비용 유도 주행</span>{" "}
+                      레인 인프라
+                    </p>
+                    <p className="biz-m-product-card-text mt-1">
+                      태양광 야간 시인성 확보 및 보행자 안전 경계선 기능
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="relative z-10 w-[72%] mt-2 max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)]">
-                <p className="biz-m-product-title">③ 케어워치</p>
-                <p className="biz-m-product-qty mt-1">1300 개</p>
+            </div>
+
+            <div className="b-fade">
+              <div className="relative flex flex-col items-center translate-y-[-45%]">
+                <div className="relative z-0 mb-[-14px] aspect-[5/4] w-[64%]">
+                  <Image
+                    src="/images/busniess/8_carewatch.png"
+                    alt="케어워치"
+                    fill
+                    className="object-contain"
+                    sizes="64vw"
+                  />
+                </div>
+                <div className="relative z-10 w-[72%] mt-2 max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)]">
+                  <p className="biz-m-product-title">③ 케어워치</p>
+                  <p className="biz-m-product-qty mt-1">1300 개</p>
                 <div className="flex items-baseline justify-center gap-1">
                   <p className="biz-m-product-price">0.3</p>
                   <p className="biz-m-product-text">억 원</p>
@@ -1398,6 +1547,7 @@ export function BusinessSection() {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
 
@@ -1424,7 +1574,7 @@ export function BusinessSection() {
           </p>
 
           {/* 3 Revenue 카드 세로 스택 */}
-          <div className="b-fade mt-12 flex flex-col gap-9">
+          <div className="b-fade mt-12 flex flex-col gap-9" data-anim-split="children">
             <div className="flex flex-col items-center">
               <p className="text-[16px] font-bold tracking-[0.02em] text-[var(--color-text-tertiary)]">
                 ① 중단거리 출퇴근 / 학교·학원 등하교
@@ -1459,7 +1609,9 @@ export function BusinessSection() {
                 <span className="text-[16px] font-bold text-[var(--color-text-tertiary)]">
                   억 원
                 </span>
-                <span className="absolute text-[10px] font-bold text-[#929292] translate-x-[130%] translate-y-1/2">*50대 운영기준</span>
+                <span className="absolute text-[10px] font-bold text-[#929292] translate-x-[130%] translate-y-1/2">
+                  *50대 운영기준
+                </span>
               </div>
               <p className="mt-3 text-[10px] font-medium tracking-[0.02em] text-[#929292]">
                 출/퇴근 이동 3회, 등/하원 3회, 점심시간 단거리 이동 2회

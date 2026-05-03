@@ -571,7 +571,9 @@ export function BilinyProductSection() {
         <div className="b-from-right mt-8 grid grid-cols-[0.9fr_1.1fr] items-center gap-2">
           <div className="flex flex-col items-end gap-2">
             <div className="flex items-baseline gap-1">
-              <span className="text-[9px] text-[var(--color-text-secondary)]">1회 충전 주행거리</span>
+              <span className="text-[9px] text-[var(--color-text-secondary)]">
+                1회 충전 주행거리
+              </span>
               <span className="text-xl font-bold text-[var(--color-text)]">140</span>
               <span className="text-xs text-[var(--color-text-secondary)]">km</span>
             </div>
@@ -637,7 +639,7 @@ export function BilinyProductSection() {
             autoPlay
             loop
             playsInline
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
           />
         </div>
 
@@ -655,7 +657,7 @@ export function BilinyProductSection() {
             autoPlay
             loop
             playsInline
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
           />
         </div>
 
@@ -667,9 +669,9 @@ export function BilinyProductSection() {
             autoPlay
             loop
             playsInline
-            className="w-full h-auto"
+            className="b-fade w-full h-auto"
           />
-          <div className="flex justify-around mt-4">
+          <div className="b-fade flex justify-around mt-4" data-anim-split="children">
             <div className="text-center">
               <h3 className="text-lg font-bold text-[var(--color-text)]">앉아서</h3>
               <p className="text-xs text-[var(--color-text-secondary)] mt-1">
@@ -699,21 +701,21 @@ export function BilinyProductSection() {
             autoPlay
             loop
             playsInline
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
           />
         </div>
 
         {/* 360° */}
         <div className="mt-16 flex flex-col items-center gap-3">
-          <p className="text-2xl font-bold text-[var(--color-text)]">360°</p>
-          <h3 className="text-xl font-bold text-[var(--color-text)]">빌리니 둘러보기</h3>
+          <p className="b-fade text-2xl font-bold text-[var(--color-text)]">360°</p>
+          <h3 className="b-reveal text-xl font-bold text-[var(--color-text)]">빌리니 둘러보기</h3>
           <video
             src="/videos/biliny/turning.mp4"
             muted
             autoPlay
             loop
             playsInline
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
           />
         </div>
 
@@ -727,7 +729,7 @@ export function BilinyProductSection() {
             alt="엘레베이터에 들어가는 빌리니"
             width={2160}
             height={1410}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
         </div>
@@ -739,7 +741,7 @@ export function BilinyProductSection() {
             alt="빌리니 도면 — 800x700x1280mm"
             width={1280}
             height={780}
-            className="w-full h-auto"
+            className="b-fade w-full h-auto"
             sizes="100vw"
           />
         </div>
@@ -754,7 +756,7 @@ export function BilinyProductSection() {
             alt="가로등 옆 충전 시스템"
             width={1178}
             height={1012}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
         </div>
@@ -769,13 +771,13 @@ export function BilinyProductSection() {
             alt="무선 충전 패드 디테일"
             width={1248}
             height={572}
-            className="w-full h-auto rounded-2xl"
+            className="b-fade w-full h-auto rounded-2xl"
             sizes="100vw"
           />
         </div>
 
         {/* 충전 기능 3장 */}
-        <div className="mt-16 flex flex-col gap-10">
+        <div className="mt-16 flex flex-col gap-10" data-anim-split="children">
           {[
             {
               src: "/images/biliny/7_charger-selfcare.png",
@@ -793,7 +795,7 @@ export function BilinyProductSection() {
               alt: "모두를 위한 충전 인프라",
             },
           ].map((item) => (
-            <div key={item.label} className="flex flex-col gap-3">
+            <div key={item.label} className="b-fade flex flex-col gap-3">
               <Image
                 src={item.src}
                 alt={item.alt}
@@ -816,7 +818,7 @@ export function BilinyProductSection() {
             alt="버스정류장 충전 인프라"
             width={1102}
             height={928}
-            className="w-full h-auto"
+            className="b-fade w-full h-auto"
             sizes="100vw"
           />
         </div>

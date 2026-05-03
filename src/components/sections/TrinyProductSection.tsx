@@ -500,7 +500,7 @@ export function TrinyProductSection() {
             alt="트리니 전면 보호"
             width={1200}
             height={800}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
           <Image
@@ -508,7 +508,7 @@ export function TrinyProductSection() {
             alt="트리니 후면 보호"
             width={1200}
             height={800}
-            className="w-full h-auto"
+            className="b-fade w-full h-auto"
             sizes="100vw"
           />
         </div>
@@ -524,7 +524,7 @@ export function TrinyProductSection() {
             alt="트리니 완전 대칭 디자인"
             width={1600}
             height={600}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
         </div>
@@ -540,7 +540,7 @@ export function TrinyProductSection() {
             alt="트리니 용도 변경"
             width={1000}
             height={1200}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
         </div>
@@ -558,7 +558,7 @@ export function TrinyProductSection() {
             alt="1~4인승 탑승"
             width={1000}
             height={1200}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
         </div>
@@ -576,7 +576,7 @@ export function TrinyProductSection() {
             alt="트리니 내부공간"
             width={900}
             height={1100}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
         </div>
@@ -594,7 +594,7 @@ export function TrinyProductSection() {
             alt="트리니 플랫폼"
             width={1000}
             height={1000}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
         </div>
@@ -612,7 +612,7 @@ export function TrinyProductSection() {
             alt="도로선 보수"
             width={1000}
             height={1000}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
           <Image
@@ -620,7 +620,7 @@ export function TrinyProductSection() {
             alt="로봇암 도로 작업"
             width={1000}
             height={1000}
-            className="w-full h-auto"
+            className="b-fade w-full h-auto"
             sizes="100vw"
           />
           <Image
@@ -628,22 +628,22 @@ export function TrinyProductSection() {
             alt="인프라 관리 로봇"
             width={1000}
             height={1000}
-            className="w-full h-auto"
+            className="b-fade w-full h-auto"
             sizes="100vw"
           />
         </div>
 
         {/* 360° 트리니 둘러보기 */}
         <div className="mt-16 flex flex-col items-center gap-3">
-          <p className="text-2xl font-bold text-foreground">360°</p>
-          <h3 className="text-xl font-bold text-foreground">트리니 둘러보기</h3>
+          <p className="b-fade text-2xl font-bold text-foreground">360°</p>
+          <h3 className="b-reveal text-xl font-bold text-foreground">트리니 둘러보기</h3>
           <video
             src="/videos/triny/turning.mp4"
             muted
             autoPlay
             loop
             playsInline
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
           />
         </div>
 
@@ -657,7 +657,7 @@ export function TrinyProductSection() {
             alt="단지 내 트리니"
             width={800}
             height={1000}
-            className="w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-2"
             sizes="100vw"
           />
         </div>
@@ -669,7 +669,7 @@ export function TrinyProductSection() {
             alt="트리니 도면"
             width={1400}
             height={900}
-            className="w-full h-auto"
+            className="b-fade w-full h-auto"
             sizes="100vw"
           />
         </div>
