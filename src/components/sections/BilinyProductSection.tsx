@@ -544,53 +544,84 @@ export function BilinyProductSection() {
           모바일 전용 본문 (< sm)
       ═══════════════════════════════════════ */}
       <div className="block sm:hidden px-[5%] pt-8 pb-16">
-        {/* LINE-UP 헤딩 */}
-        <p className="b-fade product-label text-(--color-primary) text-sm tracking-widest font-bold">
-          LINE-UP
-        </p>
-        <p className="b-reveal text-base font-medium text-[var(--color-text-secondary)] mt-2">
-          이동의 자유를 나누는
-        </p>
-        <h3 className="b-reveal text-2xl font-bold text-[var(--color-text)] mt-1">
-          스마트 모빌리티 생태계
-        </h3>
-        <p className="b-reveal text-lg font-bold text-[var(--color-text)] mt-6">
-          공유형 시니어 PM &lsquo;빌리니&rsquo;
-        </p>
-        <p className="b-fade text-sm text-[var(--color-text-secondary)] mt-3 leading-relaxed">
-          사계절 기후에 대응하는 4면 커버형 디자인과 스마트 레인 기반의 저속 자율주행이 결합된
-          고령자 특화 이동수단입니다.
-        </p>
+        <div className="text-center">
+          <p className="b-reveal text-base font-medium text-[var(--color-text-secondary)]">
+            이동의 자유를 나누는
+          </p>
+          <h3 className="b-reveal mt-1 text-2xl font-bold text-[var(--color-text)]">
+            스마트 모빌리티 생태계
+          </h3>
+        </div>
 
-        {/* 제품 이미지 */}
-        <div className="b-from-right mt-8">
+        {/* LINE-UP 헤딩 */}
+        <div className="mt-12">
+          <p className="b-fade product-label text-sm font-bold tracking-widest text-(--color-primary)">
+            LINE-UP
+          </p>
+          <p className="b-reveal mt-2 text-base font-medium text-[var(--color-text-secondary)]">
+            공유형 시니어 PM &lsquo;빌리니&rsquo;
+          </p>
+          <p className="b-fade mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+            사계절 기후에 대응하는 4면 커버형 디자인과 스마트 레인 기반의 저속 자율주행이 결합된
+            고령자 특화 이동수단입니다.
+          </p>
+        </div>
+
+        {/* 제품 이미지 + 스펙 */}
+        <div className="b-from-right mt-8 grid grid-cols-[0.9fr_1.1fr] items-center gap-2">
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex items-baseline gap-1">
+              <span className="text-[9px] text-[var(--color-text-secondary)]">1회 충전 주행거리</span>
+              <span className="text-xl font-bold text-[var(--color-text)]">140</span>
+              <span className="text-xs text-[var(--color-text-secondary)]">km</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="text-[9px] text-[var(--color-text-secondary)]">무료 탑승 횟수</span>
+              <InfinityIcon className="inline-block h-7 w-auto" fill="#202020" size={28} />
+              <span className="text-xs text-[var(--color-text-secondary)]">회</span>
+            </div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-[9px] text-[var(--color-text-secondary)]">대당가격</span>
+              <span className="text-xl font-bold text-[var(--color-text)]">300</span>
+              <span className="text-xs text-[var(--color-text-secondary)]">만원</span>
+            </div>
+          </div>
           <Image
             src="/images/biliny/1_lineup-hero.png"
             alt="빌리니 제품 이미지"
             width={2000}
             height={2500}
-            className="w-full h-auto"
-            sizes="100vw"
+            className="h-auto w-full"
+            sizes="55vw"
             priority
           />
         </div>
 
-        {/* 스펙 */}
-        <div className="b-fade flex flex-col items-center gap-4 mt-8">
-          <div className="flex items-baseline gap-2">
-            <span className="text-sm text-[var(--color-text-secondary)]">1회 충전 주행거리</span>
-            <span className="text-3xl font-bold text-[var(--color-text)]">140</span>
-            <span className="text-sm text-[var(--color-text-secondary)]">km</span>
+        {/* 특장점 목록 — PC와 동일 */}
+        <div className="mt-8 flex flex-col gap-3">
+          <div className="b-stagger product-feature-item">
+            <CheckIcon />
+            <p className="product-feature-text">
+              정해진 길을 자동으로 따라가는 <span className="font-bold">스마트 레인 주행</span>
+            </p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-[var(--color-text-secondary)]">무료 탑승 횟수</span>
-            <InfinityIcon className="inline-block h-10 w-auto" fill="#202020" size={40} />
-            <span className="text-sm text-[var(--color-text-secondary)]">회</span>
+          <div className="b-stagger product-feature-item">
+            <CheckIcon />
+            <p className="product-feature-text">
+              집 앞에서 목적지까지 <span className="font-bold">기다림 없는</span> 이동 경험
+            </p>
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-sm text-[var(--color-text-secondary)]">대당가격</span>
-            <span className="text-3xl font-bold text-[var(--color-text)]">300</span>
-            <span className="text-sm text-[var(--color-text-secondary)]">만원</span>
+          <div className="b-stagger product-feature-item">
+            <CheckIcon />
+            <p className="product-feature-text">
+              사용자 건강/기분 <span className="font-bold">데이터를 기반으로 한 여정</span> 제안
+            </p>
+          </div>
+          <div className="b-stagger product-feature-item">
+            <CheckIcon />
+            <p className="product-feature-text">
+              119 자동 신고 및 <span className="font-bold">실시간 모니터링 시스템</span> 탑재
+            </p>
           </div>
         </div>
 

@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { onMainContentReady } from "@/lib/animationState";
 import { useProductAnimations } from "@/hooks/useProductAnimations";
+import { WordmarkLogoHorizon } from "@/components/ui/icons/WordmarkLogoHorizon";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -232,6 +233,7 @@ function PhaseColumn({ p }: { p: (typeof PHASES)[number] }) {
 export function ExpansionPinSection() {
   const outerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
+  const mobileEndRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -311,15 +313,63 @@ export function ExpansionPinSection() {
     { scope: outerRef },
   );
 
+  useGSAP(
+    () => {
+      const root = mobileEndRef.current;
+      if (!root) return;
+
+      const steps = root.querySelectorAll<HTMLElement>(".exp-mobile-dissolve-step");
+      if (!steps.length) return;
+
+      gsap.set(steps, { autoAlpha: 0, y: 12, filter: "blur(10px)" });
+      gsap.set(steps[0], { autoAlpha: 1, y: 0, filter: "blur(0px)" });
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(max-width: 639px)", () => {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (reduceMotion) {
+          gsap.set(steps, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
+          return undefined;
+        }
+
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: root,
+            start: "top 72%",
+            end: "bottom 38%",
+            scrub: 0.65,
+          },
+        });
+
+        timeline
+          .to(steps[0], { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.2 })
+          .to({}, { duration: 0.25 })
+          .to(steps[0], { autoAlpha: 0, y: -12, filter: "blur(10px)", duration: 0.28 })
+          .to(steps[1], { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.32 }, "<0.12")
+          .to({}, { duration: 0.3 })
+          .to(steps[1], { autoAlpha: 0, y: -12, filter: "blur(10px)", duration: 0.28 })
+          .to(steps[2], { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.32 }, "<0.12")
+          .to({}, { duration: 0.35 });
+
+        return () => timeline.kill();
+      });
+
+      return () => mm.revert();
+    },
+    { scope: mobileEndRef },
+  );
+
   return (
     <>
       {/* ═══════════════════════════════════════
           모바일 전용 — sticky pin 비활성, 세로 스택
       ═══════════════════════════════════════ */}
-      <div className="block sm:hidden bg-white px-[5%] py-20">
-        <div className="text-center mb-12">
-          <h3 className="biz-m-heading">로컬 실증에서 글로벌 확장까지</h3>
-          <p className="biz-m-body mt-6">
+      <div className="block sm:hidden bg-white px-[5%] py-28">
+        <div className="mb-24 text-center">
+          <h3 className="biz-m-heading text-[26px]!">로컬 실증에서 글로벌 확장까지</h3>
+          <p className="biz-m-body mt-10 text-[22px]! leading-[1.45]! text-[var(--color-text-tertiary)]!">
             <span className="font-bold text-[var(--color-primary)]">10% </span>
             <span className="font-bold text-[var(--color-text)]">예산 전환을 시작으로,</span>
             <br />
@@ -328,27 +378,31 @@ export function ExpansionPinSection() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-16">
+        <div className="flex flex-col gap-24">
           {PHASES.map((p, idx) => (
-            <div key={p.year} className="flex flex-col items-center gap-4">
-              <span className="biz-m-year-badge">{p.year}</span>
-              <p className="biz-m-phase-desc whitespace-nowrap">{p.desc}</p>
+            <div key={p.year} className="flex flex-col items-center">
+              <span className="rounded-xl bg-[var(--color-primary)] px-8 py-3.5 text-[24px] font-bold leading-none text-white">
+                {p.year}
+              </span>
+              <p className="biz-m-phase-desc mt-11 whitespace-nowrap text-[23px]!">{p.desc}</p>
 
-              <div className="flex items-start justify-center gap-4 mt-2">
-                <div className="relative w-32 h-32 shrink-0">
+              <div className="mt-7 flex items-center justify-center gap-9">
+                <div className="relative h-52 w-52 shrink-0">
                   <Image
                     src={p.map}
                     alt={p.mapAlt}
                     fill
                     className={`object-contain ${p.mapOpacity}`}
-                    sizes="128px"
+                    sizes="208px"
                   />
                 </div>
-                <div className="flex flex-col justify-center gap-1.5 pt-3">
+                <div className="flex flex-col justify-center gap-5">
                   {p.stats.map((s) => (
-                    <p key={s.number} className="text-base whitespace-nowrap">
-                      <span className="font-bold text-[var(--color-text)]">{s.number}</span>
-                      <span className="font-medium text-[var(--color-text-secondary)]">
+                    <p key={s.number} className="whitespace-nowrap text-[26px]">
+                      <span className="font-bold text-[var(--color-text-tertiary)]">
+                        {s.number}
+                      </span>
+                      <span className="font-medium text-[var(--color-text-tertiary)]">
                         {s.unit}
                       </span>
                     </p>
@@ -357,64 +411,79 @@ export function ExpansionPinSection() {
               </div>
 
               {/* 재정 카드 */}
-              <div className="w-full mt-4 rounded-2xl border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] px-4 py-4">
-                <div className="grid grid-cols-2 gap-x-3">
-                  <div className="flex flex-col gap-1">
+              <div className="mt-11 w-[94%] rounded-[34px] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] px-6 py-7 shadow-[0_4px_32px_rgba(98,98,98,0.15)]">
+                <div className="grid grid-cols-2 gap-x-7">
+                  <div className="flex flex-col gap-3">
                     {p.finance.left.map((item) => (
                       <div key={item.label} className="flex items-baseline justify-between gap-1">
-                        <span className="text-[11px] text-[var(--color-text-secondary)]">
+                        <span className="text-[16px] font-medium text-[#6d6d6d]">
                           {item.label}
                         </span>
-                        <span className="text-[12px] font-bold text-[var(--color-text)]">
+                        <span className="text-[19px] font-bold text-[#6d6d6d]">
                           {item.value}
                         </span>
-                        <span className="text-[9px] text-[#9a9aa0]">{item.tag}</span>
+                        <span className="text-[12px] text-[#6d6d6d]">{item.tag}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-3">
                     {p.finance.right.map((item) => (
                       <div key={item.label} className="flex items-baseline justify-between gap-1">
-                        <span className="text-[11px] text-[var(--color-text-secondary)]">
+                        <span className="text-[16px] font-medium text-[#6d6d6d]">
                           {item.label}
                         </span>
-                        <span className="text-[12px] font-bold text-[var(--color-text)]">
+                        <span className="text-[19px] font-bold text-[#6d6d6d]">
                           {item.value}
                         </span>
-                        <span className="text-[9px] text-[#9a9aa0]">{item.tag}</span>
+                        <span className="text-[12px] text-[#6d6d6d]">{item.tag}</span>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="flex items-center justify-between mt-3 pt-2 border-t border-black/5">
+                <div className="mt-7 flex items-center justify-between border-t border-black/5 pt-5">
                   <div className="flex flex-col items-start">
-                    <div className="flex items-baseline gap-0.5">
-                      <span className="text-[15px] font-bold text-[var(--color-text)]">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[30px] font-bold text-[var(--color-primary)]">
                         {p.finance.totalLeft}
                       </span>
-                      <span className="text-[10px] text-[var(--color-text-secondary)]">
+                      <span className="text-[23px] font-bold text-[var(--color-text-tertiary)]">
                         {p.finance.totalLeftUnit}
                       </span>
                     </div>
-                    <span className="text-[9px] text-[#9a9aa0]">{p.finance.totalLeftNote}</span>
+                    <span className="text-[14px] font-bold text-[var(--color-text-tertiary)]">
+                      {p.finance.totalLeftNote}
+                    </span>
                   </div>
-                  <span className="text-[var(--color-primary)] text-base">→</span>
+                  <div className="relative h-9 w-14 shrink-0">
+                    <Image
+                      src="/images/busniess/16_fin-card-shadow.png"
+                      alt=""
+                      fill
+                      className="object-contain"
+                      sizes="56px"
+                      aria-hidden="true"
+                    />
+                  </div>
                   <div className="flex flex-col items-end">
-                    <div className="flex items-baseline gap-0.5">
-                      <span className="text-[9px] text-[#9a9aa0]">{p.finance.totalRightNote}</span>
-                      <span className="text-[15px] font-bold text-[var(--color-primary)]">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[21px] font-bold text-[var(--color-text-tertiary)]">
+                        {p.finance.totalRightNote}
+                      </span>
+                      <span className="text-[30px] font-bold text-[var(--color-primary)]">
                         {p.finance.totalRight}
                       </span>
-                      <span className="text-[10px] text-[var(--color-text-secondary)]">
+                      <span className="text-[21px] font-bold text-[var(--color-text-tertiary)]">
                         {p.finance.totalRightUnit}
                       </span>
                     </div>
-                    <div className="flex items-baseline gap-0.5">
-                      <span className="text-[9px] text-[#9a9aa0]">5년누적</span>
-                      <span className="text-[13px] font-bold text-[var(--color-text)]">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[19px] font-bold text-[var(--color-text-tertiary)]">
+                        5년누적
+                      </span>
+                      <span className="text-[28px] font-bold text-[var(--color-primary)]">
                         {p.finance.cumulative}
                       </span>
-                      <span className="text-[10px] text-[var(--color-text-secondary)]">
+                      <span className="text-[19px] font-bold text-[var(--color-text-tertiary)]">
                         {p.finance.cumulativeUnit}
                       </span>
                     </div>
@@ -423,15 +492,34 @@ export function ExpansionPinSection() {
               </div>
 
               {idx < PHASES.length - 1 && (
-                <div className="h-12 w-px bg-[var(--color-primary)]/40 mt-4" />
+                <div className="mt-14 flex flex-col items-center">
+                  <div className="h-20 w-1 bg-[var(--color-primary)]" />
+                  <div className="h-5 w-5 rounded-full bg-[var(--color-primary)]" />
+                </div>
               )}
             </div>
           ))}
         </div>
 
         {/* 엔딩 */}
-        <div className="mt-24 text-center">
-          <h3 className="biz-m-heading">이동의 자유가 모두에게 채워지는 그날까지</h3>
+        <div ref={mobileEndRef} className="relative mt-32 h-[360px] overflow-hidden text-center">
+          <div className="exp-mobile-dissolve-step absolute inset-x-0 top-6">
+            <h3 className="biz-m-heading text-[24px]!">
+              이동의 자유가 모두에게 채워지는 그날까지
+            </h3>
+          </div>
+
+          <div className="exp-mobile-dissolve-step absolute inset-x-0 top-[116px] h-[112px] text-[17px] font-bold leading-none text-[#3c3c3c]">
+            <span className="absolute left-[8%] top-0 text-[var(--color-primary)]">FIND</span>
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              BLIND
+            </span>
+            <span className="absolute bottom-0 right-[8%]">SPOT</span>
+          </div>
+
+          <div className="exp-mobile-dissolve-step absolute inset-x-0 top-[220px] flex justify-center">
+            <WordmarkLogoHorizon width={178} fill="#3C3C3C" />
+          </div>
         </div>
       </div>
 
@@ -510,10 +598,10 @@ export function BusinessSection() {
       ═══════════════════════════════════════ */}
       <div className="hidden sm:block">
         {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-         Part 1: 과연 현실적일까요?
+         Part 1: 과연 현실적인 해결책일까요?
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
         <div className="bg-white text-center py-50">
-          <h2 className="b-fade biz-title">과연 현실적일까요?</h2>
+          <h2 className="b-fade biz-title">과연 현실적인 해결책일까요?</h2>
         </div>
         {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
          Part 2 + 3: 사회적 비용 + 막대한 예산 투입 (다크 통합)
@@ -759,7 +847,7 @@ export function BusinessSection() {
               className="b-fade mt-[clamp(16px,2.2cqw,32px)] mb-[clamp(40px,5.5cqw,80px)]"
               data-anim-split="children"
             >
-              <p className="biz-desc" data-anim-item>
+              <p className="biz-desc whitespace-nowrap" data-anim-item>
                 <span className="relative inline-block">
                   1년 교통 복지 <span className="font-bold">예산</span>
                   <span className="absolute left-0 right-0 top-full flex flex-col items-center mt-[clamp(2px,0.3cqw,4px)]">
@@ -774,7 +862,8 @@ export function BusinessSection() {
                   </span>
                 </span>
                 <span className="font-bold">의 단</span>{" "}
-                <span className="font-bold text-(--color-blue)">10%</span>만으로 고령자 생활에 맞춘{" "}
+                <span className="font-bold text-(--color-blue)">10%</span>
+                만으로 고령자 생활에 맞춘{" "}
                 <span className="font-bold">새로운 이동수단 대안을 제공</span>할 수 있습니다.
               </p>
               <p className="biz-note mt-2" data-anim-item>
@@ -1003,86 +1092,115 @@ export function BusinessSection() {
           모바일 전용 본문 (< sm)
       ═══════════════════════════════════════ */}
       <div className="block sm:hidden">
-        {/* Part 1: 과연 현실적일까요? */}
-        <div className="bg-white text-center px-[5%] py-24">
-          <h2 className="b-fade biz-m-heading">과연 현실적일까요?</h2>
+        {/* Part 1: 과연 현실적인 해결책일까요? */}
+        <div className="bg-white text-center px-[5%] py-14">
+          <h2 className="b-fade biz-m-heading text-[20px]!">과연 현실적인 해결책일까요?</h2>
         </div>
 
         {/* Part 2+3: 다크 배경 — 사회적 비용 + 막대한 예산 */}
-        <div className="relative bg-[#2C2C2C]">
-          <div className="px-[5%] pt-20 pb-16">
+        <div className="relative">
+          <div
+            className="pointer-events-none absolute"
+            style={{
+              top: "6px",
+              bottom: "6px",
+              left: "-60px",
+              right: "-60px",
+              background: "#2C2C2C",
+              filter: "blur(36px)",
+            }}
+          />
+          <div className="relative z-10 px-[5%] pt-20 pb-16 mt-5">
             {/* 사회적 비용 */}
-            <h3 className="b-reveal biz-m-heading-white">
-              이동권 박탈로 인해
-              <br />
-              발생하는 사회적 비용
+            <h3 className="b-reveal biz-m-heading-white whitespace-nowrap text-[17px]!">
+              이동권 박탈로 인해 발생하는 사회적 비용
             </h3>
-            <div className="b-fade flex flex-col items-center gap-2 mt-8">
-              <p className="biz-m-body-white">중소도시 당 연간</p>
-              <div className="flex items-baseline gap-1">
-                <span className="biz-m-big text-[40px]">310</span>
-                <span className="biz-m-body-white text-base">억 원 상당</span>
+            <div className="b-fade flex flex-col items-center">
+              <div className="flex items-baseline justify-center gap-1 whitespace-nowrap">
+                <span className="biz-m-body-white">중소도시 당 연간</span>
+                <span className="relative inline-flex flex-col items-center">
+                  <span className="biz-m-body-white font-bold! text-white!">310억 원 상당</span>
+                  <span className="biz-m-label absolute top-full left-1 whitespace-nowrap text-[6px]!">
+                    인구 10만명 미만기준
+                  </span>
+                </span>
               </div>
-              <p className="biz-m-label">인구 10만명 미만기준</p>
             </div>
 
-            {/* 아이콘 그룹 — 세로 스택 */}
-            <div className="b-fade flex flex-col items-center gap-10 mt-12">
-              <div className="flex flex-col items-center gap-3">
-                <div className="flex items-center gap-6">
-                  <div className="relative w-16 h-16">
+            {/* 아이콘 그룹 */}
+            <div className="b-fade mt-12 flex w-full items-start justify-center gap-7">
+              <div className="flex w-fit shrink-0 flex-col items-center gap-1">
+                <div className="flex h-8 items-end justify-center gap-6">
+                  <div className="relative size-7">
                     <Image
                       src="/images/busniess/1_welfare-bus-icon.png"
                       alt="복지버스"
                       fill
-                      className="object-contain"
-                      sizes="64px"
+                      className="object-contain object-bottom"
+                      sizes="44px"
                     />
                   </div>
-                  <div className="relative w-16 h-16">
+                  <div className="relative size-7">
                     <Image
                       src="/images/busniess/2_welfare-taxi-icon.png"
                       alt="복지택시"
                       fill
-                      className="object-contain"
-                      sizes="64px"
+                      className="object-contain object-bottom"
+                      sizes="44px"
                     />
                   </div>
                 </div>
-                <p className="biz-m-card-title">복지버스 / 복지택시</p>
-                <p className="biz-m-big text-[20px]">연 150억</p>
+                <p className="biz-m-card-title whitespace-nowrap text-center">
+                  복지버스&nbsp;&nbsp;/&nbsp;&nbsp;복지택시
+                </p>
+                <p className="biz-m-big mt-1.5 text-[14px]!">연 150억원</p>
               </div>
 
-              <span className="text-white text-3xl font-light">+</span>
+              <span className="pt-8 text-md font-bold text-white">+</span>
 
-              <div className="flex flex-col items-center gap-3">
-                <div className="flex items-center gap-6">
-                  <div className="relative w-16 h-16">
+              <div className="flex w-fit shrink-0 flex-col items-center gap-1">
+                <div className="flex h-8 items-end justify-center gap-5">
+                  <div className="relative size-8">
                     <Image
                       src="/images/busniess/3_depression-icon.png"
                       alt="우울증"
                       fill
-                      className="object-contain"
-                      sizes="64px"
+                      className="object-contain object-bottom"
+                      sizes="44px"
                     />
                   </div>
-                  <div className="relative w-16 h-16">
+                  <div className="relative size-9">
                     <Image
                       src="/images/busniess/4_nursing-facility-icon.png"
                       alt="요양시설"
                       fill
-                      className="object-contain"
-                      sizes="64px"
+                      className="object-contain object-bottom"
+                      sizes="44px"
                     />
                   </div>
                 </div>
-                <p className="biz-m-card-title">우울증 / 요양시설 가속</p>
-                <p className="biz-m-big text-[20px]">연 160억</p>
+                <p className="biz-m-card-title whitespace-nowrap text-center">
+                  우울증&nbsp;&nbsp;/&nbsp;&nbsp;요양시설 가속
+                </p>
+                <p className="biz-m-big mt-1.5 text-[14px]!">연 160억원</p>
               </div>
             </div>
 
             {/* 막대한 예산 투입 */}
-            <div className="mt-24 text-center">
+            <div className="b-fade mt-2 flex justify-center">
+              <div className="relative w-18 aspect-square">
+                <Image
+                  src="/images/busniess/red_arrow.png"
+                  alt=""
+                  fill
+                  className="object-contain"
+                  sizes="64px"
+                  aria-hidden="true"
+                />
+              </div>
+            </div>
+
+            <div className="mt-7 text-center">
               <h3 className="b-reveal biz-m-heading-white">
                 막대한 예산 투입,
                 <br />
@@ -1091,46 +1209,123 @@ export function BusinessSection() {
               <p className="b-fade biz-m-body-white mt-6">
                 기존 복지버스/무료 택시는 연간 150억원을 투입하지만,
                 <br />
-                실제 이용률은 <span className="font-bold text-white">대도심 대중교통 대비 1/5</span>
+                실제 이용률은 <span className="font-bold text-white">
+                  대도심 대중교통 대비
+                </span>{" "}
+                <span className="align-baseline text-[18px] font-bold leading-none text-[#FF6666]">
+                  {" "}
+                  1/5
+                </span>
                 에 불과합니다.
               </p>
             </div>
 
-            {/* 3 카드 세로 스택 */}
-            <div className="b-fade flex flex-col gap-4 mt-10">
+            {/* 3 카드: 1행 2개, 2행 1개 */}
+            <div className="b-fade relative z-10 mt-10 mx-5 grid grid-cols-2 gap-3">
               {[
                 {
+                  icon: (
+                    <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+                      <circle
+                        cx="13"
+                        cy="13"
+                        r="10"
+                        stroke="#9a9aa8"
+                        strokeWidth="1.2"
+                        fill="none"
+                      />
+                      <path d="M13 8V14" stroke="#9a9aa8" strokeWidth="1.2" strokeLinecap="round" />
+                      <path
+                        d="M13 8L16 11"
+                        stroke="#9a9aa8"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  ),
                   title: "66분 / 600m",
                   subtitle: "불친절한 사용성",
                   desc: "평균 배차시간과 정류장까지의 거리는 고령자에게 보행의 한계입니다.",
                 },
                 {
+                  icon: (
+                    <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+                      <path
+                        d="M4 18L10 12L15 15L22 7"
+                        stroke="#9a9aa8"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M17 7H22V12"
+                        stroke="#9a9aa8"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ),
                   title: "127.5억 원 낭비",
                   subtitle: "소모적인 복지예산",
                   desc: "운행 효율 저하로 매년 막대한 지자체 예산이 허공으로 사라집니다.",
                 },
                 {
+                  icon: (
+                    <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+                      <circle
+                        cx="9"
+                        cy="10"
+                        r="3.5"
+                        stroke="#9a9aa8"
+                        strokeWidth="1.2"
+                        fill="none"
+                      />
+                      <circle
+                        cx="17"
+                        cy="10"
+                        r="3.5"
+                        stroke="#9a9aa8"
+                        strokeWidth="1.2"
+                        fill="none"
+                      />
+                      <path
+                        d="M4 22C4 18.5 6.5 16 9 16C10.5 16 12 16.5 13 17C14 16.5 15.5 16 17 16C19.5 16 22 18.5 22 22"
+                        stroke="#9a9aa8"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  ),
                   title: "생존권의 위협",
                   subtitle: "사회적 고립 가속",
                   desc: "이동권의 빈틈은 병원 방문 단절과 우울증, 치매 가속으로 이어집니다.",
                 },
-              ].map((card) => (
-                <div key={card.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <p className="biz-m-card-title">{card.title}</p>
-                  <p className="biz-m-card-desc font-bold mt-1">{card.subtitle}</p>
-                  <p className="biz-m-card-desc mt-3">{card.desc}</p>
+              ].map((card, idx) => (
+                <div
+                  key={card.title}
+                  className={`rounded-xl border border-white/10 bg-white/5 p-3 text-left ${
+                    idx === 2 ? "col-span-2 w-[calc(50%-0.375rem)] justify-self-center" : ""
+                  }`}
+                >
+                  <div className="mb-2 h-4 w-4">{card.icon}</div>
+                  <p className="biz-m-card-title text-[9px]!">{card.title}</p>
+                  <p className="mt-1 text-[9px]! font-bold tracking-[0.02em] text-white">
+                    {card.subtitle}
+                  </p>
+                  <p className="biz-m-card-desc mt-2">{card.desc}</p>
                 </div>
               ))}
             </div>
 
             {/* 전환 화살표 */}
-            <div className="b-fade flex justify-center mt-14">
-              <div className="relative w-32 aspect-[1/2]">
+            <div className="b-fade relative z-0 flex justify-center -mt-40">
+              <div className="relative w-26 aspect-[1/2]">
                 <Image
                   src="/images/busniess/5_transition-arrow.png"
                   alt=""
                   fill
-                  className="object-contain"
+                  className="object-contain translate-y-43"
                   sizes="128px"
                 />
               </div>
@@ -1139,179 +1334,265 @@ export function BusinessSection() {
         </div>
 
         {/* Part 5: 10%만으로 + 3 제품 카드 */}
-        <div className="bg-white px-[5%] py-20 text-center">
+        <div className="bg-white px-[5%] py-20 mt-20 text-center">
           <h3 className="b-reveal biz-m-heading">
             교통 복지 예산의 <span className="text-[var(--color-primary)]">10%</span>만으로!
           </h3>
-          <p className="b-fade biz-m-body mt-6">
-            중소도시 1년 교통 복지 예산의 단{" "}
-            <span className="font-bold text-[var(--color-primary)]">10%</span>만으로
-            <br />
-            (150억) 고령자 생활에 맞춘{" "}
-            <span className="font-bold">새로운 이동수단 대안을 제공</span>할 수 있습니다.
-          </p>
-          <p className="biz-m-label mt-3">
+          <div className="b-fade mt-6">
+            <p className="biz-m-body">
+              <span className="relative inline-block pb-5">
+                중소도시 1년 교통 복지 <span className="font-bold">예산</span>
+                <span className="absolute left-0 right-0 top-full -mt-5 flex flex-col items-center">
+                  <span
+                    className="h-px w-full"
+                    style={{
+                      background:
+                        "linear-gradient(to right, transparent, #c0c0c0 30%, #c0c0c0 70%, transparent)",
+                    }}
+                  />
+                  <span className="biz-m-label">(150억)</span>
+                </span>
+              </span>
+              <span className="font-bold">의 단 </span>
+              <span className="font-bold text-[var(--color-primary)]">10%</span>만으로
+            </p>
+            <p className="biz-m-body">
+              고령자 생활에 맞춘 <span className="font-bold">새로운 이동수단 대안을 제공</span>할 수
+              있습니다.
+            </p>
+          </div>
+          <p className="biz-m-label mt-4">
             홍성읍 중심지 600m 반경 고령자 1300명을 대상, 초기 서비스 도입 시뮬레이션
           </p>
 
-          {/* 3 카드 세로 스택 */}
-          <div className="b-fade flex flex-col gap-8 mt-14">
-            {[
-              {
-                src: "/images/busniess/6_biliny-pm.png",
-                alt: "공유형 PM BILINY",
-                title: "공유형 PM 'BILINY'",
-                qty: "50 대",
-                price: "2.5",
-                desc1: "스마트 레인 기반 저속 자율주행 기능",
-                desc2: "사계절 기후 대응형 1인승 퍼스널 모빌리티",
-                wide: false,
-              },
-              {
-                src: "/images/busniess/7_smart-lane.png",
-                alt: "스마트 레인",
-                title: "스마트 레인",
-                qty: "16km",
-                price: "9.6",
-                desc1: "시각 인식 기반의 저비용 유도 주행 레인 인프라",
-                desc2: "태양광 야간 시인성 확보 및 보행자 안전 경계선 기능",
-                wide: true,
-              },
-              {
-                src: "/images/busniess/8_carewatch.png",
-                alt: "케어워치",
-                title: "케어워치",
-                qty: "1300 개",
-                price: "0.3",
-                desc1: "고령자 이동 현황 모니터링 - 안심 케어 디바이스",
-                desc2: "119 자동 신고 기능, 컨디션 맞춤 목적지 제안 기능",
-                wide: false,
-              },
-            ].map((card) => (
-              <div key={card.title} className="flex flex-col items-center">
-                <div className={`relative ${card.wide ? "w-[80%]" : "w-[55%]"} aspect-[5/4] mb-3`}>
-                  <Image
-                    src={card.src}
-                    alt={card.alt}
-                    fill
-                    className="object-contain"
-                    sizes={card.wide ? "80vw" : "55vw"}
-                  />
+          {/* 3 제품 카드 */}
+          <div className="b-fade mt-12 flex flex-col">
+            <div className="relative flex flex-col items-center ">
+              <div className="relative z-0 mb-[-6px] aspect-[5/4] w-[70%]">
+                <Image
+                  src="/images/busniess/6_biliny-pm.png"
+                  alt="공유형 PM BILINY"
+                  fill
+                  className="object-contain"
+                  sizes="70vw"
+                />
+              </div>
+              <div className="relative z-10 w-[72%] max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)] translate-y-[-20%]">
+                <p className="biz-m-product-title">{"① 공유형 PM 'BILINY'"}</p>
+                <p className="biz-m-product-qty mt-1">50 대</p>
+                <div className="flex items-baseline justify-center gap-1">
+                  <p className="biz-m-product-price">2.5</p>
+                  <p className="biz-m-product-text">억 원</p>
                 </div>
-                <div className="w-full rounded-2xl bg-[var(--color-bg-subtle)] border border-[#ebebeb] shadow-md px-5 py-5 text-center">
-                  <p className="biz-m-product-title">{card.title}</p>
-                  <p className="biz-m-product-qty mt-1">{card.qty}</p>
-                  <div className="flex items-baseline justify-center gap-1 mt-2">
-                    <p className="biz-m-product-price">{card.price}</p>
-                    <p className="biz-m-product-qty">억 원</p>
-                  </div>
-                  <div className="mt-4">
-                    <p className="biz-m-body text-[13px]">{card.desc1}</p>
-                    <p className="biz-m-body text-[13px] mt-1">{card.desc2}</p>
-                  </div>
+                <div className="">
+                  <p className="biz-m-product-card-text">
+                    스마트 레인 기반{" "}
+                    <span className="font-bold text-[var(--color-primary)]">저속 자율주행</span>{" "}
+                    기능
+                  </p>
+                  <p className="biz-m-product-card-text mt-1">
+                    <span className="font-bold text-[var(--color-primary)]">
+                      사계절 기후 대응형
+                    </span>{" "}
+                    1인승 퍼스널 모빌리티
+                  </p>
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="relative flex flex-col items-center pb-6 translate-y-[-24%]">
+              <div className="relative z-0 mb-[-26px] aspect-[5/4] w-[105%]">
+                <Image
+                  src="/images/busniess/7_smart-lane.png"
+                  alt="스마트 레인"
+                  fill
+                  className="object-contain translate-x-[-5%]"
+                  sizes="100vw"
+                />
+              </div>
+              <div className="relative z-10 w-[72%] max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)] translate-y-[-20%]">
+                <p className="biz-m-product-title">② 스마트 레인</p>
+                <p className="biz-m-product-qty mt-1">16km</p>
+                <div className="flex items-baseline justify-center gap-1">
+                  <p className="biz-m-product-price">9.6</p>
+                  <p className="biz-m-product-text">억 원</p>
+                </div>
+                <div className="">
+                  <p className="biz-m-product-card-text">
+                    시각 인식 기반의{" "}
+                    <span className="font-bold text-[var(--color-primary)]">저비용 유도 주행</span>{" "}
+                    레인 인프라
+                  </p>
+                  <p className="biz-m-product-card-text mt-1">
+                    태양광 야간 시인성 확보 및 보행자 안전 경계선 기능
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative flex flex-col items-center translate-y-[-45%]">
+              <div className="relative z-0 mb-[-14px] aspect-[5/4] w-[64%]">
+                <Image
+                  src="/images/busniess/8_carewatch.png"
+                  alt="케어워치"
+                  fill
+                  className="object-contain"
+                  sizes="64vw"
+                />
+              </div>
+              <div className="relative z-10 w-[72%] mt-2 max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)]">
+                <p className="biz-m-product-title">③ 케어워치</p>
+                <p className="biz-m-product-qty mt-1">1300 개</p>
+                <div className="flex items-baseline justify-center gap-1">
+                  <p className="biz-m-product-price">0.3</p>
+                  <p className="biz-m-product-text">억 원</p>
+                </div>
+                <div className="">
+                  <p className="biz-m-product-card-text">
+                    고령자{" "}
+                    <span className="font-bold text-[var(--color-primary)]">
+                      이동 현황 모니터링
+                    </span>{" "}
+                    - <span className="font-bold text-[var(--color-primary)]">안심 케어</span>{" "}
+                    디바이스
+                  </p>
+                  <p className="biz-m-product-card-text mt-1">
+                    119 자동 신고 기능, 컨디션 맞춤 목적지 제안 기능
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Part 6: 게다가 자율주행이잖아 + 시티 케어 솔루션 */}
-        <div className="bg-white px-[5%] py-20 text-center">
-          <div className="flex justify-center mb-2">
-            <span className="text-2xl">+</span>
+        <div className="bg-white -mt-60 px-[5%] py-20 text-center">
+          <div className="flex justify-center mb-16">
+            <span className="text-[22px] font-bold text-[var(--color-text-tertiary)]">+</span>
           </div>
-          <h3 className="b-reveal biz-m-heading">
+          <h3 className="b-reveal biz-m-heading text-[20px]! leading-[1.55]!">
             스스로 움직이는
             <br />
             자율주행이니까!
           </h3>
-          <p className="b-fade biz-m-body mt-8">
-            <span className="font-bold text-[var(--color-text)]">비활동시간 추가 비즈니스</span>를
-            통한 부가가치 확장
+          <p className="b-fade mt-12 text-[13px] font-medium tracking-[0.02em] text-[var(--color-text-tertiary)]">
+            <span className="font-bold">비활동시간 추가 비즈니스</span>를 통한 부가가치 확장
           </p>
-          <p className="b-fade biz-m-body mt-4">
+          <p className="b-fade mt-4 text-[15px] font-medium leading-[1.55] tracking-[0.02em] text-[var(--color-text-tertiary)]">
             케어 업무 이외 <span className="font-bold text-[var(--color-primary)]">남는 시간</span>,
             도심 속 <span className="font-bold text-[var(--color-primary)]">업무 확장</span>이
             가능한
           </p>
-          <p className="b-fade biz-m-heading mt-2">시티 케어 솔루션</p>
+          <p className="b-fade mt-1 text-[18px] font-bold tracking-[0.02em] text-[var(--color-text-tertiary)]">
+            시티 케어 솔루션
+          </p>
 
           {/* 3 Revenue 카드 세로 스택 */}
-          <div className="b-fade flex flex-col gap-12 mt-14">
-            <div className="flex flex-col items-center gap-3">
-              <p className="biz-m-revenue-label">① 중단거리 출퇴근 / 학교·학원 등하교</p>
-              <div className="relative w-full h-48 mt-2">
-                <div className="absolute left-0 top-[3%] w-[70%]">
+          <div className="b-fade mt-12 flex flex-col gap-9">
+            <div className="flex flex-col items-center">
+              <p className="text-[16px] font-bold tracking-[0.02em] text-[var(--color-text-tertiary)]">
+                ① 중단거리 출퇴근 / 학교·학원 등하교
+              </p>
+              <div className="relative h-[300px] w-full">
+                <div className="absolute left-[10%] top-0 w-[50%]">
                   <Image
                     src="/images/busniess/9_elderly-commute.png"
                     alt="출퇴근 보조"
                     width={400}
                     height={300}
-                    className="w-full h-auto rounded-2xl"
-                    sizes="40vw"
+                    className="h-auto w-full"
+                    sizes="58vw"
                   />
                 </div>
-                <div className="absolute right-0 bottom-0 w-[70%] z-1">
+                <div className="absolute right-[12%] bottom-0 z-1 w-[55%] -translate-y-12">
                   <Image
                     src="/images/busniess/10_urban-boarding.png"
                     alt="승하차 보조"
                     width={400}
                     height={300}
-                    className="w-full h-auto rounded-2xl"
-                    sizes="40vw"
+                    className="h-auto w-full"
+                    sizes="64vw"
                   />
                 </div>
               </div>
-              <div className="flex items-baseline gap-1 mt-3">
-                <span className="biz-m-body">연</span>
-                <span className="biz-m-revenue-annual">2.7</span>
-                <span className="biz-m-body">억 원</span>
-                <span className="biz-m-label ml-2">*50대 운영기준</span>
+              <div className="relative flex items-baseline justify-center gap-1 -mt-10">
+                <span className="text-[16px] font-bold text-[var(--color-text-tertiary)]">연</span>
+                <span className="text-[18px] font-bold leading-none text-[var(--color-primary)]">
+                  2.7
+                </span>
+                <span className="text-[16px] font-bold text-[var(--color-text-tertiary)]">
+                  억 원
+                </span>
+                <span className="absolute text-[10px] font-bold text-[#929292] translate-x-[130%] translate-y-1/2">*50대 운영기준</span>
               </div>
-              <p className="biz-m-label">출/퇴근 이동 3회, 등/하원 3회, 점심시간 단거리 이동 2회</p>
-              <p className="biz-m-label">일 1.45만 원</p>
+              <p className="mt-3 text-[10px] font-medium tracking-[0.02em] text-[#929292]">
+                출/퇴근 이동 3회, 등/하원 3회, 점심시간 단거리 이동 2회
+              </p>
+              <p className="mt-1 text-[10px] font-bold tracking-[0.02em] text-[#929292]">
+                일 1.45만 원
+              </p>
             </div>
 
-            <div className="flex flex-col items-center gap-3">
-              <p className="biz-m-revenue-label">② 점심시간 단거리 이동 / 퀵 배달 · 배송서비스</p>
-              <div className="w-full mt-2 flex items-center justify-center">
+            <div className="flex flex-col items-center">
+              <p className="text-[16px] font-bold tracking-[0.02em] text-[var(--color-text-tertiary)]">
+                ② 점심시간 단거리 이동 / 퀵 배달 · 배송서비스
+              </p>
+              <div className="flex w-[86%] items-center justify-center">
                 <Image
                   src="/images/busniess/11_delivery-service.png"
                   alt="택배 배송"
                   width={600}
                   height={420}
-                  className="rounded-2xl w-full h-auto"
-                  sizes="90vw"
+                  className="h-auto w-full"
+                  sizes="86vw"
                 />
               </div>
-              <div className="flex items-baseline gap-1 mt-3">
-                <span className="biz-m-body">연</span>
-                <span className="biz-m-revenue-annual">5</span>
-                <span className="biz-m-body">억 원</span>
+              <div className="mt-1 flex items-baseline justify-center gap-1">
+                <span className="text-[16px] font-bold text-[var(--color-text-tertiary)]">연</span>
+                <span className="text-[18px] font-bold leading-none text-[var(--color-primary)]">
+                  5
+                </span>
+                <span className="text-[16px] font-bold text-[var(--color-text-tertiary)]">
+                  억 원
+                </span>
               </div>
-              <p className="biz-m-label">퀵 배달 2회, 저녁심야배송 3회</p>
-              <p className="biz-m-label">일 2.6만 원</p>
+              <p className="mt-3 text-[10px] font-medium tracking-[0.02em] text-[#929292]">
+                퀵 배달 2회, 저녁심야배송 3회
+              </p>
+              <p className="mt-1 text-[10px] font-bold tracking-[0.02em] text-[#929292]">
+                일 2.6만 원
+              </p>
             </div>
 
-            <div className="flex flex-col items-center gap-3">
-              <p className="biz-m-revenue-label">③ 대리 기사 복귀 이동수단 / 야간 순찰</p>
-              <div className="w-full mt-2 flex items-center justify-center">
+            <div className="flex flex-col items-center">
+              <p className="text-[16px] font-bold tracking-[0.02em] text-[var(--color-text-tertiary)]">
+                ③ 대리 기사 복귀 이동수단 / 야간 순찰
+              </p>
+              <div className=" flex w-[72%] items-center justify-center">
                 <Image
                   src="/images/busniess/12_night-patrol.png"
                   alt="야간 순찰"
                   width={500}
                   height={370}
-                  className="w-full h-auto"
-                  sizes="90vw"
+                  className="h-auto w-full"
+                  sizes="72vw"
                 />
               </div>
-              <div className="flex items-baseline gap-1 mt-3">
-                <span className="biz-m-body">연</span>
-                <span className="biz-m-revenue-annual">1.1</span>
-                <span className="biz-m-body">억 원</span>
+              <div className="flex items-baseline justify-center gap-1">
+                <span className="text-[16px] font-bold text-[var(--color-text-tertiary)]">연</span>
+                <span className="text-[18px] font-bold leading-none text-[var(--color-primary)]">
+                  1.1
+                </span>
+                <span className="text-[16px] font-bold text-[var(--color-text-tertiary)]">
+                  억 원
+                </span>
               </div>
-              <p className="biz-m-label">야간순찰 3시간, 대리기사이송 1회</p>
-              <p className="biz-m-label">일 0.6만 원</p>
+              <p className="mt-3 text-[10px] font-medium tracking-[0.02em] text-[#929292]">
+                야간순찰 3시간, 대리기사이송 1회
+              </p>
+              <p className="mt-1 text-[10px] font-bold tracking-[0.02em] text-[#929292]">
+                일 0.6만 원
+              </p>
             </div>
           </div>
         </div>
