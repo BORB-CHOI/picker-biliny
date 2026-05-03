@@ -338,14 +338,14 @@ body {
 
 /* 큰 헤딩 (검정 배경 + 흰 글자) */
 .biz-m-heading-white {
-  font-size: 24px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   @apply font-bold text-white text-center;
 }
 
 /* 큰 헤딩 (흰 배경 + 검정 글자) */
 .biz-m-heading {
-  font-size: 26px;
+  font-size: 22px;
   letter-spacing: 0.04em;
   @apply font-bold text-[var(--color-text)] text-center;
 }
@@ -359,7 +359,7 @@ body {
 
 /* 본문 흰색 */
 .biz-m-body-white {
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 0.02em;
   line-height: 1.6;
   @apply font-normal text-white/85;
@@ -367,7 +367,7 @@ body {
 
 /* 본문 검정 */
 .biz-m-body {
-  font-size: 16px;
+  font-size: 13px;
   letter-spacing: 0.02em;
   line-height: 1.6;
   @apply font-medium text-[var(--color-text-secondary)];
@@ -375,21 +375,21 @@ body {
 
 /* 작은 라벨 */
 .biz-m-label {
-  font-size: 12px;
+  font-size: 9px;
   letter-spacing: 0.05em;
   @apply font-medium text-[#9a9aa0];
 }
 
 /* 카드 제목 (다크) */
 .biz-m-card-title {
-  font-size: 15px;
+  font-size: 12px;
   letter-spacing: 0.03em;
   @apply font-bold text-[#CCCCCC];
 }
 
 /* 카드 부제목/설명 (다크) */
 .biz-m-card-desc {
-  font-size: 12px;
+  font-size: 7px;
   letter-spacing: 0.02em;
   line-height: 1.5;
   @apply text-white/70;
@@ -397,22 +397,22 @@ body {
 
 /* 솔루션 카드 (라이트, BILINY/스마트레인/케어워치) */
 .biz-m-product-title {
-  font-size: 18px;
+  font-size: 15px;
   letter-spacing: 0.03em;
   @apply font-bold text-[var(--color-text)];
 }
 .biz-m-product-qty {
-  font-size: 15px;
+  font-size: 13px;
   @apply font-normal text-[#848484];
 }
 
 .biz-m-product-price {
-  font-size: 24px;
+  font-size: 15px;
   @apply font-bold text-[var(--color-primary)];
 }
 
 .biz-m-product-text {
-  font-size: 16px;
+  font-size: 15px;
   @apply font-medium text-[var(--color-text-tertiary)];
 }
 
@@ -423,7 +423,7 @@ body {
 
 /* Revenue 카드 (시티 케어) */
 .biz-m-revenue-label {
-  font-size: 18px;
+  font-size: 14px;
   letter-spacing: 0.02em;
   @apply font-bold text-[var(--color-text)] text-center;
 }
@@ -442,7 +442,7 @@ body {
 
 /* Phase 설명 */
 .biz-m-phase-desc {
-  font-size: 20px;
+  font-size: 16px;
   letter-spacing: 0.02em;
   @apply font-bold text-[var(--color-text)] text-center;
 }

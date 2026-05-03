@@ -7,7 +7,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { onMainContentReady } from "@/lib/animationState";
 import { useProductAnimations } from "@/hooks/useProductAnimations";
-import { WordmarkLogoHorizon } from "@/components/ui/icons/WordmarkLogoHorizon";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -233,7 +232,6 @@ function PhaseColumn({ p }: { p: (typeof PHASES)[number] }) {
 export function ExpansionPinSection() {
   const outerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
-  const mobileEndRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -313,63 +311,15 @@ export function ExpansionPinSection() {
     { scope: outerRef },
   );
 
-  useGSAP(
-    () => {
-      const root = mobileEndRef.current;
-      if (!root) return;
-
-      const steps = root.querySelectorAll<HTMLElement>(".exp-mobile-dissolve-step");
-      if (!steps.length) return;
-
-      gsap.set(steps, { autoAlpha: 0, y: 12, filter: "blur(10px)" });
-      gsap.set(steps[0], { autoAlpha: 1, y: 0, filter: "blur(0px)" });
-
-      const mm = gsap.matchMedia();
-
-      mm.add("(max-width: 639px)", () => {
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        if (reduceMotion) {
-          gsap.set(steps, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
-          return undefined;
-        }
-
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: root,
-            start: "top 72%",
-            end: "bottom 38%",
-            scrub: 0.65,
-          },
-        });
-
-        timeline
-          .to(steps[0], { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.2 })
-          .to({}, { duration: 0.25 })
-          .to(steps[0], { autoAlpha: 0, y: -12, filter: "blur(10px)", duration: 0.28 })
-          .to(steps[1], { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.32 }, "<0.12")
-          .to({}, { duration: 0.3 })
-          .to(steps[1], { autoAlpha: 0, y: -12, filter: "blur(10px)", duration: 0.28 })
-          .to(steps[2], { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.32 }, "<0.12")
-          .to({}, { duration: 0.35 });
-
-        return () => timeline.kill();
-      });
-
-      return () => mm.revert();
-    },
-    { scope: mobileEndRef },
-  );
-
   return (
     <>
       {/* ═══════════════════════════════════════
           모바일 전용 — sticky pin 비활성, 세로 스택
       ═══════════════════════════════════════ */}
-      <div className="block sm:hidden bg-white px-[5%] py-28">
-        <div className="mb-24 text-center">
-          <h3 className="biz-m-heading text-[26px]!">로컬 실증에서 글로벌 확장까지</h3>
-          <p className="biz-m-body mt-10 text-[22px]! leading-[1.45]! text-[var(--color-text-tertiary)]!">
+      <div className="block sm:hidden bg-white px-[5%] py-24">
+        <div className="mb-20 text-center">
+          <h3 className="biz-m-heading text-[24px]!">로컬 실증에서 글로벌 확장까지</h3>
+          <p className="biz-m-body mt-10 text-[20px]! leading-[1.45]! text-[var(--color-text-tertiary)]!">
             <span className="font-bold text-[var(--color-primary)]">10% </span>
             <span className="font-bold text-[var(--color-text)]">예산 전환을 시작으로,</span>
             <br />
@@ -378,27 +328,27 @@ export function ExpansionPinSection() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-24">
+        <div className="flex flex-col gap-20">
           {PHASES.map((p, idx) => (
             <div key={p.year} className="flex flex-col items-center">
-              <span className="rounded-xl bg-[var(--color-primary)] px-8 py-3.5 text-[24px] font-bold leading-none text-white">
+              <span className="rounded-xl bg-[var(--color-primary)] px-7 py-3 text-[23px] font-bold leading-none text-white">
                 {p.year}
               </span>
-              <p className="biz-m-phase-desc mt-11 whitespace-nowrap text-[23px]!">{p.desc}</p>
+              <p className="biz-m-phase-desc mt-10 whitespace-nowrap text-[21px]!">{p.desc}</p>
 
-              <div className="mt-7 flex items-center justify-center gap-9">
-                <div className="relative h-52 w-52 shrink-0">
+              <div className="mt-6 flex items-center justify-center gap-8">
+                <div className="relative h-48 w-48 shrink-0">
                   <Image
                     src={p.map}
                     alt={p.mapAlt}
                     fill
                     className={`object-contain ${p.mapOpacity}`}
-                    sizes="208px"
+                    sizes="192px"
                   />
                 </div>
                 <div className="flex flex-col justify-center gap-5">
                   {p.stats.map((s) => (
-                    <p key={s.number} className="whitespace-nowrap text-[26px]">
+                    <p key={s.number} className="whitespace-nowrap text-[24px]">
                       <span className="font-bold text-[var(--color-text-tertiary)]">
                         {s.number}
                       </span>
@@ -411,31 +361,31 @@ export function ExpansionPinSection() {
               </div>
 
               {/* 재정 카드 */}
-              <div className="mt-11 w-[94%] rounded-[34px] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] px-6 py-7 shadow-[0_4px_32px_rgba(98,98,98,0.15)]">
-                <div className="grid grid-cols-2 gap-x-7">
+              <div className="mt-10 w-[88%] rounded-[34px] border border-[rgba(210,210,220,0.5)] bg-[rgba(243,244,248,0.9)] px-7 py-7 shadow-[0_4px_32px_rgba(98,98,98,0.15)]">
+                <div className="grid grid-cols-2 gap-x-8">
                   <div className="flex flex-col gap-3">
                     {p.finance.left.map((item) => (
                       <div key={item.label} className="flex items-baseline justify-between gap-1">
-                        <span className="text-[16px] font-medium text-[#6d6d6d]">
+                        <span className="text-[15px] font-medium text-[#6d6d6d]">
                           {item.label}
                         </span>
-                        <span className="text-[19px] font-bold text-[#6d6d6d]">
+                        <span className="text-[18px] font-bold text-[#6d6d6d]">
                           {item.value}
                         </span>
-                        <span className="text-[12px] text-[#6d6d6d]">{item.tag}</span>
+                        <span className="text-[11px] text-[#6d6d6d]">{item.tag}</span>
                       </div>
                     ))}
                   </div>
                   <div className="flex flex-col gap-3">
                     {p.finance.right.map((item) => (
                       <div key={item.label} className="flex items-baseline justify-between gap-1">
-                        <span className="text-[16px] font-medium text-[#6d6d6d]">
+                        <span className="text-[15px] font-medium text-[#6d6d6d]">
                           {item.label}
                         </span>
-                        <span className="text-[19px] font-bold text-[#6d6d6d]">
+                        <span className="text-[18px] font-bold text-[#6d6d6d]">
                           {item.value}
                         </span>
-                        <span className="text-[12px] text-[#6d6d6d]">{item.tag}</span>
+                        <span className="text-[11px] text-[#6d6d6d]">{item.tag}</span>
                       </div>
                     ))}
                   </div>
@@ -443,14 +393,14 @@ export function ExpansionPinSection() {
                 <div className="mt-7 flex items-center justify-between border-t border-black/5 pt-5">
                   <div className="flex flex-col items-start">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-[30px] font-bold text-[var(--color-primary)]">
+                      <span className="text-[28px] font-bold text-[var(--color-primary)]">
                         {p.finance.totalLeft}
                       </span>
-                      <span className="text-[23px] font-bold text-[var(--color-text-tertiary)]">
+                      <span className="text-[22px] font-bold text-[var(--color-text-tertiary)]">
                         {p.finance.totalLeftUnit}
                       </span>
                     </div>
-                    <span className="text-[14px] font-bold text-[var(--color-text-tertiary)]">
+                    <span className="text-[13px] font-bold text-[var(--color-text-tertiary)]">
                       {p.finance.totalLeftNote}
                     </span>
                   </div>
@@ -466,24 +416,24 @@ export function ExpansionPinSection() {
                   </div>
                   <div className="flex flex-col items-end">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-[21px] font-bold text-[var(--color-text-tertiary)]">
+                      <span className="text-[20px] font-bold text-[var(--color-text-tertiary)]">
                         {p.finance.totalRightNote}
                       </span>
-                      <span className="text-[30px] font-bold text-[var(--color-primary)]">
+                      <span className="text-[28px] font-bold text-[var(--color-primary)]">
                         {p.finance.totalRight}
                       </span>
-                      <span className="text-[21px] font-bold text-[var(--color-text-tertiary)]">
+                      <span className="text-[20px] font-bold text-[var(--color-text-tertiary)]">
                         {p.finance.totalRightUnit}
                       </span>
                     </div>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-[19px] font-bold text-[var(--color-text-tertiary)]">
+                      <span className="text-[18px] font-bold text-[var(--color-text-tertiary)]">
                         5년누적
                       </span>
-                      <span className="text-[28px] font-bold text-[var(--color-primary)]">
+                      <span className="text-[26px] font-bold text-[var(--color-primary)]">
                         {p.finance.cumulative}
                       </span>
-                      <span className="text-[19px] font-bold text-[var(--color-text-tertiary)]">
+                      <span className="text-[18px] font-bold text-[var(--color-text-tertiary)]">
                         {p.finance.cumulativeUnit}
                       </span>
                     </div>
@@ -502,24 +452,10 @@ export function ExpansionPinSection() {
         </div>
 
         {/* 엔딩 */}
-        <div ref={mobileEndRef} className="relative mt-32 h-[360px] overflow-hidden text-center">
-          <div className="exp-mobile-dissolve-step absolute inset-x-0 top-6">
-            <h3 className="biz-m-heading text-[24px]!">
-              이동의 자유가 모두에게 채워지는 그날까지
-            </h3>
-          </div>
-
-          <div className="exp-mobile-dissolve-step absolute inset-x-0 top-[116px] h-[112px] text-[17px] font-bold leading-none text-[#3c3c3c]">
-            <span className="absolute left-[8%] top-0 text-[var(--color-primary)]">FIND</span>
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              BLIND
-            </span>
-            <span className="absolute bottom-0 right-[8%]">SPOT</span>
-          </div>
-
-          <div className="exp-mobile-dissolve-step absolute inset-x-0 top-[220px] flex justify-center">
-            <WordmarkLogoHorizon width={178} fill="#3C3C3C" />
-          </div>
+        <div className="mt-28 text-center">
+          <h3 className="biz-m-heading text-[22px]!">
+            이동의 자유가 모두에게 채워지는 그날까지
+          </h3>
         </div>
       </div>
 
