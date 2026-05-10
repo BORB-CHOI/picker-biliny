@@ -5,18 +5,17 @@ import NextImage from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { WordmarkLogoHorizon } from "@/components/ui/icons";
 import { onHeaderReady, phase } from "@/lib/animationState";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** APPROACHING BILINY 이미지 시퀀스 (200프레임 WebP, 30fps) */
-const FRAME_COUNT = 200;
+/** APPROACHING BILINY 이미지 시퀀스 (400프레임 WebP, 60fps) */
+const FRAME_COUNT = 400;
 const FRAME_PATH = "/videos/biliny/approaching-webp/frame-";
-/** 자동재생 정지 프레임 (~4초 × 30fps = 133프레임) */
-const AUTOPLAY_STOP_FRAME = 133;
+/** 자동재생 정지 프레임 (~4.43초 × 60fps = 266프레임 — 기존 30fps × 133프레임과 동일 시점) */
+const AUTOPLAY_STOP_FRAME = 266;
 /** 자동재생 fps */
-const AUTOPLAY_FPS = 30;
+const AUTOPLAY_FPS = 60;
 
 // 모듈 스코프 캐시 — StrictMode/HMR로 마운트가 반복돼도 한 번만 다운로드
 let cachedFrames: HTMLImageElement[] | null = null;
@@ -87,17 +86,6 @@ function abortPendingFrames() {
 if (typeof window !== "undefined") {
   // bfcache 친화적 — pagehide가 unload보다 안전하게 abort 보장
   window.addEventListener("pagehide", abortPendingFrames);
-}
-
-/** Vertical bar indicator matching the nav pattern */
-function BarIndicator({ count, className }: { count: number; className?: string }) {
-  return (
-    <span className={`inline-flex gap-0.5 ${className ?? ""}`}>
-      {Array.from({ length: count }, (_, i) => (
-        <span key={i} className="w-0.5 h-1.75 bg-white rounded-full" />
-      ))}
-    </span>
-  );
 }
 
 /** 모바일 분기점 (이하에서 모바일 전용 레이아웃 사용) */
@@ -303,15 +291,6 @@ export function HeroSection() {
         ref={innerRef}
         className="hero-inner relative z-10 px-[clamp(40px,5.56vw,80px)] pt-15 sm:pt-0 pb-[clamp(48px,6.67vw,96px)] w-full max-w-[95rem] mx-auto"
       >
-        {/* PICKER PROJECT wordmark — 모바일에서는 숨김 */}
-        <div className="hidden sm:flex items-center gap-[0.56vw] mb-[clamp(14px,1.94vw,28px)] ml-1">
-          <WordmarkLogoHorizon
-            width={240}
-            fill="#192746"
-            className="w-[clamp(120px,16.67vw,240px)] h-auto"
-          />
-        </div>
-
         {/* 모바일: 타이틀 + 설계선 + 본문이 한 장에 그려진 디자이너 이미지 */}
         <div className="sm:hidden mx-auto mb-10 w-full max-w-[320px]">
           <NextImage
@@ -325,42 +304,38 @@ export function HeroSection() {
           />
         </div>
 
-        {/* Main heading — 데스크톱 전용 */}
-        <h1 className="hidden sm:block mb-[clamp(14px,1.94vw,28px)]">
-          <span className="block text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-hero-title) leading-tight whitespace-nowrap">
-            중소도시의 이동권을
-          </span>
-          <span className="block text-[clamp(24px,3.33vw,48px)] font-bold tracking-[0.06em] text-(--color-primary) leading-tight mt-1 whitespace-nowrap">
-            다시 설계합니다.
-          </span>
-        </h1>
-
-        {/* Horizontal decorative line — 데스크톱 전용 */}
-        <div className="hidden sm:block h-px bg-[#D8D8D8] w-full max-w-[clamp(50px,9.03vw,130px)] mb-[clamp(14px,1.94vw,28px)]" />
-
-        {/* Description — 데스크톱 전용 */}
-        <p className="hidden sm:block text-[clamp(10px,1.25vw,18px)] text-(--color-text-desc) leading-[1.85] max-w-[clamp(200px,31.94vw,460px)] mb-[clamp(24px,3.33vw,48px)] whitespace-nowrap">
-          피커 프로젝트 &lsquo;빌리니(BILINY)&rsquo; 는 일상 속<br />
-          <strong className="font-extrabold">이동의 비효율 사각지대를 해결</strong>
-          하는
-          <br />
-          공유형 자율주행 모빌리티 솔루션입니다.
-        </p>
+        {/* 데스크톱: PICKER PROJECT 로고 + 타이틀 + 설계선 + 본문이 한 장에 그려진 이미지 */}
+        <div className="hidden sm:block mb-[clamp(24px,3.33vw,48px)] -ml-22 w-full max-w-[clamp(320px,46vw,660px)]">
+          <NextImage
+            src="/images/hero/title-desktop.png"
+            alt="PICKER PROJECT — 중소도시의 이동권을 다시 설계합니다. 피커 프로젝트의 빌리니(BILINY)는 일상 속 이동의 비효율 사각지대를 해결하는 공유형 자율주행 모빌리티 솔루션입니다."
+            width={914}
+            height={468}
+            priority
+            sizes="(max-width: 640px) 0px, 46vw"
+            className="w-full h-auto"
+          />
+        </div>
 
         {/* CTA buttons */}
-        <div className="flex gap-2.5 sm:gap-[clamp(7px,0.97vw,14px)]">
+        <div className="flex justify-center sm:justify-start gap-1.5 sm:gap-[clamp(7px,0.97vw,14px)]">
           <a
             href="#story"
-            className="inline-flex items-center whitespace-nowrap gap-2 sm:gap-[clamp(5px,0.69vw,10px)] px-5 py-3 sm:px-[clamp(12px,1.67vw,24px)] sm:py-[clamp(6px,0.83vw,12px)] bg-[#4B4B4B] text-white text-[13px] sm:text-[clamp(8px,0.97vw,14px)] font-bold rounded-[10px] sm:rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
+            className="inline-flex items-center whitespace-nowrap gap-1.5 sm:gap-[clamp(5px,0.69vw,10px)] px-3 py-2 sm:px-[clamp(12px,1.67vw,24px)] sm:py-[clamp(6px,0.83vw,12px)] bg-[#4B4B4B] text-white text-[10px] sm:text-[clamp(8px,0.97vw,14px)] font-bold rounded-[8px] sm:rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(75,75,75,0.25)] hover:bg-[#3a3a3a] transition-colors"
           >
-            <BarIndicator count={1} />
+            <span className="flex gap-1">
+              <span className="section-bar-m w-0.5! sm:w-1! h-2! sm:h-3.25!" />
+            </span>
             빌리니 스토리 →
           </a>
           <a
             href="#biliny"
-            className="inline-flex items-center whitespace-nowrap gap-2 sm:gap-[clamp(5px,0.69vw,10px)] px-5 py-3 sm:px-[clamp(12px,1.67vw,24px)] sm:py-[clamp(6px,0.83vw,12px)] bg-[#2675FF] text-white text-[13px] sm:text-[clamp(8px,0.97vw,14px)] font-bold rounded-[10px] sm:rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
+            className="inline-flex items-center whitespace-nowrap gap-1.5 sm:gap-[clamp(5px,0.69vw,10px)] px-3 py-2 sm:px-[clamp(12px,1.67vw,24px)] sm:py-[clamp(6px,0.83vw,12px)] bg-[#2675FF] text-white text-[10px] sm:text-[clamp(8px,0.97vw,14px)] font-bold rounded-[8px] sm:rounded-[clamp(6px,0.76vw,11px)] shadow-[0_2px_6px_rgba(57,57,255,0.25)] hover:bg-[#1a5ee6] transition-colors"
           >
-            <BarIndicator count={2} />
+            <span className="flex gap-1">
+              <span className="section-bar-m w-0.5! sm:w-1! h-2! sm:h-3.25!" />
+              <span className="section-bar-m w-0.5! sm:w-1! h-2! sm:h-3.25!" />
+            </span>
             빌리니 둘러보기 →
           </a>
         </div>
