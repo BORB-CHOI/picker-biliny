@@ -155,7 +155,8 @@ export function StorySection() {
             STORY 헤더
         ═══════════════════════════════════════ */}
         <div className="s-fade section-title-row">
-          <div className="section-bar-m sm:section-bar" />
+          <div className="section-bar-m sm:hidden!" />
+          <div className="section-bar hidden! sm:inline-block!" />
           <span className="text-[clamp(24px,3cqw,43px)] font-bold text-[#3a3a3a]">STORY</span>
         </div>
 
