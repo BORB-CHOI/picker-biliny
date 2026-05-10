@@ -194,7 +194,7 @@ export function SolutionSection() {
           1. 빌려타는 "빌리니"
       ═══════════════════════════════════════ */}
         <div className="w-full max-w-[50%] mx-auto mt-[10.75cqw] relative z-20">
-          <h3 className="sol-reveal solution-title font-black!">빌려타는 &ldquo;빌리니&rdquo;</h3>
+          <h3 className="sol-reveal solution-title font-black!">I 빌려타는 &ldquo;빌리니&rdquo;</h3>
           <div className="sol-reveal solution-desc mt-10">
             <p>
               <span className="font-medium">필요할 때 </span>
@@ -232,17 +232,21 @@ export function SolutionSection() {
         <div className="w-full max-w-[50%] mx-auto mt-[16cqw] relative z-20">
           <div className="text-right">
             <h3 className="sol-reveal solution-title font-black!">
-              서로에게 안전한 &ldquo;안내길&rdquo;
+              II 서로에게 안전한 &ldquo;안내길&rdquo;
             </h3>
             <div className="sol-reveal solution-desc mt-10">
-              <p className="font-medium">가는 길이 약속된 &lsquo;안내길&rsquo;을 깔아드려요.</p>
+              <span className="font-medium">
+                가는 길을 안내해주는{" "}
+                <span className="font-bold text-(--color-primary)">
+                  &lsquo;안내길&rsquo;을 깔아드려요.
+                </span>
+              </span>
               <p className="mt-1">
                 <span className="font-bold text-(--color-primary)">
-                  탑승자/보행자/운전자 모두를 안전하게
+                  탑승자/보행자/운전자 모두를 안전하게 안내
                 </span>
                 <span className="font-medium">
-                  {" "}
-                  안내하기 위해{"\u00A0"}
+                  하기 위해{"\u00A0"}
                   <br />
                   따라가야할 길을 보여드립니다.
                 </span>
@@ -267,8 +271,14 @@ export function SolutionSection() {
           3. 모든 과정을 지켜봐주는 "돌봄이"
       ═══════════════════════════════════════ */}
         <div className="w-full max-w-[50%] mx-auto mt-[8cqw] relative z-20">
-          <h3 className="sol-reveal solution-title">모든 과정을 지켜봐주는 &ldquo;돌봄이&rdquo;</h3>
+          <h3 className="sol-reveal solution-title">III 모든 과정을 지켜봐주는 &ldquo;돌봄이&rdquo;</h3>
           <div className="sol-reveal solution-desc mt-10">
+            <span className="font-medium">
+                가는 길을 지켜봐줄{" "}
+                <span className="font-bold text-(--color-primary)">
+                  &lsquo;돌봄이&rsquo;가 여러분과 동행합니다.
+              </span>
+            </span>
             <p>
               <span className="font-medium">
                 안전과 편의를 위해
