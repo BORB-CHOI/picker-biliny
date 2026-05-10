@@ -6,6 +6,7 @@ import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 import { useProductAnimations } from "@/hooks/useProductAnimations";
 import { CheckIcon } from "@/components/ui/CheckIcon";
 import { InfinityIcon } from "../ui/icons";
+import { getHeaderOffset, smoothScrollTo } from "@/lib/smoothScroll";
 
 export function TrinyProductSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -16,15 +17,17 @@ export function TrinyProductSection() {
   return (
     <section ref={sectionRef} id="triny" className="relative mt-[16cqw]">
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-         Part 0: # TRINY 타이틀 (공통)
+         Part 0: # TRINY 타이틀 (데스크톱)
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="b-fade section-title-row">
-        <div className="flex gap-2">
-          <div className="section-bar" />
-          <div className="section-bar" />
-          <div className="section-bar" />
+      <div className="hidden sm:block">
+        <div className="b-fade section-title-row">
+          <div className="flex gap-2">
+            <div className="section-bar" />
+            <div className="section-bar" />
+            <div className="section-bar" />
+          </div>
+          <h2 className="product-section-title">TRINY</h2>
         </div>
-        <h2 className="product-section-title">TRINY</h2>
       </div>
 
       {/* ═══════════════════════════════════════
@@ -38,7 +41,7 @@ export function TrinyProductSection() {
           <div className="flex flex-row gap-[clamp(24px,3.3cqw,48px)] items-start">
             {/* 좌측 텍스트 — Figma 기준 아래로 내려옴 */}
             <div className="w-[38%] min-w-0 shrink-0 pt-[clamp(160px,20cqw,290px)]">
-              <p className="b-fade product-label text-(--color-primary)">LINE-UP</p>
+              <p className="b-fade product-label text-(--color-primary)">LINE-UP II</p>
               <p className="b-reveal product-sub-heading mt-[clamp(8px,0.7cqw,10px)]">
                 이동의 자유를 나누는
               </p>
@@ -50,8 +53,8 @@ export function TrinyProductSection() {
               </p>
               <div className="b-fade product-desc mt-[clamp(8px,1.1cqw,16px)]">
                 <p>
-                  초소형 다용성 모빌리티 플랫폼으로, 캐빈 결합과 로봇암 장착 등을 통해 도시 관리의
-                  모든 수요를 대응합니다.
+                  초소형 다용성 모빌리티 플랫폼으로, 승객용 캐빈 결합과 로봇암 장착 등을 통해 도시
+                  운반 및 관리 등 도시 내 이동수요를 대응합니다.
                 </p>
               </div>
 
@@ -99,6 +102,10 @@ export function TrinyProductSection() {
           <div className="absolute top-80 right-[5rem] z-20 flex gap-2 bg-[#f0f1f5] rounded-full p-1">
             <a
               href="#biliny"
+              onClick={(e) => {
+                e.preventDefault();
+                smoothScrollTo("#biliny", getHeaderOffset());
+              }}
               className="px-[clamp(12px,1.4cqw,20px)] py-[clamp(4px,0.5cqw,8px)] rounded-full text-[clamp(10px,0.97cqw,14px)] font-medium text-[#8a8a9a] hover:text-(--color-text) transition-colors"
             >
               BILINY (케어형)
@@ -107,31 +114,25 @@ export function TrinyProductSection() {
               TRINY (플랫폼)
             </span>
           </div>
-          {/* 스펙 — desktop absolute */}
-          <div className="b-fade flex flex-col absolute items-end left-[39%] top-[83%] -translate-y-1/2">
-            <div className="product-spec-row flex items-baseline justify-center">
-              <span className="product-spec-label">1회 충전 주행거리</span>
-              <span className="product-spec-number mx-4">250</span>
-              <span className="product-spec-unit">km{"\u00A0"}</span>
-            </div>
-            <div className="product-spec-row flex max-h-15 items-center justify-center">
-              <span className="product-spec-label translate-y-1.5">무료 탑승 횟수</span>
-              <InfinityIcon
-                className="inline-block h-[4.5em] w-auto mx-4"
-                fill="#202020"
-                size={72}
-              />
-              <span className="product-spec-unit">
-                회{"\u00A0"}
-                {"\u00A0"}
-                {"\u00A0"}
-              </span>
-            </div>
-            <div className="product-spec-row items-baseline justify-center">
-              <span className="product-spec-label">대당가격</span>
-              <span className="product-spec-number mx-2.5">500</span>
-              <span className="product-spec-unit">만원</span>
-            </div>
+          {/* 스펙 — 3열 그리드: 라벨(우정렬) | 숫자/아이콘(중앙) | 단위(좌정렬, 세로축 고정) */}
+          <div className="b-fade absolute left-[39%] top-[83%] -translate-y-1/2 grid grid-cols-[auto_auto_auto] gap-x-[clamp(8px,1cqw,16px)] gap-y-[clamp(2px,0.3cqw,4px)] items-baseline">
+            <span className="product-spec-label justify-self-end">1회 충전 주행거리</span>
+            <span className="product-spec-number justify-self-end">250</span>
+            <span className="product-spec-unit justify-self-start">km</span>
+
+            <span className="product-spec-label justify-self-end self-center translate-y-0.5">
+              무료 탑승 횟수
+            </span>
+            <InfinityIcon
+              className="inline-block h-[4.5em] w-auto justify-self-center self-center"
+              fill="#202020"
+              size={72}
+            />
+            <span className="product-spec-unit justify-self-start self-center">회</span>
+
+            <span className="product-spec-label justify-self-end">대당가격</span>
+            <span className="product-spec-number justify-self-end">500</span>
+            <span className="product-spec-unit justify-self-start">만원</span>
           </div>
         </div>
 
@@ -413,60 +414,80 @@ export function TrinyProductSection() {
       {/* ═══════════════════════════════════════
           모바일 전용 본문 (< sm)
       ═══════════════════════════════════════ */}
-      <div className="block sm:hidden px-[5%] pt-8 pb-16">
-        <div className="text-center">
-          <p className="b-reveal text-base font-medium text-(--color-text-secondary)">
-            이동의 자유를 나누는
-          </p>
-          <h3 className="b-reveal mt-1 text-2xl font-bold text-foreground">
-            스마트 모빌리티 생태계
-          </h3>
+      <div className="block sm:hidden px-[10%] pb-16 tracking-[0.11em]">
+        {/* ━━━ # TRINY 타이틀 (모바일) ━━━ */}
+        <div className="b-fade section-title-row gap-2!">
+          <div className="flex gap-1">
+            <div className="section-bar-m h-3.25!" />
+            <div className="section-bar-m h-3.25!" />
+            <div className="section-bar-m h-3.25!" />
+          </div>
+          <h2 className="product-section-title text-[18px]!">TRINY</h2>
         </div>
 
         {/* LINE-UP */}
-        <div className="mt-12">
-          <p className="b-fade text-sm font-bold tracking-widest text-(--color-primary)">LINE-UP</p>
-          <p className="b-reveal mt-2 text-base font-medium text-(--color-text-secondary)">
+        <div className="mt-4">
+          <p className="b-fade text-sm font-bold tracking-widest text-[var(--color-primary)]">
+            LINE-UP II
+          </p>
+          <p className="b-reveal mt-1 font-bold text-[var(--color-text)]">
             다목적 플랫폼 &lsquo;트리니&rsquo;
           </p>
-          <p className="b-fade mt-3 text-sm leading-relaxed text-(--color-text-secondary)">
-            초소형 다용성 모빌리티 플랫폼으로, 캐빈 결합과 로봇암 장착 등을 통해 도시 관리의 모든
-            수요를 대응합니다.
+          <p className="b-fade mt-1 text-[11px] text-[var(--color-feature-text)]">
+            초소형 다용성 모빌리티 플랫폼으로,
+            <br />
+            <span className="font-bold">승객용 캐빈 결합과 로봇암 장착 등</span>을 통해
+            <br /> <span className="font-bold">도시 운반 및 관리 등 도시 내 이동수요를 대응</span>
+            합니다.
           </p>
         </div>
 
-        {/* 제품 이미지 + 스펙 */}
-        <div className="b-from-right mt-8 grid grid-cols-[0.9fr_1.1fr] items-center gap-2">
-          <div className="flex flex-col items-end gap-2">
-            <div className="flex items-baseline gap-1">
-              <span className="text-[9px] text-(--color-text-secondary)">1회 충전 주행거리</span>
-              <span className="text-xl font-bold text-foreground">250</span>
-              <span className="text-xs text-(--color-text-secondary)">km</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-[9px] text-(--color-text-secondary)">무료 탑승 횟수</span>
-              <InfinityIcon className="inline-block h-7 w-auto" fill="#202020" size={28} />
-              <span className="text-xs text-(--color-text-secondary)">회</span>
-            </div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-[9px] text-(--color-text-secondary)">대당가격</span>
-              <span className="text-xl font-bold text-foreground">500</span>
-              <span className="text-xs text-(--color-text-secondary)">만원</span>
-            </div>
+        {/* 제품 이미지 + 스펙 (이미지 위 좌측 중앙 absolute 배치) */}
+        <div className="b-from-right mt-6 relative">
+          <div className="translate-x-30">
+            <Image
+              src="/images/triny/1_lineup-hero-2.png"
+              alt="트리니 제품 이미지"
+              width={2000}
+              height={2500}
+              className="h-auto w-[68%]"
+              sizes="100vw "
+              priority
+            />
           </div>
-          <Image
-            src="/images/triny/1_lineup-hero.png"
-            alt="트리니 제품 이미지"
-            width={2000}
-            height={2500}
-            className="h-auto w-full"
-            sizes="55vw"
-            priority
-          />
+          <div className="absolute left-0 top-[42%] -translate-y-1/2 grid grid-cols-[auto_auto_auto] gap-x-1 gap-y-2 items-baseline">
+            <span className="text-[9px] text- text-(--color-text-secondary) justify-self-end">
+              1회 충전 주행거리
+            </span>
+            <span className="text-xl font-bold text-foreground justify-self-end">250</span>
+            <span className="text-xs font-bold text-(--color-text-secondary) justify-self-start">
+              km
+            </span>
+
+            <span className="text-[9px] text-(--color-text-secondary) justify-self-end self-center translate-y-0.5">
+              무료 탑승 횟수
+            </span>
+            <InfinityIcon
+              className="inline-block h-9 w-auto justify-self-center self-center"
+              fill="#202020"
+              size={29}
+            />
+            <span className="text-xs font-bold text-(--color-text-secondary) justify-self-start self-center">
+              회
+            </span>
+
+            <span className="text-[8px] text-(--color-text-secondary) justify-self-end">
+              대당가격
+            </span>
+            <span className="text-xl font-bold text-foreground justify-self-end">500</span>
+            <span className="text-xs font-bold text-(--color-text-secondary) justify-self-start">
+              만원
+            </span>
+          </div>
         </div>
 
         {/* 특장점 목록 — PC와 동일 */}
-        <div className="mt-8 flex flex-col gap-3">
+        <div className="mt-4 flex flex-col gap-3 w-fit mx-auto">
           <div className="b-stagger product-feature-item">
             <CheckIcon />
             <p className="product-feature-text">
@@ -488,11 +509,11 @@ export function TrinyProductSection() {
         </div>
 
         {/* 모든 면으로 보호 */}
-        <div className="mt-20 flex flex-col gap-4">
-          <h3 className="b-reveal text-xl font-bold text-foreground text-center">
+        <div className="mt-20 flex flex-col">
+          <h3 className="b-reveal text-[15px] font-bold text-foreground text-center">
             모든 면으로 보호
           </h3>
-          <p className="b-fade text-sm text-(--color-text-secondary) text-center">
+          <p className="b-fade text-[11px] text-(--color-text-secondary) text-center">
             어떤 계절과 상황에도 대응이 강한
           </p>
           <Image
@@ -500,7 +521,7 @@ export function TrinyProductSection() {
             alt="트리니 전면 보호"
             width={1200}
             height={800}
-            className="b-fade w-full h-auto mt-2"
+            className="b-fade w-full h-auto mt-8"
             sizes="100vw"
           />
           <Image
@@ -513,159 +534,194 @@ export function TrinyProductSection() {
           />
         </div>
 
-        {/* 완전한 대칭 */}
-        <div className="mt-16 flex flex-col gap-4">
-          <h3 className="b-reveal text-xl font-bold text-foreground text-center">완전한 대칭</h3>
-          <p className="b-fade text-sm text-(--color-text-secondary) text-center">
-            극단적으로 효율적인
-          </p>
-          <Image
-            src="/images/triny/4_symmetry.png"
-            alt="트리니 완전 대칭 디자인"
-            width={1600}
-            height={600}
-            className="b-fade w-full h-auto mt-2"
-            sizes="100vw"
-          />
+        {/* 완전한 대칭 (이미지 위 상단 중앙 overlay) */}
+        <div className="-mt-5 relative">
+          <div className="relative left-1/2 -translate-x-1/2 w-[120vw]">
+            <Image
+              src="/images/triny/4_symmetry.png"
+              alt="트리니 완전 대칭 디자인"
+              width={1600}
+              height={600}
+              className="b-fade w-full h-auto"
+              sizes="120vw"
+            />
+          </div>
+          <div className="absolute inset-x-0 top-20 text-center">
+            <h3 className="b-reveal text-[15px] font-bold text-foreground">완전한 대칭</h3>
+            <p className="b-fade text-[11px] text-(--color-text-secondary) mt-1">
+              극단적으로 효율적인
+            </p>
+          </div>
         </div>
 
-        {/* 쉬운 용도 변경 */}
-        <div className="mt-16 flex flex-col gap-4">
-          <h3 className="b-reveal text-xl font-bold text-foreground text-center">쉬운 용도 변경</h3>
-          <p className="b-fade text-sm text-(--color-text-secondary) text-center">
-            다양한 목적으로 사용범위가 넓은
-          </p>
-          <Image
-            src="/images/triny/5_modular.png"
-            alt="트리니 용도 변경"
-            width={1000}
-            height={1200}
-            className="b-fade w-full h-auto mt-2"
-            sizes="100vw"
-          />
+        {/* 쉬운 용도 변경 (이미지 위 상단 중앙 overlay) */}
+        <div className="relative">
+          <div className="relative left-1/2 -translate-x-1/2 w-full">
+            <Image
+              src="/images/triny/5_modular.png"
+              alt="트리니 용도 변경"
+              width={1000}
+              height={1200}
+              className="b-fade w-full h-auto"
+              sizes="110vw"
+            />
+          </div>
+          <div className="absolute inset-x-0 top-12 text-center">
+            <h3 className="b-reveal text-[15px] font-bold text-foreground">쉬운 용도 변경</h3>
+            <p className="b-fade text-[11px] text-(--color-text-secondary) mt-1">
+              다양한 목적으로 사용범위가 넓은
+            </p>
+          </div>
         </div>
 
-        {/* 1인승에서 4인승까지 */}
-        <div className="mt-16 flex flex-col gap-4">
-          <h3 className="b-reveal text-xl font-bold text-foreground text-center">
-            1인승에서 4인승까지
-          </h3>
-          <p className="b-fade text-sm text-(--color-text-secondary) text-center">
-            어린아이부터 고령자까지 모두를 품는
-          </p>
+        {/* 1인승에서 4인승까지 (이미지 위 상단 중앙 overlay) */}
+        <div className="-mt-15 relative">
           <Image
             src="/images/triny/6_capacity.png"
             alt="1~4인승 탑승"
             width={1000}
             height={1200}
-            className="b-fade w-full h-auto mt-2"
+            className="b-fade w-full h-auto"
             sizes="100vw"
           />
+          <div className="absolute inset-x-0 top-15 text-center">
+            <h3 className="b-reveal text-[15px] font-bold text-foreground">1인승에서 4인승까지</h3>
+            <p className="b-fade text-[11px] text-(--color-text-secondary) mt-1">
+              어린아이부터 고령자까지 모두를 품는
+            </p>
+          </div>
         </div>
 
-        {/* 넉넉한 내부공간 */}
-        <div className="mt-16 flex flex-col gap-4">
-          <h3 className="b-reveal text-xl font-bold text-foreground text-center">
-            넉넉한 내부공간
-          </h3>
-          <p className="b-fade text-sm text-(--color-text-secondary) text-center">
-            여행, 운송도 거뜬한
-          </p>
+        {/* 넉넉한 내부공간 (이미지 위 상단 중앙 overlay) */}
+        <div className="-mt-2 relative">
           <Image
             src="/images/triny/7_interior.png"
             alt="트리니 내부공간"
             width={900}
             height={1100}
-            className="b-fade w-full h-auto mt-2"
+            className="b-fade w-full h-auto"
             sizes="100vw"
           />
+          <div className="absolute inset-x-0 top-9 text-center">
+            <h3 className="b-reveal text-[15px] font-bold text-foreground">넉넉한 내부공간</h3>
+            <p className="b-fade text-[11px] text-(--color-text-secondary) mt-1">
+              여행, 운송도 거뜬한
+            </p>
+          </div>
         </div>
 
-        {/* 일까지 잘하는 트리니 플랫폼 */}
-        <div className="mt-16 flex flex-col gap-4">
-          <h3 className="b-reveal text-xl font-bold text-foreground text-center">
-            일까지 잘하는 트리니 플랫폼
-          </h3>
-          <p className="b-fade text-sm text-(--color-text-secondary) text-center">
-            무엇을 붙여도 그에 맞게 일을 수행하는
-          </p>
+        {/* 일까지 잘하는 트리니 플랫폼 (이미지 위 상단 중앙 overlay) */}
+        <div className="-mt-6 relative">
           <Image
             src="/images/triny/8_platform.png"
             alt="트리니 플랫폼"
             width={1000}
             height={1000}
-            className="b-fade w-full h-auto mt-2"
-            sizes="100vw"
-          />
-        </div>
-
-        {/* 인프라 자동 관리 */}
-        <div className="mt-16 flex flex-col gap-4">
-          <h3 className="b-reveal text-xl font-bold text-foreground text-center">
-            인프라를 자동 관리하는 솔루션
-          </h3>
-          <p className="b-fade text-sm text-(--color-text-secondary) text-center">
-            도로선 보수, 청소, 도로 검사까지
-          </p>
-          <Image
-            src="/images/triny/9_road-marking.png"
-            alt="도로선 보수"
-            width={1000}
-            height={1000}
-            className="b-fade w-full h-auto mt-2"
-            sizes="100vw"
-          />
-          <Image
-            src="/images/triny/10_robot-arm.png"
-            alt="로봇암 도로 작업"
-            width={1000}
-            height={1000}
             className="b-fade w-full h-auto"
             sizes="100vw"
           />
-          <Image
-            src="/images/triny/11_infra-manage.png"
-            alt="인프라 관리 로봇"
-            width={1000}
-            height={1000}
-            className="b-fade w-full h-auto"
-            sizes="100vw"
-          />
+          <div className="absolute inset-x-0 top-20 text-center">
+            <h3 className="b-reveal text-[15px] font-bold text-foreground">
+              일까지 잘하는 트리니 플랫폼
+            </h3>
+            <p className="b-fade text-[11px] text-(--color-text-secondary) mt-1">
+              무엇을 붙여도 그에 맞게 일을 수행하는
+            </p>
+          </div>
         </div>
 
-        {/* 360° 트리니 둘러보기 */}
-        <div className="mt-16 flex flex-col items-center gap-3">
-          <p className="b-fade text-2xl font-bold text-foreground">360°</p>
-          <h3 className="b-reveal text-xl font-bold text-foreground">트리니 둘러보기</h3>
-          <video
-            src="/videos/triny/turning.mp4"
-            muted
-            autoPlay
-            loop
-            playsInline
-            className="b-fade w-full h-auto mt-2"
-          />
+        {/* 인프라 자동 관리 (첫 이미지 위 상단 중앙 overlay) */}
+        <div className="-mt-4 flex flex-col gap-0">
+          <div className="relative">
+            <Image
+              src="/images/triny/9_road-marking.png"
+              alt="도로선 보수"
+              width={1000}
+              height={1000}
+              className="b-fade w-full h-auto"
+              sizes="100vw"
+            />
+            <div className="absolute inset-x-0 top-4 text-center">
+              <h3 className="b-reveal text-[15px] font-bold text-foreground">
+                인프라를 자동 관리하는 솔루션
+              </h3>
+              <p className="b-fade text-[11px] text-(--color-text-secondary) mt-1">
+                도로선 보수, 청소, 도로 검사까지
+              </p>
+            </div>
+          </div>
+          <div className="relative left-1/2 -translate-x-[40%] w-[110%]">
+            <Image
+              src="/images/triny/10_robot-arm.png"
+              alt="로봇암 도로 작업"
+              width={1000}
+              height={1000}
+              className="b-fade w-full h-auto "
+              sizes="100vw"
+            />
+          </div>
+          <div className="-mt-40 relative left-1/2 -translate-x-1/2 w-[110%]">
+            <Image
+              src="/images/triny/11_infra-manage.png"
+              alt="인프라 관리 로봇"
+              width={1000}
+              height={1000}
+              className="b-fade w-full h-auto"
+              sizes="110vw"
+            />
+          </div>
+        </div>
+
+        {/* 360° 트리니 둘러보기 (비디오 위 상단 중앙 overlay + orbit ring) */}
+        <div className="mt-16 relative">
+          <div className="relative left-1/2 -translate-x-1/2 w-[150%]">
+            <video
+              src="/videos/triny/turning.mp4"
+              muted
+              autoPlay
+              loop
+              playsInline
+              className="b-fade w-full h-auto"
+            />
+          </div>
+          <div className="absolute inset-x-0 top-[5%] b-fade z-10">
+            <Image
+              src="/images/biliny/2_360-orbit.png"
+              alt=""
+              width={618}
+              height={100}
+              className="w-[60%] h-auto mx-auto translate-y-1/2"
+              sizes="60vw"
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <p className="text-[15px] font-bold text-foreground">360°</p>
+              <h3 className="text-[15px] font-bold text-foreground">트리니 둘러보기</h3>
+            </div>
+          </div>
         </div>
 
         {/* 단지 내 모든 길 */}
-        <div className="mt-16 flex flex-col gap-4">
-          <h3 className="b-reveal text-xl font-bold text-foreground text-center">
+        <div className="mt-16 flex flex-col gap-1">
+          <h3 className="b-reveal text-[15px] font-bold text-foreground text-center">
             단지 내 모든 길을 돌아다닐 수 있는 사이즈
           </h3>
-          <Image
-            src="/images/triny/12_scene-complex.png"
-            alt="단지 내 트리니"
-            width={800}
-            height={1000}
-            className="b-fade w-full h-auto mt-2"
-            sizes="100vw"
-          />
+          <div className="relative left-1/2 -translate-x-1/2 w-screen mt-2">
+            <Image
+              src="/images/triny/12_scene-complex.png"
+              alt="단지 내 트리니"
+              width={800}
+              height={1000}
+              className="b-fade w-full h-auto"
+              sizes="100vw"
+            />
+          </div>
         </div>
 
         {/* 도면 */}
-        <div className="mt-12">
+        <div className="-mt-4 relative left-1/2 -translate-x-1/2 w-screen">
           <Image
-            src="/images/triny/13_dimensions.png"
+            src="/images/triny/13_dimensions-2.png"
             alt="트리니 도면"
             width={1400}
             height={900}

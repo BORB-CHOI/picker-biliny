@@ -1503,7 +1503,9 @@ export function BusinessSection() {
                   <div className="">
                     <p className="biz-m-product-card-text">
                       시각 인식 기반의{" "}
-                      <span className="font-bold text-[var(--color-primary)]">저비용 유도 주행</span>{" "}
+                      <span className="font-bold text-[var(--color-primary)]">
+                        저비용 유도 주행
+                      </span>{" "}
                       레인 인프라
                     </p>
                     <p className="biz-m-product-card-text mt-1">
@@ -1528,26 +1530,26 @@ export function BusinessSection() {
                 <div className="relative z-10 w-[72%] mt-2 max-w-[290px] rounded-[24px] border border-[#ebebeb] bg-[var(--color-bg-subtle)] px-4 py-4 text-center shadow-[0_4px_32px_rgba(98,98,98,0.15)]">
                   <p className="biz-m-product-title">③ 케어워치</p>
                   <p className="biz-m-product-qty mt-1">1300 개</p>
-                <div className="flex items-baseline justify-center gap-1">
-                  <p className="biz-m-product-price">0.3</p>
-                  <p className="biz-m-product-text">억 원</p>
-                </div>
-                <div className="">
-                  <p className="biz-m-product-card-text">
-                    고령자{" "}
-                    <span className="font-bold text-[var(--color-primary)]">
-                      이동 현황 모니터링
-                    </span>{" "}
-                    - <span className="font-bold text-[var(--color-primary)]">안심 케어</span>{" "}
-                    디바이스
-                  </p>
-                  <p className="biz-m-product-card-text mt-1">
-                    119 자동 신고 기능, 컨디션 맞춤 목적지 제안 기능
-                  </p>
+                  <div className="flex items-baseline justify-center gap-1">
+                    <p className="biz-m-product-price">0.3</p>
+                    <p className="biz-m-product-text">억 원</p>
+                  </div>
+                  <div className="">
+                    <p className="biz-m-product-card-text">
+                      고령자{" "}
+                      <span className="font-bold text-[var(--color-primary)]">
+                        이동 현황 모니터링
+                      </span>{" "}
+                      - <span className="font-bold text-[var(--color-primary)]">안심 케어</span>{" "}
+                      디바이스
+                    </p>
+                    <p className="biz-m-product-card-text mt-1">
+                      119 자동 신고 기능, 컨디션 맞춤 목적지 제안 기능
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
 

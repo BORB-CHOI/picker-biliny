@@ -862,3 +862,15 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Header nav 클릭 ripple — Material 스타일 ── */
+@keyframes nav-ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}

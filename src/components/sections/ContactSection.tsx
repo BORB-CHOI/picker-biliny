@@ -121,10 +121,23 @@ export function ContactSection() {
 
   return (
     <section ref={sectionRef} id="contact" className="relative">
-      {/* ── 섹션 타이틀 ── */}
-      <div className="ct-anim flex items-center justify-center gap-3 pt-16 pb-6 sm:pt-28 sm:pb-8">
+      {/* ── 섹션 타이틀 (데스크톱) ── */}
+      <div className="ct-anim hidden sm:flex items-center justify-center gap-3 pt-28 pb-8">
         <BarIndicator count={4} />
-        <h2 className="text-3xl sm:text-[43px] font-bold text-[#3a3a3a] tracking-wide">CONTACT</h2>
+        <h2 className="text-[43px] font-bold text-[#3a3a3a] tracking-wide">CONTACT</h2>
+      </div>
+
+      {/* ── 섹션 타이틀 (모바일 — BILINY/TRINY와 동일 스타일) ── */}
+      <div className="ct-anim block sm:hidden">
+        <div className="section-title-row gap-2!">
+          <div className="flex gap-1">
+            <div className="section-bar-m h-3.25!" />
+            <div className="section-bar-m h-3.25!" />
+            <div className="section-bar-m h-3.25!" />
+            <div className="section-bar-m h-3.25!" />
+          </div>
+          <h2 className="product-section-title text-[18px]!">CONTACT</h2>
+        </div>
       </div>
 
       {/* 구분선 */}
