@@ -37,7 +37,7 @@ export default function Home() {
       </div>
 
       {/* 6-2. 글로벌 확장 — sticky pin 섹션 (ScaleWrapper 외부, zoom 축소) */}
-      <ZoomWrapper mobileBaseWidth={393} mobileMinScale={0.85}>
+      <ZoomWrapper mobileBaseWidth={393} mobileMinScale={0.5}>
         <ExpansionPinSection />
       </ZoomWrapper>
 

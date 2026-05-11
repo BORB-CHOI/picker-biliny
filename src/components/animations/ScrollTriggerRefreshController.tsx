@@ -7,6 +7,11 @@ function isLayoutAffectingMedia(target: EventTarget | null): target is HTMLImage
   return target instanceof HTMLImageElement || target instanceof HTMLVideoElement;
 }
 
+// 모바일 주소창 collapse/expand가 일으키는 height-only resize 스톰 차단
+if (typeof window !== 'undefined') {
+  ScrollTrigger.config({ ignoreMobileResize: true });
+}
+
 export function ScrollTriggerRefreshController() {
   useEffect(() => {
     let rafId = 0;

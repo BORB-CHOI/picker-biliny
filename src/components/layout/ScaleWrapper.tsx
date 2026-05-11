@@ -22,7 +22,7 @@ export function ScaleWrapper({ children }: ScaleWrapperProps) {
     baseWidth: 1440,
     minScale: 0.25,
     mobileBaseWidth: 393,
-    mobileMinScale: 0.85,
+    mobileMinScale: 0.5,
     mobileBreakpoint: 640,
     wrapperRef,
   });

@@ -161,7 +161,7 @@ export function SolutionSection() {
   );
 
   return (
-    <section ref={sectionRef} id="solution" className="relative bg-white overflow-hidden">
+    <section ref={sectionRef} id="solution" className="relative z-0 bg-white overflow-hidden">
       {/* ═══════════════════════════════════════
           실루엣 장식 (1_) — 데스크톱 전용
       ═══════════════════════════════════════ */}
@@ -256,7 +256,7 @@ export function SolutionSection() {
         </div>
 
         {/* 3_ 스마트레인 야간 — 좌측 끝, 화면 밖 확장 */}
-        <div className="sol-from-right mt-[3cqw] w-[80%] ml-[15%]">
+        <div className="sol-from-right relative mt-[3cqw] w-[80%] ml-[15%] -z-10">
           <Image
             src="/images/solution/3_smartlane-night.png"
             alt="야간 도로 위 빌리니 안내길 시스템"
