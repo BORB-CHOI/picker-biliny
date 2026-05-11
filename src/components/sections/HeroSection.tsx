@@ -90,6 +90,11 @@ if (typeof window !== "undefined") {
 
 /** 모바일 분기점 (이하에서 모바일 전용 레이아웃 사용) */
 const MOBILE_BREAKPOINT = 640;
+const MOBILE_CANVAS_CSS_SCALE = 1.8;
+const MOBILE_CANVAS_MIN_CSS_SCALE = 1.45;
+const MOBILE_CANVAS_BASE_HEIGHT = 852;
+const MOBILE_ANCHOR_SOURCE_Y = 0.74;
+const MOBILE_ANCHOR_TARGET_Y = 0.92;
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -119,9 +124,12 @@ export function HeroSection() {
       const dpr = devicePixelRatio || 1;
       let cw = 0;
       let ch = 0;
+      let isMobileLayout = false;
+      let mobileCanvasCssScale = MOBILE_CANVAS_CSS_SCALE;
 
       function resizeCanvas() {
         const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+        isMobileLayout = isMobile;
         const wrapper = canvasWrapperRef.current;
 
         if (isMobile && wrapper) {
@@ -129,7 +137,13 @@ export function HeroSection() {
           const rect = wrapper.getBoundingClientRect();
           cw = rect.width;
           ch = rect.height;
+          const heightScale = Math.min(1, window.innerHeight / MOBILE_CANVAS_BASE_HEIGHT);
+          mobileCanvasCssScale = Math.max(
+            MOBILE_CANVAS_MIN_CSS_SCALE,
+            MOBILE_CANVAS_CSS_SCALE * heightScale,
+          );
         } else {
+          mobileCanvasCssScale = MOBILE_CANVAS_CSS_SCALE;
           // 데스크톱: 기존 동작 — 전체 뷰포트 배경
           // CSS 변수 --scale-factor 읽기 (useViewportScale 훅이 :root에 설정)
           const scaleFactor =
@@ -150,6 +164,7 @@ export function HeroSection() {
 
         canvas!.width = cw * dpr;
         canvas!.height = ch * dpr;
+        canvas!.style.setProperty("--hero-mobile-canvas-scale", String(mobileCanvasCssScale));
         ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
         // 리사이즈 후 현재 프레임 다시 그리기
         const prev = currentFrame;
@@ -166,10 +181,14 @@ export function HeroSection() {
         currentFrame = clamped;
         const img = framesRef.current[clamped];
         if (!img || !img.complete) return;
-        // 가로 기준 맞춤: 이미지 폭 = canvas 폭, 세로는 비율 유지 + 센터링
+        // 가로 기준 맞춤 + 모바일은 하단 정렬(영상 바닥 = 화면 바닥, 위로 침범) / 데스크톱은 센터링
         const scale = cw / img.naturalWidth;
         const sh = img.naturalHeight * scale;
-        const sy = (ch - sh) / 2;
+        const sy = isMobileLayout
+          ? ch -
+            (ch - ch * MOBILE_ANCHOR_TARGET_Y) / mobileCanvasCssScale -
+            sh * MOBILE_ANCHOR_SOURCE_Y
+          : (ch - sh) / 2;
         ctx!.clearRect(0, 0, cw, ch);
         ctx!.drawImage(img, 0, sy, cw, sh);
       }
@@ -341,14 +360,11 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* 배경 canvas wrapper — 데스크톱: 전체 배경(absolute) / 모바일: 텍스트 아래 영역 */}
-      <div
-        ref={canvasWrapperRef}
-        className="hero-canvas-wrap relative w-full flex-1 sm:absolute sm:inset-0 sm:flex-none sm:z-0 overflow-hidden"
-      >
+      {/* 배경 canvas wrapper — 전체 section을 덮음 (모바일은 영상이 텍스트 영역 위로 침범) */}
+      <div ref={canvasWrapperRef} className="hero-canvas-wrap absolute inset-0 z-0 overflow-hidden">
         <canvas
           ref={canvasRef}
-          className="block w-full h-full origin-center scale-[1.8] -translate-x-[23%] sm:scale-100 sm:translate-x-0"
+          className="block w-full h-full origin-bottom scale-[var(--hero-mobile-canvas-scale,1.8)] -translate-x-[23%] sm:origin-center sm:scale-100 sm:translate-x-0 z-10"
           style={{ opacity: 0 }}
         />
       </div>

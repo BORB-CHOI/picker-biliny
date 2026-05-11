@@ -48,12 +48,17 @@ export function useViewportScale(config: ViewportScaleConfig): ViewportScaleResu
   // ── 2.1: SSR 안전 기본값 ──
   const [scaleFactor, setScaleFactor] = useState(1);
   const rafIdRef = useRef<number | null>(null);
+  const lastVwRef = useRef<number | null>(null);
 
   // ── 핵심 업데이트 함수: DOM 직접 조작 ──
   const applyScale = useCallback(() => {
     if (typeof window === "undefined") return;
 
     const vw = window.innerWidth;
+    // 모바일 주소창 표시/숨김으로 인한 height-only resize는 무시
+    // (transform/ScrollTrigger.refresh 재실행이 pin 스크롤을 뒤로 밀어버림)
+    if (lastVwRef.current === vw) return;
+    lastVwRef.current = vw;
     const isMobile = mobileBaseWidth !== undefined && vw < mobileBreakpoint;
     const effectiveBaseWidth = isMobile ? mobileBaseWidth : baseWidth;
     const effectiveMinScale = isMobile ? (mobileMinScale ?? minScale) : minScale;

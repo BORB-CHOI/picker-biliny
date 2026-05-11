@@ -31,12 +31,16 @@ export function ZoomWrapper({
   mobileBreakpoint = 640,
 }: ZoomWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const lastVwRef = useRef<number | null>(null);
 
   const applyZoom = useCallback(() => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
 
     const vw = window.innerWidth;
+    // 모바일 주소창 표시/숨김으로 인한 height-only resize는 무시
+    if (lastVwRef.current === vw) return;
+    lastVwRef.current = vw;
     const isMobile = mobileBaseWidth !== undefined && vw < mobileBreakpoint;
     const effectiveBaseWidth = isMobile ? mobileBaseWidth : baseWidth;
     const effectiveMinScale = isMobile ? (mobileMinScale ?? minScale) : minScale;
