@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 import { LogoName } from "@/components/ui/icons";
 import { onMainContentReady } from "@/lib/animationState";
 import {
@@ -177,7 +178,7 @@ export function ContactSection() {
                     </svg>
                   }
                   label="문의 전화"
-                  value="010-XXXX-XXXX"
+                  value="010-6297-0748"
                 />
                 <ContactInfoRow
                   icon={
@@ -337,18 +338,18 @@ export function ContactSection() {
 
           {/* 링크 */}
           <div className="flex items-center gap-6 sm:gap-8">
-            <a
-              href="#"
+            <Link
+              href="/terms"
               className="text-xs sm:text-[13px] text-[#656f96] hover:text-foreground transition-colors"
             >
               이용약관
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/privacy"
               className="text-xs sm:text-[13px] text-[#656f96] hover:text-foreground transition-colors"
             >
               개인정보처리방침
-            </a>
+            </Link>
           </div>
 
           {/* 저작권 */}
