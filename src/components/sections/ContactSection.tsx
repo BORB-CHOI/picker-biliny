@@ -200,7 +200,7 @@ export function ContactSection() {
                     </svg>
                   }
                   label="이메일"
-                  value="contact@pickerproject.com"
+                  value="kms@picker.ai.kr"
                 />
                 <ContactInfoRow
                   icon={

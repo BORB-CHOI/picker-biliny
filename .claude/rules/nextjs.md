@@ -33,4 +33,4 @@ export default function Home() {
 - 한국어 사이트: `lang="ko"` 필수
 - Open Graph 이미지 필수 (제품 이미지 활용)
 - description은 한국어로 작성
-- canonical URL: https://ai.kr
+- canonical URL: <https://picker.ai.kr>

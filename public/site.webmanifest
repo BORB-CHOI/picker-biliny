@@ -1,0 +1,22 @@
+{
+  "name": "피커프로젝트",
+  "short_name": "피커프로젝트",
+  "description": "모빌리티 통합 솔루션 MaaS 기업 - BILINY & TRINY",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0060EF",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "start_url": "/",
+  "lang": "ko-KR"
+}

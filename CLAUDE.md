@@ -9,7 +9,7 @@ Apple 수준의 스크롤 애니메이션과 정교한 인터랙션을 구현해
 - **Language**: TypeScript (strict mode)
 - **Styling**: Tailwind CSS v4
 - **Animation**: GSAP + @gsap/react (스크롤 트리거 애니메이션), Framer Motion (UI 전환/마이크로인터랙션)
-- **Deployment**: Vercel (도메인: ai.kr, 가비아 DNS)
+- **Deployment**: Vercel (도메인: picker.ai.kr, 가비아 DNS)
 - **Font**: Inter (전체 고정)
 
 ## Commands

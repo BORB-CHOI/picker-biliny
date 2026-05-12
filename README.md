@@ -50,7 +50,7 @@
 | Styling | Tailwind CSS v4 |
 | Animation | GSAP + ScrollTrigger, Framer Motion |
 | Deployment | Vercel |
-| Domain | ai.kr |
+| Domain | picker.ai.kr |
 
 ## 시작하기
 
@@ -98,7 +98,7 @@ public/
 
 Vercel에 자동 배포됩니다. `main` 브랜치에 push 시 프로덕션 배포가 트리거됩니다.
 
-- 프로덕션: https://ai.kr
+- 프로덕션: <https://picker.ai.kr>
 - 프리뷰: PR 생성 시 자동 생성
 
 ## 라이선스

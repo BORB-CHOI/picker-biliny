@@ -19,7 +19,7 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
 | `perf` | 기존 기능 개선 | `perf(Solution): 카드 hover 인터랙션 부드럽게 조정` |
 | `style` | UI/CSS 변경 (로직 변경 없음) | `style(Header): 네비게이션 반응형 브레이크포인트 수정` |
 | `refactor` | 코드 구조 개선 (동작 변경 없음) | `refactor(animations): ScrollReveal 래퍼 컴포넌트 추출` |
-| `config` | 빌드/배포/환경 설정 | `config(vercel): 도메인 ai.kr 연결 설정` |
+| `config` | 빌드/배포/환경 설정 | `config(vercel): 도메인 picker.ai.kr 연결 설정` |
 | `docs` | 문서 수정 | `docs(README): 프로젝트 소개 업데이트` |
 | `test` | 테스트 추가/수정 | `test(Contact): 폼 제출 유효성 검사 테스트 추가` |
 | `chore` | 기타 작업 | `chore(Initial): Next.js 16 프로젝트 및 하네스 엔지니어링 세팅` |
