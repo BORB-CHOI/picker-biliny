@@ -954,7 +954,7 @@ export function BusinessSection() {
 
             {/* 3 Product Cards — 이미지 위 + 카드 아래 */}
             <div
-              className="b-fade grid grid-cols-3 gap-[clamp(16px,2.2cqw,32px)] mt-[clamp(40px,5.5cqw,80px)]"
+              className="b-fade isolate grid grid-cols-3 gap-[clamp(16px,2.2cqw,32px)] mt-[clamp(40px,5.5cqw,80px)]"
               data-anim-split="children"
             >
               {[
@@ -1008,11 +1008,17 @@ export function BusinessSection() {
                   ),
                   desc2: <>119 자동 신고 기능, 컨디션 맞춤 목적지 제안 기능</>,
                 },
-              ].map((card) => (
-                <div key={card.title} className="flex flex-col items-center" data-anim-item>
+              ].map((card, index) => (
+                <div
+                  key={card.title}
+                  className={`relative flex flex-col items-center ${
+                    index === 0 ? "z-30" : index === 1 ? "z-20" : "z-10"
+                  }`}
+                  data-anim-item
+                >
                   {/* 제품 이미지 (카드 바깥) */}
                   <div
-                    className={`relative overflow-hidden h-[clamp(160px,18cqw,260px)] ${card.wide ? "w-[clamp(280px,34cqw,500px)]" : "w-[clamp(160px,18cqw,260px)]"} mb-[clamp(12px,1.4cqw,20px)]`}
+                    className={`relative z-0 overflow-hidden h-[clamp(160px,18cqw,260px)] ${card.wide ? "w-[clamp(280px,34cqw,500px)]" : "w-[clamp(160px,18cqw,260px)]"} mb-[clamp(12px,1.4cqw,20px)]`}
                   >
                     <Image
                       src={card.src}
@@ -1023,7 +1029,7 @@ export function BusinessSection() {
                     />
                   </div>
                   {/* 카드 */}
-                  <div className="w-full rounded-[clamp(16px,1.7cqw,24px)] bg-[var(--color-bg-subtle)] border border-[#ebebeb] shadow-[0_4px_32px_rgba(98,98,98,0.15)] px-5 py-5 text-center">
+                  <div className="relative z-10 w-full rounded-[clamp(16px,1.7cqw,24px)] bg-[var(--color-bg-subtle)] border border-[#ebebeb] shadow-[0_4px_32px_rgba(98,98,98,0.15)] px-5 py-5 text-center">
                     <p className="biz-card-title">{card.title}</p>
                     <p className="biz-card-qty mt-[clamp(2px,0.3cqw,4px)]">{card.qty}</p>
                     <p className="biz-card-price mt-[clamp(6px,0.7cqw,10px)]">
@@ -1446,8 +1452,8 @@ export function BusinessSection() {
           </p>
 
           {/* 3 제품 카드 */}
-          <div className="mt-12 flex flex-col" data-anim-split="children">
-            <div className="b-fade">
+          <div className="mt-12 isolate flex flex-col" data-anim-split="children">
+            <div className="b-fade relative z-30">
               <div className="relative flex flex-col items-center ">
                 <div className="relative z-0 mb-[-6px] aspect-[5/4] w-[70%]">
                   <Image
@@ -1482,7 +1488,7 @@ export function BusinessSection() {
               </div>
             </div>
 
-            <div className="b-fade">
+            <div className="b-fade relative z-20">
               <div className="relative flex flex-col items-center pb-6 translate-y-[-24%]">
                 <div className="relative z-0 mb-[-26px] aspect-[5/4] w-[105%]">
                   <Image
@@ -1516,7 +1522,7 @@ export function BusinessSection() {
               </div>
             </div>
 
-            <div className="b-fade">
+            <div className="b-fade relative z-10">
               <div className="relative flex flex-col items-center translate-y-[-45%]">
                 <div className="relative z-0 mb-[-14px] aspect-[5/4] w-[64%]">
                   <Image

@@ -498,7 +498,7 @@ export function BilinyProductSection() {
             alt="빌리니 제품 이미지"
             width={2000}
             height={2500}
-            className="h-auto w-[90%] translate-x-10"
+            className="h-auto w-[85%] translate-x-15"
             sizes="100vw"
             priority
           />
